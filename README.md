@@ -1,11 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
-
-First, run the development server:
+## Using node_modules
 ```bash
 node 18
 ```
+First, run the development server:
+
 ```bash
 npm run dev
 ```
@@ -30,4 +31,13 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-# project-next-v1
+# For work 
+```bash
+git checkout main -> chuyển về nhánh main
+git pull origin main -> kéo những thay đổi mới nhất về
+git checkout -b (Tên nhánh)  -> Tạo nhánh mới
+{handle works} -> Xử lí công việc 
+git add . -> Thêm tất cả các file đã thay đổi để đẩy lên nhánh
+git commit -m "(content)" -> Ghi chú mình đã xử lí cái gì
+git push origin (Tên nhánh) -> đẩy lên nhánh
+```
