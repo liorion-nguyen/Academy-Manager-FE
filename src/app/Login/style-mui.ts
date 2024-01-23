@@ -14,15 +14,20 @@ export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
 export const StyleMain = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: "100%",
     height: "100vh",
-    background: "#FFFFFF",
+    maxWidth: '1440px'
 }));
 
 export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
     background: "#FFFFFF",
+    position: "relative",
+    height: "100%",
+    display: 'flex'
 }));
 
 export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     background: "#FFFFFF",
+    position: "relative",
+    height: "100%",
 }));
 
 export const StyleImgLeft = muiStyled('img')(({ theme }) => ({
