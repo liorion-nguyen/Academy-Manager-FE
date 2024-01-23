@@ -1,5 +1,8 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
+## Design
+```bash
+https://www.figma.com/file/uBO1X7QeIlv9Bj3EmRFlmq/School-Management-System-(Community)
+```
 ## Getting Started
 ## Using node_modules
 ```bash
