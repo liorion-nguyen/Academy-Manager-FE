@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { StyleAInTitle, StyleAllInput, StyleBoxAgree, StyleBoxColumn, StyleBoxDownTitle, StyleBoxRight, StyleBoxRow, StyleBoxSubmit, StyleBoxTitle, StyleForm, StyleGridLeft, StyleGridRight, StyleH3Title, StyleIcon, StyleImgLeft, StyleInputSubmit, StyleInputText, StyleLogo, StyleMain, StylePAgree, StylePInTitle } from "../Login/style-mui";
 import { StyleBoxRowHalf, StyleContainerAgree, StyleInputInRowHalf } from "./style-mui";
-export default function Home() {
+export default function Register() {
     return (
         <StyleMain>
             <Grid container spacing={2}>
