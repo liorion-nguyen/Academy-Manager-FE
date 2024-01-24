@@ -13,6 +13,8 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
 import Paper from '@mui/material/Paper';
+import Header from "@/component/header/page";
+import NavLeft from "@/component/navleft/page";
 export default function Admin() {
     const chartSetting = {
         yAxis: [
@@ -193,34 +195,7 @@ export default function Admin() {
             <StyleMain>
                 <StyleGridUserNotification container spacing={2}>
                     <StyleGridRight item xs={9} ref={elementRef}>
-                        <StyleBoxHeader width={elementWidth}>
-                            <StyleHeaderTop>
-                                <StyleLogo>
-                                    <StyleImgLeft src="/Images/login/Logo.png" />
-                                </StyleLogo>
-                                <Breadcrumbs aria-label="breadcrumb"
-                                    sx={{
-                                        ".MuiBreadcrumbs-separator": {
-                                            margin: '0 2px'
-                                        }
-                                    }}
-                                >
-                                    <StyleLinkPoint
-                                        underline="hover"
-                                        color="inherit"
-                                        href="/"
-                                    >
-                                        Administrator
-                                    </StyleLinkPoint>
-                                    <StyleTypographyPoint color="text.primary">Dashboard</StyleTypographyPoint>
-                                </Breadcrumbs>
-                            </StyleHeaderTop>
-                            <StyleSearch>
-                                <img src="/Images/admin/icon_search.svg" />
-                                <StyleInpSearch type="text" placeholder="Search..." />
-                            </StyleSearch>
-
-                        </StyleBoxHeader>
+                        <Header value={elementWidth} />
 
                         <StyleContent>
                             <Grid container spacing={2}>
@@ -410,20 +385,7 @@ export default function Admin() {
                             </StyleTable>
                         </StyleContent>
 
-                        <StyleNavLeft>
-                            <StyleBoxIconNavLeft>
-                                {
-                                    Icons.map((icon, index) => (
-                                        <Box key={index}>
-                                            <img src={icon.icon} />
-                                        </Box>
-                                    ))
-                                }
-                            </StyleBoxIconNavLeft>
-                            <StyleIconNavLeft>
-                                <StyleImgLeft src="/Images/admin/icon_navleft/setting.svg" />
-                            </StyleIconNavLeft>
-                        </StyleNavLeft>
+                        <NavLeft />
                     </StyleGridRight>
                     <StyleGridLeft item xs={3}>
                         <StyleBoxUser>
