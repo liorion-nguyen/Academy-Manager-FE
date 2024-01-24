@@ -93,7 +93,7 @@ export default function Admin() {
             <StyleMain>
                 <StyleGridUserNotification container spacing={2}>
                     <StyleGridRight item xs={9} ref={elementRef}>
-                        <StyleBoxHeader wid={elementWidth}>
+                        <StyleBoxHeader width={elementWidth}>
                             <StyleHeaderTop>
                                 <StyleLogo>
                                     <StyleImgLeft src="/Images/login/Logo.png" />
@@ -125,7 +125,7 @@ export default function Admin() {
                         <StyleContent>
                             <Grid container spacing={2}>
                                 <StyleDashboardCard item xs={4}>
-                                    <StyleCircle first={61} second={39}>
+                                    <StyleCircle width={61} height={39}>
                                         <StyleProcessBar>
                                             <img src="/Images/admin/icon_student.svg" />
                                         </StyleProcessBar>
@@ -148,7 +148,7 @@ export default function Admin() {
                                     </Box>
                                 </StyleDashboardCard>
                                 <StyleDashboardCard item xs={4}>
-                                    <StyleCircle first={55} second={45}>
+                                    <StyleCircle width={61} height={39}>
                                         <StyleProcessBar>
                                             <img src="/Images/admin/icon_staff.svg" />
                                         </StyleProcessBar>
@@ -171,7 +171,7 @@ export default function Admin() {
                                     </Box>
                                 </StyleDashboardCard>
                                 <StyleDashboardCard item xs={4}>
-                                    <StyleCircle first={50} second={50}>
+                                    <StyleCircle width={61} height={39}>
                                         <StyleProcessBar>
                                             <img src="/Images/admin/icon_subject.svg" />
                                         </StyleProcessBar>

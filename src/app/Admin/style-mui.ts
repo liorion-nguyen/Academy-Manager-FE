@@ -181,10 +181,10 @@ export const StyleBoxIconNavLeft = muiStyled(StyleBoxColumn)(({ theme }) => ({
     gap: '30px'
 }));
 
-export const StyleBoxHeader = muiStyled(StyleBoxColumn)(({ wid, theme }) => ({
+export const StyleBoxHeader = muiStyled(StyleBoxColumn)(({ width, theme }) => ({
     position: 'fixed',
     top: '15px',
-    width: `${wid - 30}px`,
+    width: `${Number(width) - 30}px`,
     justifyContent: 'space-between',
     height: '110px'
 }));
@@ -242,13 +242,13 @@ export const StyleContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     margin: '170px 0 0 100px'
 }));
 
-export const StyleCircle = muiStyled(Box)(({ first, second, theme }) => ({
+export const StyleCircle = muiStyled(Box)(({ width, height, theme }) => ({
     width: "78px",
     height: "78px",
     borderRadius: "50%",
     background: `conic-gradient(
-        #F6AD2B 0% ${first}%, 
-        #233255 ${second}% 100% 
+        #F6AD2B 0% ${width}%, 
+        #233255 ${height}% 100% 
       )`,
     display: 'flex',
     justifyContent: 'center',
