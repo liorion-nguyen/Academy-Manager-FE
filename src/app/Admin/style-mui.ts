@@ -1,7 +1,6 @@
 "use client"
-import { Box, Grid, Link, TableContainer, Typography } from "@mui/material";
+import { Box, Grid, Link, Typography } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
     display: "flex",
@@ -161,7 +160,7 @@ export const StyleNavLeft = muiStyled(Box)(({ theme }) => ({
     background: "#233255",
     border: "1px solid #F6AD2B",
     width: '70px',
-    height: '850px',
+    height: '86vh',
     borderRadius: '50px 50px 0 0',
     position: 'fixed',
     bottom: '40px',
@@ -346,3 +345,6 @@ export const StyleHeadTable = muiStyled(StyleBoxRow)(({ theme }) => ({
     justifyContent: 'space-between',
     alignItems: 'end'
 }));
+
+
+
