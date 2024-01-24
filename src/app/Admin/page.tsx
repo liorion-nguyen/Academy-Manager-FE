@@ -1,15 +1,115 @@
 "use client"
 import { Box } from "@mui/system";
 import { StyleLogo, StyleMain } from "../Login/style-mui";
-import { Breadcrumbs, Button, Grid } from "@mui/material";
-import { StyleBoxUser, StyleGridLeft, StyleGridUserNotification, StyleBoxNotification, StyleImgLeft, StyleBoxAvatarUser, StyleNameUser, StyleBoxInBoxUser, StyleIconDown, StyleBoxUserDisplay, StyleCalendarEvent, StyleEvent, StyleH3TitleEvent, StyleBoxButton, StyleBoxNote, StyleContentNote, StyleTitleNote, StyleTimeNote, StyleNote, StyleCalendar, StyleComponent, StyleGridRight, StyleNavLeft, StyleIconNavLeft, StyleBoxIconNavLeft, StyleBoxHeader, StyleLinkPoint, StyleTypographyPoint, StyleContent, StyleSearch, StyleInpSearch, StyleHeaderTop, StyleDashboardCard, StyleCircle, StyleProcessBar, StyleTitleCard, StyleContentCard, StyleSumCoundCard, StyleBoxIndexFirst, StyleBoxIndexSecond, StyleRowGap5, StyleRowGap20, StyleColumnGap10 } from "./style-mui";
+import { Breadcrumbs, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { StyleBoxUser, StyleGridLeft, StyleGridUserNotification, StyleBoxNotification, StyleImgLeft, StyleBoxAvatarUser, StyleNameUser, StyleBoxInBoxUser, StyleIconDown, StyleBoxUserDisplay, StyleCalendarEvent, StyleEvent, StyleH3TitleEvent, StyleBoxButton, StyleBoxNote, StyleContentNote, StyleTitleNote, StyleTimeNote, StyleNote, StyleCalendar, StyleComponent, StyleGridRight, StyleNavLeft, StyleIconNavLeft, StyleBoxIconNavLeft, StyleBoxHeader, StyleLinkPoint, StyleTypographyPoint, StyleContent, StyleSearch, StyleInpSearch, StyleHeaderTop, StyleDashboardCard, StyleCircle, StyleProcessBar, StyleTitleCard, StyleContentCard, StyleSumCoundCard, StyleBoxIndexFirst, StyleBoxIndexSecond, StyleRowGap5, StyleRowGap20, StyleColumnGap10, StyleTitleGrap, StyleDashboardCardGrap, StyleBoxCardGrap, StyleTable, StyleTitleTable, StyleViewAllTable, StyleHeadTable } from "./style-mui";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useEffect, useRef, useState } from "react";
+import { LineChart } from '@mui/x-charts/LineChart';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { axisClasses } from '@mui/x-charts';
+import Paper from '@mui/material/Paper';
 export default function Admin() {
+    const chartSetting = {
+        yAxis: [
+            {
+                label: 'rainfall (mm)',
+            },
+        ],
+        width: 500,
+        height: 300,
+        sx: {
+            [`.${axisClasses.left} .${axisClasses.label}`]: {
+                transform: 'translate(-20px, 0)',
+            },
+        },
+    };
+    const dataset = [
+        {
+            london: 59,
+            paris: 57,
+            month: 'Jan',
+        },
+        {
+            london: 50,
+            paris: 52,
+            month: 'Fev',
+        },
+        {
+            london: 47,
+            paris: 53,
+            month: 'Mar',
+        },
+        {
+            london: 54,
+            paris: 56,
+            month: 'Apr',
+        },
+        {
+            london: 57,
+            paris: 69,
+            month: 'May',
+        },
+        {
+            london: 60,
+            paris: 63,
+            month: 'June',
+        },
+        {
+            london: 59,
+            paris: 60,
+            month: 'July',
+        },
+        {
+            london: 65,
+            paris: 60,
+            month: 'Aug',
+        },
+        {
+            london: 51,
+            paris: 51,
+            month: 'Sept',
+        },
+        {
+            london: 60,
+            paris: 65,
+            month: 'Oct',
+        },
+        {
+            london: 67,
+            paris: 64,
+            month: 'Nov',
+        },
+        {
+            london: 61,
+            paris: 70,
+            month: 'Dec',
+        },
+    ];
+
+    function createData(
+        name: string,
+        id: string,
+        role: string,
+        gender: string,
+        email: string,
+    ) {
+        return { name, id, role, gender, email };
+    }
+
+    const rows = [
+        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
+        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
+        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
+        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
+        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
+    ];
+
+    const valueFormatter = (value: number) => `${value}mm`;
     const Notes = [{
         title: "Saturday",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam.",
@@ -194,6 +294,120 @@ export default function Admin() {
                                     </Box>
                                 </StyleDashboardCard>
                             </Grid>
+                            <Grid container spacing={2}>
+                                <StyleDashboardCardGrap item xs={7}
+                                    sx={{
+                                        "text": {
+                                            fill: "rgb(35,50,85,0.7) !important"
+                                        }
+                                    }}
+                                >
+                                    <StyleTitleGrap>Attendance Summary</StyleTitleGrap>
+                                    <LineChart
+                                        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+                                        series={[
+                                            {
+                                                data: [2, 5.5, 2, 8.5, 1.5, 5],
+                                                area: true,
+                                            },
+                                        ]}
+                                    />
+                                </StyleDashboardCardGrap>
+                                <StyleDashboardCardGrap item xs={5}>
+                                    <StyleTitleGrap>Financial Summary</StyleTitleGrap>
+                                    <StyleBoxCardGrap
+                                        sx={{
+                                            ".MuiBarElement-root": {
+                                                width: '3px !important',
+                                                fill: "#7FBDE4 !important"
+                                            },
+                                            ".MuiBarElement-root:nth-child(-n+12)": {
+                                                fill: "#233255 !important"
+                                            },
+                                            ".MuiChartsLegend-root": {
+                                                display: 'none'
+                                            },
+                                            ".MuiChartsAxis-label": {
+                                                display: 'none'
+                                            },
+                                            "text": {
+                                                fill: "rgb(35,50,85,0.7) !important"
+                                            }
+                                        }}
+                                    >
+                                        <BarChart
+                                            dataset={dataset}
+                                            xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+                                            series={[
+                                                { dataKey: 'london', label: 'London', valueFormatter },
+                                                { dataKey: 'paris', label: 'Paris', valueFormatter },
+                                            ]}
+                                            {...chartSetting}
+                                        />
+                                    </StyleBoxCardGrap>
+                                </StyleDashboardCardGrap>
+                            </Grid>
+                            <StyleTable>
+                                <StyleHeadTable>
+                                    <StyleTitleTable>Recently registered users</StyleTitleTable>
+                                    <StyleViewAllTable>view all users</StyleViewAllTable>
+                                </StyleHeadTable>
+                                <TableContainer component={Paper}>
+                                    <Table aria-label="simple table"
+                                        sx={{
+                                            minWidth: 650,
+                                            ".MuiTableCell-sizeMedium": {
+                                                fontSize: "14px",
+                                                color: 'rgb(35,50,85,0.5)',
+                                                background: 'white'
+                                            },
+                                        }}
+                                    >
+                                        <TableHead
+                                            sx={{
+                                                ".MuiTableCell-head": {
+                                                    color: "rgb(35,50,85,0.8)",
+                                                    fontSize: "14px",
+                                                },
+                                                ".MuiTableRow-head": {
+                                                    background: 'white'
+                                                }
+                                            }}
+                                        >
+                                            <TableRow>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell align="right">ID</TableCell>
+                                                <TableCell align="right">Role</TableCell>
+                                                <TableCell align="right">Gender</TableCell>
+                                                <TableCell align="right">Email</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody
+                                            sx={{
+                                                ".MuiTableCell-root": {
+                                                    border: '5px solid #f4f4f4 !important',
+                                                    boxShadow: "0 0 9px 6px #d2d2d245",
+                                                }
+                                            }}
+                                        >
+                                            {rows.map((row) => (
+                                                <TableRow
+                                                    key={row.name}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell component="th" scope="row">
+                                                        {row.name}
+                                                    </TableCell>
+                                                    <TableCell align="right">{row.id}</TableCell>
+                                                    <TableCell align="right">{row.role}</TableCell>
+                                                    <TableCell align="right">{row.gender}</TableCell>
+                                                    <TableCell align="right">{row.email}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </StyleTable>
                         </StyleContent>
 
                         <StyleNavLeft>
