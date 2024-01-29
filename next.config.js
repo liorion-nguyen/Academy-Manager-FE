@@ -7,7 +7,10 @@ const nextConfig = {
                 destination: '/Login',
             }
         ]
-    }
+    },
+    env: {
+        DOMAIN: process.env.DOMAIN,
+      },
 }
 
 module.exports = nextConfig

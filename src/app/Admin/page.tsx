@@ -13,9 +13,22 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
 import Paper from '@mui/material/Paper';
-import Header from "@/component/header/page";
-import NavLeft from "@/component/navleft/page";
+import { useRouter } from "next/navigation";
+import { checkLogin } from "@/api/readtime";
+import NavLeft from "@/components/navleft/page";
+import Header from "@/components/header/page";
 export default function Admin() {
+    const router = useRouter();
+
+    useEffect(() => {
+        checkLogin().then((e) => {
+            if(e){
+                router.push("/Admin")
+                return ;
+            }
+            router.push('/login')
+        })
+    },[])
     const chartSetting = {
         yAxis: [
             {
