@@ -15,8 +15,8 @@ import { axisClasses } from '@mui/x-charts';
 import Paper from '@mui/material/Paper';
 import { useRouter } from "next/navigation";
 import { checkLogin } from "@/api/readtime";
-import NavLeft from "@/components/navleft/page";
-import Header from "@/components/header/page";
+import NavLeft from "@/components/navleft";
+import Header from "@/components/header";
 export default function Admin() {
     const router = useRouter();
 

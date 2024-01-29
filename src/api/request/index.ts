@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export class Request {
-    private static url: string = process.env.DOMAIN;
+    private static url = process.env.DOMAIN;
 
     static async get (param: string){
         const res = await axios.get(`${this.url}${param}`);
