@@ -4,10 +4,10 @@ import { StyleMain } from "../../Login/style-mui";
 import { StyleBoxUser, StyleGridLeft, StyleGridUserNotification, StyleBoxNotification, StyleImgLeft, StyleBoxAvatarUser, StyleNameUser, StyleBoxInBoxUser, StyleIconDown, StyleBoxUserDisplay, StyleComponent, StyleGridRight, StyleInpSearch } from "../style-mui";
 import { useEffect, useRef, useState } from "react";
 import { StyleBoxBtn, StyleBoxBtnHandle, StyleBoxContact, StyleBoxContent, StyleBtnDelete, StyleBtnEdit, StyleButton, StyleButtonCreate, StyleContent, StyleCountStu, StyleDetailStudent, StyleFilter, StyleMainContent, StyleSearch, StyleTitleContent, StyleTitleDetailStu } from "./style-mui";
-import Header from "@/component/header/page";
-import NavLeft from "@/component/navleft/page";
 import { FormControl, Grid, MenuItem, Select } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import NavLeft from "@/components/navleft";
+import Header from "@/components/header";
 export default function Student() {
     const Icons = [
         {
@@ -342,7 +342,7 @@ export default function Student() {
 
                         </StyleContent>
 
-                        <NavLeft />
+                        <NavLeft/>
                     </StyleGridRight>
                     <StyleGridLeft item xs={3}>
                         <StyleBoxUser>
