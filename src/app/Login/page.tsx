@@ -1,5 +1,6 @@
 "use client";
 import { Grid } from "@mui/material";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import {
   StyleAInTitle,
   StyleAllInput,
@@ -114,6 +115,8 @@ export default function Login() {
   };
 
   return (
+    <>
+    <SpeedInsights />
     <StyleMain>
       <SimpleSnackbar notify={notify} setNotify={setNotify} />
       <Grid container spacing={2}>
@@ -162,6 +165,7 @@ export default function Login() {
         </StyleGridRight>
       </Grid>
     </StyleMain>
+    </>
   );
 }
 

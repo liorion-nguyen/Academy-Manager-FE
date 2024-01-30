@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { checkLogin } from "@/api/readtime";
 import NavLeft from "@/components/navleft";
 import Header from "@/components/header";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export default function Admin() {
     const router = useRouter();
 
@@ -204,6 +205,8 @@ export default function Admin() {
         }
     }, []);
     return (
+        <>
+        <SpeedInsights />
         <StyleComponent>
             <StyleMain>
                 <StyleGridUserNotification container spacing={2}>
@@ -493,5 +496,6 @@ export default function Admin() {
                 </StyleGridUserNotification>
             </StyleMain >
         </StyleComponent>
+        </>
     );
 }
