@@ -165,7 +165,7 @@ export default function Login() {
   );
 }
 
-export async function Auth(request: account) {
+ async function Auth(request: account) {
   const data = await Request.post("/auth/login", request);
   return data;
 }
