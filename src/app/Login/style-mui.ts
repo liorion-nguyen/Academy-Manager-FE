@@ -14,7 +14,7 @@ export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
 export const StyleMain = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: "100%",
     height: "100vh",
-    maxWidth: '1440px'
+    maxWidth: '1440px',
 }));
 
 export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
