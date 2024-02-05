@@ -10,7 +10,8 @@ export const StyleComponent = muiStyled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: 'center',
     width: '100%',
-    background: "#FAFAFA"
+    background: "#FAFAFA",
+    margin: '0'
 }));
 
 export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
