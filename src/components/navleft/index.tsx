@@ -1,4 +1,4 @@
-import { StyleBoxIconNavLeft, StyleIconNavLeft, StyleImgLeft, StyleNavLeft } from "@/app/Admin/style-mui";
+import { StyleBoxIconNavLeft, StyleIconNavLeft, StyleImgLeft, StyleNavLeft } from "@/app/style-mui";
 import { Box } from "@mui/material";
 
 export default function NavLeft() {

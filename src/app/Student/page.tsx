@@ -1,6 +1,6 @@
 "use client"
 import { Box } from "@mui/system";
-import { StyleMain } from "../../Login/style-mui";
+import { StyleMain } from "../Login/style-mui";
 import { StyleBoxUser, StyleGridLeft, StyleGridUserNotification, StyleBoxNotification, StyleImgLeft, StyleBoxAvatarUser, StyleNameUser, StyleBoxInBoxUser, StyleIconDown, StyleBoxUserDisplay, StyleComponent, StyleGridRight, StyleInpSearch } from "../style-mui";
 import { useEffect, useRef, useState } from "react";
 import { StyleBoxBtn, StyleBoxBtnHandle, StyleBoxContact, StyleBoxContent, StyleBtnDelete, StyleBtnEdit, StyleButton, StyleButtonCreate, StyleContent, StyleCountStu, StyleDetailStudent, StyleFilter, StyleMainContent, StyleSearch, StyleTitleContent, StyleTitleDetailStu } from "./style-mui";

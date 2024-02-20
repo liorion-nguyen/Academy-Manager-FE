@@ -23,7 +23,7 @@ export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
     background: "#FAFAFA",
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px',
+    gap: '20px'
 }));
 
 export const StyleBoxUser = muiStyled(StyleBoxRow)(({ theme }) => ({
@@ -154,7 +154,7 @@ export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     background: "#FFFFFF",
     display: 'flex',
     flexDirection: 'column',
-    padding: '10px'
+    padding: '10px',
 }));
 
 export const StyleNavLeft = muiStyled(Box)(({ theme }) => ({

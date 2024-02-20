@@ -1,4 +1,4 @@
-import { StyleBoxHeader, StyleHeaderTop, StyleInpSearch, StyleLinkPoint, StyleSearch, StyleTypographyPoint } from "@/app/Admin/style-mui";
+import { StyleBoxHeader, StyleHeaderTop, StyleInpSearch, StyleLinkPoint, StyleSearch, StyleTypographyPoint } from "@/app/style-mui";
 import { StyleImgLeft, StyleLogo } from "@/app/Login/style-mui";
 import { Breadcrumbs } from "@mui/material";
 

@@ -15,6 +15,7 @@ export const StyleMain = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: "100%",
     height: "100vh",
     maxWidth: '1440px',
+    position: 'relative'
 }));
 
 export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
@@ -126,4 +127,10 @@ export const StyleBoxRight = muiStyled(StyleBoxColumn)(({ theme }) => ({
     justifyContent: 'center',
     gap: "35px",
     padding: '0 50px'
+}))
+
+export const StyleBoxMain = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    width: "100%",
+    height: '100%',
+    alignItems: 'center'
 }))
