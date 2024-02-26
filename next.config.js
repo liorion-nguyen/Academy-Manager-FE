@@ -5,7 +5,10 @@ const nextConfig = {
             {
                 source: '/login',
                 destination: '/Login',
-            }
+            },{
+                source: '/blog/:path*',
+                destination: '/blog', // The :path parameter isn't used here so will be automatically passed in the query
+              },
         ]
     },
     env: {

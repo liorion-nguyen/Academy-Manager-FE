@@ -8,7 +8,12 @@ import { FormControl, Grid, MenuItem, Select } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import NavLeft from "@/components/navleft";
 import Header from "@/components/header";
-export default function Student() {
+import { Request } from "@/api/request";
+
+type detailStuType = { title: string; content: any; }
+export default function Student({params}: any) {
+    var title = params.People;
+    
     const Icons = [
         {
             href: "#",
@@ -52,48 +57,8 @@ export default function Student() {
         },
     ]
 
-    const [detailStu, DetailStu] = useState([
-        {
-            title: "ref id",
-            content: "stu432101f"
-        },
-        {
-            title: "first name",
-            content: "michelle"
-        },
-        {
-            title: "last name",
-            content: "livingston"
-        },
-        {
-            title: "gender",
-            content: "female"
-        },
-        {
-            title: "email",
-            content: "MICHELLELIVINGSTON@GMAIL.COM"
-        },
-        {
-            title: "address",
-            content: "no.11 tony ave shomolu lagos nigeria"
-        },
-        {
-            title: "department",
-            content: "technology"
-        },
-        {
-            title: "class",
-            content: "ss2"
-        },
-        {
-            title: "date Created",
-            content: "25TH september 2015"
-        },
-        {
-            title: "student status",
-            content: "CURRENT"
-        },
-    ]);
+    const [detailStu, SetDetailStu] = useState<detailStuType []>([]);
+    const [rows, SetRows] = useState<any[]>([]);
     const elementRef = useRef<HTMLDivElement | null>(null);
     const [elementWidth, setElementWidth] = useState<number | 1000>(1000);
     useEffect(() => {
@@ -131,18 +96,113 @@ export default function Student() {
         },
     ];
 
-    const rows = [
-        { id: "stu432101", lastName: 'Armstrong', firstName: 'Micheal', gender: "Male", department: "Science" },
-        { id: "stu432102", lastName: 'Armstrong', firstName: 'Micheal', gender: "Female", department: "Technology" },
-        { id: "stu432103", lastName: 'Lannister', firstName: 'Micheal', gender: "Male", department: "Technology" },
-        { id: "stu432104", lastName: 'Armstrong', firstName: 'Micheal', gender: "Male", department: "Science" },
-        { id: "stu432105", lastName: 'Targaryen', firstName: 'Micheal', gender: "Female", department: "Technology" },
-        { id: "stu432106", lastName: 'Armstrong', firstName: 'Michesl', gender: "Male", department: "Science" },
-        { id: "stu432107", lastName: 'Clifford', firstName: 'Micheal', gender: "Female", department: "Science" },
-        { id: "stu432108", lastName: 'Armstrong', firstName: 'Micheal', gender: "Male", department: "Technology" },
-        { id: "stu432109", lastName: 'Roxie', firstName: 'Micheal', gender: "Female", department: "Science" },
-        { id: "stu432109", lastName: 'Roxie', firstName: 'Micheal', gender: "Female", department: "Science" },
-    ];
+    const [students, setStudents] = useState<any>([]);
+
+    useEffect(() => {
+        let fetchData = async () => {
+            setStudents(await Request.get(`/users/roles/${title === "Student" ? 'Học sinh' : 'Giáo viên'}`));
+        }
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        SetDetailStu([
+            {
+                title: "ref id",
+                content: students[0]?.id
+            },
+            {
+                title: "first name",
+                content: students[0]?.fullName.split(' ')[0]
+            },
+            {
+                title: "last name",
+                content: students[0]?.fullName.split(' ').slice(1).join(' ')
+            },
+            {
+                title: "gender",
+                content: students[0]?.gender
+            },
+            {
+                title: "email",
+                content: students[0]?.email
+            },
+            {
+                title: "address",
+                content: students[0]?.address ? students[0]?.address : "Null"
+            },
+            {
+                title: "department",
+                content: "technology"
+            },
+            {
+                title: "class",
+                content: "ss2"
+            },
+            {
+                title: "date Created",
+                content: students[0]?.createdAt
+            },
+            {
+                title: title === "Student" ? "student status" : "teacher status",
+                content: students[0]?.isActive ? "ACTIVE" : "INACTIVE"
+            },
+        ]);
+        let listStudent : any[] = [];
+        students && students.map((student: any) => {
+            listStudent.push({ id: student.id, lastName: student.fullName.split(' ')[0], firstName: student.fullName.split(' ').slice(1).join(' '), gender: student.gender, department: "Science" },)
+        })
+        SetRows(listStudent);
+    }, [students])
+
+    const handleShowStudent = (id: string) => {
+        let findStu = students.filter((student: any) => student.id === id)
+        findStu = findStu[0];
+        
+        SetDetailStu([
+            {
+                title: "ref id",
+                content: findStu?.id
+            },
+            {
+                title: "first name",
+                content: findStu?.fullName.split(' ')[0]
+            },
+            {
+                title: "last name",
+                content: findStu?.fullName.split(' ').slice(1).join(' ')
+            },
+            {
+                title: "gender",
+                content: findStu?.gender
+            },
+            {
+                title: "email",
+                content: findStu?.email
+            },
+            {
+                title: "address",
+                content: findStu?.address ? findStu?.address : "Null"
+            },
+            {
+                title: "department",
+                content: "technology"
+            },
+            {
+                title: "class",
+                content: "ss2"
+            },
+            {
+                title: "date Created",
+                content: findStu?.createdAt
+            },
+            {
+                title:  title === "Student" ? "student status" : "teacher status",
+                content: findStu?.isActive ? "ACTIVE" : "INACTIVE"
+            },
+        ]);
+    };
+
     return (
         <StyleComponent>
             <StyleMain>
@@ -160,7 +220,7 @@ export default function Student() {
                             <StyleBoxBtnHandle>
                                 <StyleButton variant="contained">PRINT</StyleButton>
                                 <StyleButton variant="contained">EXPORT</StyleButton>
-                                <StyleButtonCreate variant="contained">CREATE STUDENT</StyleButtonCreate>
+                                <StyleButtonCreate variant="contained">{title === "Student" ? "CREATE STUDENT" : "CREATE TEACHER"}</StyleButtonCreate>
                             </StyleBoxBtnHandle>
                             <StyleFilter container spacing={2}
                                 sx={{
@@ -323,8 +383,9 @@ export default function Student() {
                                     
                                 }}
                             >
-                                <StyleCountStu>Showing 1 - 10 of {rows.length} students</StyleCountStu>
+                                <StyleCountStu>Showing 1 - 10 of {rows.length} {title === "Student" ? "students" : "teachers"}</StyleCountStu>
                                 <DataGrid
+                                    onRowClick={(e: any)=> handleShowStudent(e.id)}
                                     rows={rows}
                                     columns={columns}
                                     initialState={{
@@ -363,13 +424,13 @@ export default function Student() {
                         </StyleBoxUser>
 
                         <StyleDetailStudent>
-                            <StyleTitleDetailStu>Student Details</StyleTitleDetailStu>
+                            <StyleTitleDetailStu>{title === "Student" ? "Student Details" : "Teacher Details"}</StyleTitleDetailStu>
                             <StyleBoxContact>
                                 {
                                     detailStu.map((student, index) => (
                                         <StyleBoxContent key={index}>
                                             <StyleTitleContent>{student.title}</StyleTitleContent>
-                                            <StyleMainContent color={(student.title === "email" || student.title === "address") ? "#7FBDE4" : (student.title === "student status" ? (student.content === "CURRENT" ? "#84DE88" : "#F62B2B") : "rgb(35,50,85,0.8)")}>{student.content}</StyleMainContent>
+                                            <StyleMainContent color={(student.title === "email" || student.title === "address") ? "#7FBDE4" : (student.title === "student status" ? (student.content === "ACTIVE" ? "#84DE88" : "#F62B2B") : "rgb(35,50,85,0.8)")}>{student.content}</StyleMainContent>
                                         </StyleBoxContent>
                                     ))
                                 }
