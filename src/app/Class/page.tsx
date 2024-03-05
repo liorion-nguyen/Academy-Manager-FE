@@ -17,6 +17,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { StyleBoxContact, StyleBoxContent, StyleBtnDelete, StyleBtnEdit, StyleCountStu, StyleDetailStudent, StyleMainContent, StyleTitleContent, StyleTitleDetailStu } from "../[People]/style-mui";
 import Drawer from '@mui/material/Drawer';
 import DrawerClass from "@/components/drawerClass/page";
+import MenuUser from "@/components/menuUser/page";
 
 type detailStuType = { title: string; content: any; }
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -291,7 +292,7 @@ export default function Class() {
             title: 'updateAt',
             content: students[0]?.updateAt,
         }
-    ]);
+        ]);
         SetRows(students)
     }, [students])
 
@@ -494,7 +495,7 @@ export default function Class() {
             title: 'updateAt',
             content: findStu?.updateAt,
         }]);
-        
+
     };
 
 
@@ -717,22 +718,7 @@ export default function Class() {
                         <NavLeft />
                     </StyleGridRight>
                     <StyleGridLeft item xs={3}>
-                        <StyleBoxUser>
-                            <StyleBoxNotification>
-                                <StyleImgLeft src="/Images/admin/icon_notification.png" />
-                            </StyleBoxNotification>
-                            <StyleBoxUserDisplay>
-                                <StyleBoxInBoxUser>
-                                    <StyleBoxAvatarUser>
-                                        <StyleImgLeft src="/Images/admin/avatar_preview.png" />
-                                    </StyleBoxAvatarUser>
-                                    <StyleNameUser>User</StyleNameUser>
-                                </StyleBoxInBoxUser>
-                                <StyleIconDown>
-                                    <StyleImgLeft src="/Images/admin/icon_down.png" />
-                                </StyleIconDown>
-                            </StyleBoxUserDisplay>
-                        </StyleBoxUser>
+                        <MenuUser />
                         <StyleDetailStudent>
                             <StyleTitleDetailStu>Class Details</StyleTitleDetailStu>
                             <StyleBoxContact>

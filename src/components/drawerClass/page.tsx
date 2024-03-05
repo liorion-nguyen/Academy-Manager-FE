@@ -1,5 +1,5 @@
-import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { StyleBoxContentTab1, StyleBoxMainTab1, StyleBoxTab, StyleBoxTeacher, StyleBoxTeacherRow, StyleBoxTime, StyleBoxTitle, StyleBoxType, StyleButtonReturn, StyleContentTab1, StyleCountP, StyleH6, StyleHr, StyleInputTab1, StyleMainTeacher, StylePMin, StyleStateTxt, StyleTilteP, StyleTitleTab } from "./style-mui";
+import { Box, Grid, Rating, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, TextareaAutosize } from "@mui/material";
+import { StyleBoxCmt, StyleBoxContentCmt, StyleBoxContentTab1, StyleBoxMainTab1, StyleBoxStuCmt, StyleBoxTab, StyleBoxTeacher, StyleBoxTeacherRow, StyleBoxTime, StyleBoxTitle, StyleBoxTitleCmt, StyleBoxType, StyleButtonReturn, StyleContentTab1, StyleCountP, StyleH6, StyleHr, StyleInpTitleCmt, StyleInputTab1, StyleMainTeacher, StylePMin, StyleStateTxt, StyleTextAreaStuCmt, StyleTilteP, StyleTitleTab, StyleTxtTitleCmt } from "./style-mui";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -15,6 +15,10 @@ import { LocalizationProvider, MobileDatePicker, MobileTimePicker } from "@mui/x
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import { RichTextField } from "mui-quill";
 
 function createData(
     name: string,
@@ -47,10 +51,20 @@ function DataClassSite(
     return { name, basis, teacher, studentcount, ca, lua };
 }
 
+function createMess(
+    time: string,
+    type: string,
+    status: string,
+    content: string,
+) {
+    return { time, type, status, content };
+}
+
 
 export default function DrawerClass({ data }: any) {
-    console.log(data);
     const [value, setValue] = useState('1');
+    const [valueQuill, setValueQuill] = useState<any>("hello");
+    const getCurrentDateTime = () => new Date();
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
@@ -234,16 +248,402 @@ export default function DrawerClass({ data }: any) {
     ]);
     const handleTimeChange = (selectedTime: any) => {
         console.log("Selected Time: ", selectedTime);
-        // Thực hiện xử lý với giá trị đã chọn
-      };
+    };
+
+    const [tabMess, setTabMess] = useState('1');
+
+    const handleChangeTabMess = (event: React.SyntheticEvent, newValue: string) => {
+        console.log(newValue);
+
+        setTabMess(newValue);
+    };
+
+    const mess = [
+        createMess('23/02/2024', "Email", "0/1", "Hi ,, Bạn đã được vào lớp @class.name Trong quá trình giảng dạy, nếu truy cập LMS gián đoạn làm ảnh ..."),
+    ];
+
+    const comments = [
+        {
+            id: "1",
+            session: '1',
+            time: '08:00 25/02/2024',
+            summary: "Học python",
+            homework: "Làm bài tập trên ClassIn",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "Học có sự chú ý tốt",
+                    rate: 9
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 8
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 9
+                }
+            ]
+        },
+        {
+            id: "2",
+            session: '2',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "3",
+            session: '3',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "4",
+            session: '4',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "5",
+            session: '5',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "6",
+            session: '6',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "2",
+            session: '2',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "7",
+            session: '7',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "8",
+            session: '8',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "9",
+            session: '9',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "10",
+            session: '10',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "11",
+            session: '11',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "12",
+            session: '12',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "13",
+            session: '13',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+        {
+            id: "14",
+            session: '14',
+            time: '08:00 03/03/2024',
+            summary: "",
+            homework: "",
+            student: [
+                {
+                    name: "Vu Que Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Vu Tien Anh",
+                    comment: "",
+                    rate: 0
+                },
+                {
+                    name: "Nguyen Ngoc Anh",
+                    comment: "",
+                    rate: 0
+                }
+            ]
+        },
+    ]
+    const [cmtStudent, setCmtStudent] = useState('1');
+
+    const handleChangeCmtStudent = (event: React.SyntheticEvent, newValue: string) => {
+        setCmtStudent(newValue);
+    };
+
 
     return (
-        <StyleBoxTab>
+        <StyleBoxTab
+            sx={{
+                ".MuiButtonBase-root": {
+                    fontWeight: 'bold',
+                }
+            }}>
             <StyleBoxTitle>
                 <StyleH6>{data[1].content}</StyleH6>
                 <StyleStateTxt>{data[4].content}</StyleStateTxt>
             </StyleBoxTitle>
             <TabContext value={value}>
+
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example">
                         <StyleTitleTab label="Thông tin chung" value="1" />
@@ -351,7 +751,7 @@ export default function DrawerClass({ data }: any) {
                         </StyleMainTeacher>
                     </StyleBoxMainTab1>
                 </TabPanel>
-                <TabPanel value="3">Item Three</TabPanel>
+                <TabPanel value="3"><p>Chưa có thông tin nhập học củ thể!</p></TabPanel>
                 <TabPanel value="4">
                     <StyleBoxMainTab1>
                         <StyleBoxContentTab1>
@@ -486,9 +886,143 @@ export default function DrawerClass({ data }: any) {
                     </StyleBoxMainTab1>
                 </TabPanel>
                 <TabPanel value="7">Item Three</TabPanel>
-                <TabPanel value="8">Item Three</TabPanel>
-                <TabPanel value="9">Item Three</TabPanel>
-            </TabContext>
-        </StyleBoxTab>
+                <TabPanel value="8">
+                    <TabContext value={tabMess}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <TabList onChange={handleChangeTabMess} aria-label="lab API tabs example">
+                                {
+                                    comments.map((comment, i) => (
+                                        <Tab label={`# ${i + 1}`} value={`${i + 1}`}
+                                            sx={{
+                                                background: i + 1 === Number(tabMess) ? "#00bcd4" : "transparent",
+                                                color: i + 1 === Number(tabMess) ? "white !important" : ""
+                                            }}
+                                        />
+                                    ))
+                                }
+                            </TabList>
+                        </Box>
+                        {
+                            comments.map((comment, index) => {
+                                const [time, date] = comment.time.split(' ');
+                                const [hours, minutes] = time.split(':');
+                                const [day, month, year] = date.split('/');
+
+                                const commentDateTime = new Date(Number(year), Number(month) - 1, Number(day), Number(hours), Number(minutes));
+                                const isCommentTimeBeforeCurrentTime = commentDateTime < getCurrentDateTime();
+                                console.log(isCommentTimeBeforeCurrentTime);
+
+                                return (
+                                    <TabPanel value={`${index + 1}`}>
+                                        {
+                                            isCommentTimeBeforeCurrentTime ? (
+                                                <StyleBoxCmt>
+                                                    <StyleBoxContentCmt
+                                                        sx={{
+                                                            ".RichInputBase-root-20": {
+                                                                gap: '10px'
+                                                            },
+                                                            ".RichInputBase-input-31": {
+                                                                borderBottom: '1px solid grey'
+                                                            },
+                                                            ".PrivateNotchedOutline-root-38": {
+                                                                borderColor: 'grey !important'
+                                                            }
+                                                        }}
+                                                    >
+                                                        <StyleBoxTitleCmt>
+                                                            <SummarizeIcon />
+                                                            <StyleTxtTitleCmt>Summary</StyleTxtTitleCmt>
+                                                        </StyleBoxTitleCmt>
+                                                        {/* <RichTextField
+                                                            value={comment.summary}
+                                                            variant="outlined"
+                                                            options={{
+                                                                toolbar: true
+                                                            }}
+                                                            placeholder={"Add slot summary"}
+                                                        /> */}
+                                                    </StyleBoxContentCmt>
+                                                    <StyleBoxContentCmt>
+                                                        <StyleBoxTitleCmt>
+                                                            <HomeWorkIcon />
+                                                            <StyleTxtTitleCmt>Homework</StyleTxtTitleCmt>
+                                                        </StyleBoxTitleCmt>
+                                                        {/* <RichTextField
+                                                            value={comment.homework}
+                                                            variant="outlined"
+                                                            options={{
+                                                                toolbar: true
+                                                            }}
+                                                            placeholder={"Add slot homework"}
+                                                        /> */}
+                                                    </StyleBoxContentCmt>
+                                                    <StyleBoxContentCmt>
+                                                        <StyleBoxTitleCmt>
+                                                            <ListAltIcon />
+                                                            <StyleTxtTitleCmt>Student List</StyleTxtTitleCmt>
+                                                        </StyleBoxTitleCmt>
+                                                        <TabContext value={cmtStudent}>
+                                                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                                                <TabList onChange={handleChangeCmtStudent} aria-label="lab API tabs example">
+                                                                    {
+                                                                        comment.student.map((stu, index) => (
+                                                                            <Tab label={stu.name} value={stu.name} />
+                                                                        ))
+                                                                    }
+                                                                </TabList>
+                                                            </Box>
+                                                            {
+                                                                comment.student.map((stu, index) => (
+                                                                    <TabPanel value={stu.name}>
+                                                                        <StyleBoxStuCmt>
+                                                                            <StyleTextAreaStuCmt value={stu.comment} placeholder="Add slot comment" />
+                                                                            <Rating name="customized-10" defaultValue={stu.rate} max={10} />
+                                                                        </StyleBoxStuCmt>
+                                                                    </TabPanel>
+                                                                ))
+                                                            }
+                                                        </TabContext>
+                                                    </StyleBoxContentCmt>
+                                                </StyleBoxCmt>
+                                            ) : (
+                                                <p>Slot has not started</p>
+                                            )
+                                        }
+                                    </TabPanel>
+                                )
+                            })
+                        }
+                    </TabContext>
+                </TabPanel>
+                <TabPanel value="9">
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Time</TableCell>
+                                    <TableCell align="left">Message type</TableCell>
+                                    <TableCell align="left">Status</TableCell>
+                                    <TableCell align="left">Content</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {mess.map((row, index) => (
+                                    <TableRow
+                                        key={index}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">{row.time}</TableCell>
+                                        <TableCell align="left">{row.type}</TableCell>
+                                        <TableCell align="left">{row.status}</TableCell>
+                                        <TableCell align="left">{row.content}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </TabPanel>
+            </TabContext >
+        </StyleBoxTab >
     );
 }

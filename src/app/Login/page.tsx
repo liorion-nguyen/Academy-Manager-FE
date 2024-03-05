@@ -46,7 +46,7 @@ export default function Login() {
   useEffect(() => {
     checkLogin().then((e) => {
       if (e) {
-        router.push("/Admin")
+        router.push("/")
         return;
       }
       router.push('/login')
@@ -98,14 +98,14 @@ export default function Login() {
     try {
       const data = await Auth(account);
       if (data.access_token) {
-        Cookies.set("access", data.access_token, { expires: 1 });
+        Cookies.set("liorion", data.access_token, { expires: 1 });
         setNotify({
           open: true,
           message: "Đăng nhập thành công",
           severity: "success",
         });
         setTimeout(() => {
-          router.push("/Admin");
+          router.push("/");
         }, 1200);
       } else {
         setNotify({

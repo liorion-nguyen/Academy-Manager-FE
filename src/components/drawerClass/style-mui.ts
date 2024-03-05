@@ -1,5 +1,5 @@
 "use client"
-import { Box, Tab } from "@mui/material";
+import { Box, Tab, TextareaAutosize } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
@@ -106,3 +106,44 @@ export const StyleBoxTime = muiStyled(StyleBoxRow)(({ theme }) => ({
         padding: '8px'
     }
 }));
+
+export const StyleBoxCmt = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    gap: '15px',
+ }));
+
+export const StyleBoxTitleCmt = muiStyled(StyleBoxRow)(({ theme }) => ({
+   gap: '8px',
+   alignItems: 'center',
+   paddingBottom: '5px',
+   borderBottom: '1px solid #80808042'
+}));
+
+export const StyleBoxContentCmt = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    gap: '10px',
+ }));
+
+export const StyleTxtTitleCmt = muiStyled('p')(({ theme }) => ({
+   fontWeight: '500',
+   fontSize: '13px'
+}));
+
+export const StyleInpTitleCmt = muiStyled('input')(({ theme }) => ({
+    border: '1px solid transparent',
+    width: '100%',
+    padding: '10px 20px',
+    outline: 'grey',
+    ":hover": {
+        border: '1px solid grey'
+    }
+ }));
+
+ export const StyleBoxStuCmt = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    gap: '10px'
+ }));
+
+ export const StyleTextAreaStuCmt = muiStyled(TextareaAutosize)(({ theme }) => ({
+    height: '100px !important',
+    padding: '10px',
+    border: '1px solid grey',
+    outline: 'grey',
+ }));

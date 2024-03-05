@@ -241,7 +241,9 @@ export const StyleDashboardCard = muiStyled(Grid)(({ theme }) => ({
 
 export const StyleContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     margin: '170px 0 0 100px',
-    gap: "50px"
+    gap: "50px",
+    height: "calc(100vh - 110px - 100px) !important",
+    overflow: 'scroll'
 }));
 
 export const StyleCircle = muiStyled(Box)(({ width, height, theme }) => ({

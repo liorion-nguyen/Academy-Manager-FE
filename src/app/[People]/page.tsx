@@ -9,6 +9,7 @@ import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import NavLeft from "@/components/navleft";
 import Header from "@/components/header";
 import { Request } from "@/api/request";
+import MenuUser from "@/components/menuUser/page";
 
 type detailStuType = { title: string; content: any; }
 export default function Student({params}: any) {
@@ -406,22 +407,7 @@ export default function Student({params}: any) {
                         <NavLeft/>
                     </StyleGridRight>
                     <StyleGridLeft item xs={3}>
-                        <StyleBoxUser>
-                            <StyleBoxNotification>
-                                <StyleImgLeft src="/Images/admin/icon_notification.png" />
-                            </StyleBoxNotification>
-                            <StyleBoxUserDisplay>
-                                <StyleBoxInBoxUser>
-                                    <StyleBoxAvatarUser>
-                                        <StyleImgLeft src="/Images/admin/avatar_preview.png" />
-                                    </StyleBoxAvatarUser>
-                                    <StyleNameUser>User</StyleNameUser>
-                                </StyleBoxInBoxUser>
-                                <StyleIconDown>
-                                    <StyleImgLeft src="/Images/admin/icon_down.png" />
-                                </StyleIconDown>
-                            </StyleBoxUserDisplay>
-                        </StyleBoxUser>
+                        <MenuUser />
 
                         <StyleDetailStudent>
                             <StyleTitleDetailStu>{title === "Student" ? "Student Details" : "Teacher Details"}</StyleTitleDetailStu>
