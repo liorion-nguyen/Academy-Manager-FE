@@ -40,6 +40,8 @@ export const StyleBoxUser = muiStyled(StyleBoxRow)(({ theme }) => ({
 
 export const StyleGridUserNotification = muiStyled(Grid)(({ theme }) => ({
     width: '100%',
+    height: "100vh",
+    overflow: 'hidden'
 }));
 
 export const StyleBoxNotification = muiStyled(Box)(({ theme }) => ({
@@ -155,6 +157,7 @@ export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: '10px',
+    width: '100%'
 }));
 
 export const StyleNavLeft = muiStyled(Box)(({ theme }) => ({

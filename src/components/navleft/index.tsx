@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 export default function NavLeft() {
     const Icons = [
         {
-            href: "/",
+            href: "/Overview",
             icon: "/Images/admin/icon_navleft/overview.svg",
         },
         {
@@ -29,7 +29,7 @@ export default function NavLeft() {
             icon: "/Images/admin/icon_navleft/users.svg",
         },
         {
-            href: "#",
+            href: "ChatAi",
             icon: "/Images/admin/icon_navleft/messages.svg",
         },
         {

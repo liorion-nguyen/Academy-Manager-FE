@@ -731,7 +731,7 @@ export default function DrawerClass({ data }: any) {
                             <StyleMainTeacher>
                                 {
                                     learnSchedules.map((learnSchedule, index) => (
-                                        <StyleBoxTime>
+                                        <StyleBoxTime key={index}>
                                             <input type="checkbox" />
                                             <p>#{index + 1}</p>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -824,7 +824,7 @@ export default function DrawerClass({ data }: any) {
                             <StyleHr />
                             {
                                 teacherSchedules.map((teacherSchedule: any, index: number) => (
-                                    <StyleBoxTeacher>
+                                    <StyleBoxTeacher key={index}>
                                         <StyleCountP>#{index + 1}</StyleCountP>
                                         <StyleBoxTeacherRow>
                                             {teacherSchedule.Lec.map((teacherId: any, index: number) => (
@@ -892,7 +892,7 @@ export default function DrawerClass({ data }: any) {
                             <TabList onChange={handleChangeTabMess} aria-label="lab API tabs example">
                                 {
                                     comments.map((comment, i) => (
-                                        <Tab label={`# ${i + 1}`} value={`${i + 1}`}
+                                        <Tab key={i} label={`# ${i + 1}`} value={`${i + 1}`}
                                             sx={{
                                                 background: i + 1 === Number(tabMess) ? "#00bcd4" : "transparent",
                                                 color: i + 1 === Number(tabMess) ? "white !important" : ""
@@ -913,7 +913,7 @@ export default function DrawerClass({ data }: any) {
                                 console.log(isCommentTimeBeforeCurrentTime);
 
                                 return (
-                                    <TabPanel value={`${index + 1}`}>
+                                    <TabPanel key={index} value={`${index + 1}`}>
                                         {
                                             isCommentTimeBeforeCurrentTime ? (
                                                 <StyleBoxCmt>
@@ -967,14 +967,14 @@ export default function DrawerClass({ data }: any) {
                                                                 <TabList onChange={handleChangeCmtStudent} aria-label="lab API tabs example">
                                                                     {
                                                                         comment.student.map((stu, index) => (
-                                                                            <Tab label={stu.name} value={stu.name} />
+                                                                            <Tab key={index} label={stu.name} value={stu.name} />
                                                                         ))
                                                                     }
                                                                 </TabList>
                                                             </Box>
                                                             {
                                                                 comment.student.map((stu, index) => (
-                                                                    <TabPanel value={stu.name}>
+                                                                    <TabPanel key={index} value={stu.name}>
                                                                         <StyleBoxStuCmt>
                                                                             <StyleTextAreaStuCmt value={stu.comment} placeholder="Add slot comment" />
                                                                             <Rating name="customized-10" defaultValue={stu.rate} max={10} />
