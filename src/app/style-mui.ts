@@ -157,7 +157,9 @@ export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: '10px',
-    width: '100%'
+    width: '100%',
+    height: '80%',
+    position: 'relative'
 }));
 
 export const StyleNavLeft = muiStyled(Box)(({ theme }) => ({
@@ -352,5 +354,12 @@ export const StyleHeadTable = muiStyled(StyleBoxRow)(({ theme }) => ({
     alignItems: 'end'
 }));
 
-
+export const StyleBoxBody = muiStyled(Box)(({ theme }) => ({
+    height: '100vh',
+    width: '100vw',
+    background: 'white',
+    display: 'flex',
+    justifyContent:'center',
+    alignItems:'center'
+}));
 

@@ -98,14 +98,14 @@ export default function Login() {
     try {
       const data = await Auth(account);
       if (data.access_token) {
-        Cookies.set("liorion", data.access_token, { expires: 1 });
+        Cookies.set("access", data.access_token, { expires: 1 });
         setNotify({
           open: true,
           message: "Đăng nhập thành công",
           severity: "success",
         });
         setTimeout(() => {
-          router.push("/");
+          router.push("/Overview");
         }, 1200);
       } else {
         setNotify({

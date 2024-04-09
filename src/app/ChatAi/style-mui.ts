@@ -11,9 +11,14 @@ export const BoxContainerColMui = muiStyled(Box)(({ theme }) => ({
 }));
 
 export const BoxMessageMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
-    margin: '120px 0 50px 120px',
+    position: 'absolute',
+    right: '10px',
     borderTopRightRadius: '10px',
     borderTopLeftRadius: '10px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: 'calc(100% - 100px)',
+    top: '100px',
 }));
 
 export const FeatureMessMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
@@ -24,13 +29,14 @@ export const FeatureMessMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
 }));
 
 export const ContentMessageMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
-    height: '80%',
+    height: '100%',
     overflowX: 'hidden',
     overflowY: 'auto',
     background: 'white',
     width: '-webkit-fill-available',
     padding: '40px 10px 10px 10px',
     gap: '10px',
+    position: 'absolute'
 }));
 
 export const FullNameMui = muiStyled(BoxContainerColMui)(({ theme }) => ({

@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { Request } from "../request";
 
 export const checkLogin = async () => {
-    const access = Cookies.get('liorion');
+    const access = Cookies.get('access');
     if (!access) {
         return false;
     }

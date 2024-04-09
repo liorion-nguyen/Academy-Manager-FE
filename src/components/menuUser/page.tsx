@@ -16,14 +16,7 @@ export default function MenuUser() {
         setAnchorEl(null);
     };
     useEffect(()=> {
-        const userInfo = verifyToken(Cookies.get('liorion') || "");
-        console.log(userInfo);
-        
-        // const fetchData = async() => {
-        //     const data = await Request.get(`/users`);
-        //     console.log("hello", data);
-        // }
-        // fetchData();
+        const userInfo = verifyToken(Cookies.get('access') || "");
     }, [])
     return (
         <StyleBoxUser>
@@ -64,7 +57,7 @@ export default function MenuUser() {
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleClose}>My account</MenuItem>
                     <MenuItem onClick={() => {
-                        document.cookie = "liorion=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+                        document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
                         window.location.reload();
                         handleClose()
                     }
