@@ -56,7 +56,7 @@ export default function NavLeft() {
                     Icons.map((icon, index) => (
                         <Box key={index}>
                             <a href={icon.href}>
-                                <Image alt="#" src={icon.icon} 
+                                <img src={icon.icon} 
                                     style={{
                                         filter: pathname === icon.href ? 'invert(85%) sepia(105%) saturate(4000%) hue-rotate(42deg) brightness(108%) contrast(61%)' : '' 
                                     }}

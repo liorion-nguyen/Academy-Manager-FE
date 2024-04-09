@@ -193,7 +193,7 @@ export default function Overview({ params }: any) {
                                     <StyleDashboardCard item xs={4}>
                                         <StyleCircle width={61} height={39}>
                                             <StyleProcessBar>
-                                                <Image alt="#" src="/Images/admin/icon_student.svg" />
+                                                <img src="/Images/admin/icon_student.svg" />
                                             </StyleProcessBar>
                                         </StyleCircle>
                                         <Box>
@@ -216,7 +216,7 @@ export default function Overview({ params }: any) {
                                     <StyleDashboardCard item xs={4}>
                                         <StyleCircle width={61} height={39}>
                                             <StyleProcessBar>
-                                                <Image alt="#" src="/Images/admin/icon_staff.svg" />
+                                                <img src="/Images/admin/icon_staff.svg" />
                                             </StyleProcessBar>
                                         </StyleCircle>
                                         <Box>
@@ -239,7 +239,7 @@ export default function Overview({ params }: any) {
                                     <StyleDashboardCard item xs={4}>
                                         <StyleCircle width={61} height={39}>
                                             <StyleProcessBar>
-                                                <Image alt="#" src="/Images/admin/icon_subject.svg" />
+                                                <img alt="#" src="/Images/admin/icon_subject.svg" />
                                             </StyleProcessBar>
                                         </StyleCircle>
                                         <Box>

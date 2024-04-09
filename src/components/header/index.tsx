@@ -31,7 +31,7 @@ export default function Header({value}:any) {
             </StyleHeaderTop>
             {pathname !== "/Teacher" && pathname !== "/Student" && pathname !== "/ChatAi" &&
             <StyleSearch className="search">
-                <Image alt="#" src="/Images/admin/icon_search.svg" />
+                <img src="/Images/admin/icon_search.svg" />
                 <StyleInpSearch type="text" placeholder="Search..." />
             </StyleSearch>}
         </StyleBoxHeader>

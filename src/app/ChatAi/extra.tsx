@@ -7,7 +7,7 @@ export default function ChatAiExtra() {
         <StyleDetailChat>
             <StyleExtraTitle>Đoạn chat</StyleExtraTitle>
             <StyleSearchChat className="search">
-                <Image alt="#" src="/Images/admin/icon_search.svg" />
+                <img src="/Images/admin/icon_search.svg" />
                 <StyleInpSearch type="text" placeholder="Search..." />
             </StyleSearchChat>
             <ul>

@@ -184,7 +184,7 @@ export default function PeopleMain(props: { people: string }) {
             >
                 <Grid item xs={6}>
                     <StyleSearch>
-                        <Image alt="#" src="/Images/admin/icon_search.svg" />
+                        <img src="/Images/admin/icon_search.svg" />
                         <StyleInpSearch type="text" placeholder="Search..." />
                     </StyleSearch>
                 </Grid>
