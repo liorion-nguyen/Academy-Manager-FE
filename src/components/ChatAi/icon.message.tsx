@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MessageActions } from "@/redux/chat/chat";
 import { BoxSearchMui, GifMui, IconSearchMui, InputSearchMui } from "../../app/ChatAi/style-mui";
+import Image from 'next/image';
 
 export default function Icon() {
     const icons = [
@@ -1506,7 +1507,7 @@ export default function Icon() {
             >
                 {
                     icons.map((icon) => (
-                        <Tab icon={<img src={icon.src} style={{ width: '20px' }} />} aria-label={icon.name} key={icon.name} />
+                        <Tab icon={<Image alt="#" src={icon.src} style={{ width: '20px' }} />} aria-label={icon.name} key={icon.name} />
                     ))
                 }
             </Tabs>

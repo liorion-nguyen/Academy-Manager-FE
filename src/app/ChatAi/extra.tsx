@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { StyleInpSearch } from "../style-mui";
 import { StyleColumnGap5, StyleDetailChat, StyleExtraAvater, StyleExtraContent, StyleExtraLi, StyleExtraName, StyleExtraTitle, StyleRowGap10, StyleSearchChat } from "./style-mui";
 
@@ -6,7 +7,7 @@ export default function ChatAiExtra() {
         <StyleDetailChat>
             <StyleExtraTitle>Đoạn chat</StyleExtraTitle>
             <StyleSearchChat className="search">
-                <img src="/Images/admin/icon_search.svg" />
+                <Image alt="#" src="/Images/admin/icon_search.svg" />
                 <StyleInpSearch type="text" placeholder="Search..." />
             </StyleSearchChat>
             <ul>

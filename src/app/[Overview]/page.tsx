@@ -25,6 +25,7 @@ import PeopleExtra from "../People/extra";
 import ClassMain from "../Class/main";
 import ClassExtra from "../Class/extra";
 import ChatAiExtra from "../ChatAi/extra";
+import Image from "next/image";
 export default function Overview({ params }: any) {
     var title = params.Overview;
     const router = useRouter();
@@ -37,7 +38,7 @@ export default function Overview({ params }: any) {
             }
             router.push('/login')
         })
-    }, [])
+    }, [title])
     const chartSetting = {
         yAxis: [
             {
@@ -192,7 +193,7 @@ export default function Overview({ params }: any) {
                                     <StyleDashboardCard item xs={4}>
                                         <StyleCircle width={61} height={39}>
                                             <StyleProcessBar>
-                                                <img src="/Images/admin/icon_student.svg" />
+                                                <Image alt="#" src="/Images/admin/icon_student.svg" />
                                             </StyleProcessBar>
                                         </StyleCircle>
                                         <Box>
@@ -215,7 +216,7 @@ export default function Overview({ params }: any) {
                                     <StyleDashboardCard item xs={4}>
                                         <StyleCircle width={61} height={39}>
                                             <StyleProcessBar>
-                                                <img src="/Images/admin/icon_staff.svg" />
+                                                <Image alt="#" src="/Images/admin/icon_staff.svg" />
                                             </StyleProcessBar>
                                         </StyleCircle>
                                         <Box>
@@ -238,7 +239,7 @@ export default function Overview({ params }: any) {
                                     <StyleDashboardCard item xs={4}>
                                         <StyleCircle width={61} height={39}>
                                             <StyleProcessBar>
-                                                <img src="/Images/admin/icon_subject.svg" />
+                                                <Image alt="#" src="/Images/admin/icon_subject.svg" />
                                             </StyleProcessBar>
                                         </StyleCircle>
                                         <Box>

@@ -6,6 +6,7 @@ import { StyleBoxBtn, StyleBoxBtnHandle, StyleBoxContact, StyleBoxContent, Style
 import { FormControl, Grid, MenuItem, Select } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Request } from "@/api/request";
+import Image from "next/image";
 
 type detailStuType = { title: string; content: any; }
 export default function PeopleMain(props: { people: string }) {
@@ -57,7 +58,7 @@ export default function PeopleMain(props: { people: string }) {
             setStudents(await Request.get(`/users/roles/${title === "Student" ? 'Học sinh' : 'Giáo viên'}`));
         }
         fetchData();
-    }, []);
+    }, [title]);
 
     useEffect(() => {
         SetDetailStu([
@@ -183,7 +184,7 @@ export default function PeopleMain(props: { people: string }) {
             >
                 <Grid item xs={6}>
                     <StyleSearch>
-                        <img src="/Images/admin/icon_search.svg" />
+                        <Image alt="#" src="/Images/admin/icon_search.svg" />
                         <StyleInpSearch type="text" placeholder="Search..." />
                     </StyleSearch>
                 </Grid>

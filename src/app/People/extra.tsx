@@ -40,9 +40,9 @@ export default function PeopleExtra(props: { people: string }) {
     useEffect(() => {
         let fetchData = async () => {
             setStudents(await Request.get(`/users/roles/${title === "Student" ? 'Học sinh' : 'Giáo viên'}`));
-        }
+        };
         fetchData();
-    }, []);
+    }, [title]);
 
     useEffect(() => {
         SetDetailStu([

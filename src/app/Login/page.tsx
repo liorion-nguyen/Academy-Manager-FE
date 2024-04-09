@@ -51,7 +51,7 @@ export default function Login() {
       }
       router.push('/login')
     });
-  }, [])
+  }, [router])
   const [account, setAccount] = useState<account>({ email: "", password: "", agree: false });
   const [notify, setNotify] = useState<notify>({
     open: false,

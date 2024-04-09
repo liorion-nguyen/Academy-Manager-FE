@@ -1,5 +1,6 @@
 import { StyleBoxIconNavLeft, StyleIconNavLeft, StyleImgLeft, StyleNavLeft } from "@/app/style-mui";
 import { Box } from "@mui/material";
+import Image from "next/image";
 import { usePathname } from 'next/navigation'
 
 export default function NavLeft() {
@@ -55,7 +56,7 @@ export default function NavLeft() {
                     Icons.map((icon, index) => (
                         <Box key={index}>
                             <a href={icon.href}>
-                                <img src={icon.icon} 
+                                <Image alt="#" src={icon.icon} 
                                     style={{
                                         filter: pathname === icon.href ? 'invert(85%) sepia(105%) saturate(4000%) hue-rotate(42deg) brightness(108%) contrast(61%)' : '' 
                                     }}

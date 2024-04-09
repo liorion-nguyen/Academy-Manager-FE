@@ -274,11 +274,11 @@ export default function ChatBox(props: BoxMessage) {
 
     useEffect(() => {
         if (inpicon) {
-            let inp = valueMess + inpicon;
+            const inp = valueMess + inpicon;
             setValueMess(inp);
             inputRef.current?.focus();
         }
-    }, [inpicon])
+    }, [inpicon, valueMess]);
 
     useEffect(() => {
         if (basicInformation.theme != "") setTheme(basicInformation.theme);
@@ -305,14 +305,6 @@ export default function ChatBox(props: BoxMessage) {
         if (detail !== "nickname") handleCloseNickName();
         if (detail !== "emoji") handleCloseEmoji();
     }, [detail])
-
-    useEffect(() => {
-        if (gif) {
-            setAnchorElBoxGif(null);
-            handleSend(`img: ${gif}`);
-            dispatch(MessageActions.SetGif(''));
-        }
-    }, [gif])
 
     useEffect(() => {
         if (gif) {
