@@ -2,8 +2,8 @@
 import { Box } from "@mui/system";
 import { StyleContent } from "../style-mui";
 import { useEffect, useRef, useState } from "react";
-import { Grid } from "@mui/material";
-import { StyleBoxSearch, StyleBoxSearch2, StyleButton, StyleInputSelect, StyleInputText, StyleTextP } from "./style-mui";
+import { Grid, LinearProgress } from "@mui/material";
+import { StyleBoxSearch, StyleBoxSearch2, StyleBoxTable, StyleButton, StyleInputSelect, StyleInputText, StyleTextP } from "./style-mui";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
@@ -11,324 +11,52 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearIcon from '@mui/icons-material/Clear';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { StyleCountStu } from "../People/style-mui";;
-
-type detailStuType = { title: string; content: any; }
+import { StyleCountStu } from "../People/style-mui"; import { GetClass } from "@/api/class";
+interface ClassData {
+    id: string;
+    name: string;
+    basis: string;
+    course: string;
+    operate: string;
+    countTime: number;
+    start: string;
+    mostLesson: number;
+    countTeacher: number;
+    countStudent: number;
+    lecturer: string;
+    createdAt: string;
+    updatedAt: string;
+}
+interface Props {
+    classSend: any[];
+}
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
-export default function ClassMain() {
-    const [stateDrawer, setStateDrawer] = useState({
-        top: false,
-        left: false,
-        bottom: false,
-        right: false,
-    });
-
-    const toggleDrawer =
-        (anchor: Anchor, open: boolean) =>
-            (event: React.KeyboardEvent | React.MouseEvent) => {
-                if (
-                    event.type === 'keydown' &&
-                    ((event as React.KeyboardEvent).key === 'Tab' ||
-                        (event as React.KeyboardEvent).key === 'Shift')
-                ) {
-                    return;
-                }
-
-                setStateDrawer({ ...stateDrawer, [anchor]: open });
-            };
-
+export default function ClassMain(props: { classSend: any }) {
     const elementRef = useRef<HTMLDivElement | null>(null);
     const [elementWidth, setElementWidth] = useState<number | 1000>(1000);
-    const [detailStu, SetDetailStu] = useState<detailStuType[]>([]);
-    const [rows, SetRows] = useState<any[]>([]);
-    const [students, setStudents] = useState<any>([]);
+    const [rows, setRows] = useState<ClassData[]>([]);
 
     useEffect(() => {
-        setStudents([{
-            id: 1,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Offline",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 2,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Hybird",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 3,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Hybird",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 4,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Hybird",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 5,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Hybird",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 6,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Hybird",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 7,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Hybird",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 8,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Hybird",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 9,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Offline",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 10,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Offline",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        },
-        {
-            id: 11,
-            name: "10A1",
-            course: "Khoa học tự nhiên (A)",
-            basis: "Nghi Xuân",
-            operate: "Offline",
-            state: "Running",
-            start: "24/02/2024",
-            countTime: 28,
-            lecturer: "nqchung",
-            countStudent: 4,
-            countTeacher: 2,
-            mostLesson: 1,
-            createAt: "19/02/2024",
-            updateAt: "19/02/2024"
-        }])
-    }, [])
-
-    useEffect(() => {
-        SetDetailStu([{
-            title: 'ref id',
-            content: students[0]?.id,
-        },
-        {
-            title: 'name',
-            content: students[0]?.name,
-        },
-        {
-            title: 'course',
-            content: students[0]?.course,
-        },
-        {
-            title: 'operate',
-            content: students[0]?.operate,
-        },
-        {
-            title: 'state',
-            content: students[0]?.state,
-        },
-        {
-            title: 'start',
-            content: students[0]?.start,
-        },
-        {
-            title: 'countTime',
-            content: students[0]?.countTime,
-        },
-        {
-            title: 'mostLesson',
-            content: students[0]?.mostLesson,
-        },
-        {
-            title: 'countStudent',
-            content: students[0]?.countStudent,
-        },
-        {
-            title: 'countTeacher',
-            content: students[0]?.countTeacher,
-        },
-        {
-            title: 'lecturer',
-            content: students[0]?.lecturer,
-        },
-        {
-            title: 'createAt',
-            content: students[0]?.createAt,
-        },
-        {
-            title: 'updateAt',
-            content: students[0]?.updateAt,
+        if (props.classSend && props.classSend.length > 0) {
+            const dataFake: ClassData[] = props.classSend.map((item: any) => ({
+                id: item.id,
+                name: item.name,
+                basis: item.basis,
+                course: item.course,
+                operate: item.operate,
+                countTime: item.countTime,
+                start: item.start, 
+                state: item.state,
+                mostLesson: item.mostLesson,
+                countTeacher: item.teachers.length,
+                countStudent: item.students.length,
+                lecturer: item.teachers[0] || "", 
+                createdAt: item.createdAt, 
+                updatedAt: item.updatedAt 
+            }));
+            setRows(dataFake);
         }
-        ]);
-        SetRows(students)
-    }, [students])
-
-    const columns: GridColDef[] = [
-        {
-            field: 'name',
-            headerName: 'Tên',
-        },
-        {
-            field: 'course',
-            headerName: 'Khoá học',
-        },
-        {
-            field: 'operate',
-            headerName: 'Phương thức vận hành',
-        },
-        {
-            field: 'state',
-            headerName: 'Trạng thái',
-        },
-        {
-            field: 'start',
-            headerName: 'Bắt đầu',
-        },
-        {
-            field: 'countTime',
-            headerName: 'Giờ',
-        },
-        {
-            field: 'mostLesson',
-            headerName: 'LSC',
-        },
-        {
-            field: 'countStudent',
-            headerName: 'SC',
-        },
-        {
-            field: 'countTeacher',
-            headerName: 'TC',
-        },
-        {
-            field: 'lecturer',
-            headerName: 'UC',
-        },
-        {
-            field: 'createAt',
-            headerName: 'CA',
-        },
-        {
-            field: 'updateAt',
-            headerName: 'LUA',
-        }
-    ];
+    }, [props.classSend]);
 
     useEffect(() => {
         if (elementRef.current) {
@@ -423,68 +151,89 @@ export default function ClassMain() {
     ])
 
     const handleShowStudent = (id: string) => {
-        let findStu = students.filter((student: any) => student.id === id)
-        findStu = findStu[0];
-
-        SetDetailStu([{
-            title: 'ref id',
-            content: findStu?.id,
-        },
-        {
-            title: 'name',
-            content: findStu?.name,
-        },
-        {
-            title: 'course',
-            content: findStu?.course,
-        },
-        {
-            title: 'operate',
-            content: findStu?.operate,
-        },
-        {
-            title: 'state',
-            content: findStu?.state,
-        },
-        {
-            title: 'start',
-            content: findStu?.start,
-        },
-        {
-            title: 'countTime',
-            content: findStu?.countTime,
-        },
-        {
-            title: 'mostLesson',
-            content: findStu?.mostLesson,
-        },
-        {
-            title: 'countStudent',
-            content: findStu?.countStudent,
-        },
-        {
-            title: 'countTeacher',
-            content: findStu?.countTeacher,
-        },
-        {
-            title: 'lecturer',
-            content: findStu?.lecturer,
-        },
-        {
-            title: 'createAt',
-            content: findStu?.createAt,
-        },
-        {
-            title: 'updateAt',
-            content: findStu?.updateAt,
-        }]);
-
+        let findStu: ClassData | undefined = undefined;
+        if (rows) {
+            const foundStudents = rows.filter((student: ClassData) => student.id === id);
+            if (foundStudents.length > 0) {
+                findStu = foundStudents[0];
+            }
+        }
     };
 
 
     const handleChange = (e: any) => {
-        // Handle change logic here if needed
     };
+
+    const columns: GridColDef[] = [
+        {
+            field: 'name',
+            headerName: 'Tên',
+        },
+        {
+            field: 'course',
+            headerName: 'Khoá học',
+        },
+        {
+            field: 'operate',
+            headerName: 'Phương thức vận hành',
+        },
+        {
+            field: 'state',
+            headerName: 'Trạng thái',
+        },
+        {
+            field: 'start',
+            headerName: 'Bắt đầu',
+        },
+        {
+            field: 'countTime',
+            headerName: 'Giờ',
+        },
+        {
+            field: 'mostLesson',
+            headerName: 'LSC',
+        },
+        {
+            field: 'countStudent',
+            headerName: 'SC',
+        },
+        {
+            field: 'countTeacher',
+            headerName: 'TC',
+        },
+        {
+            field: 'lecturer',
+            headerName: 'UC',
+        },
+        {
+            field: 'createdAt',
+            headerName: 'CA',
+        },
+        {
+            field: 'updatedAt',
+            headerName: 'LUA',
+        }
+    ];
+
+    const [stateDrawer, setStateDrawer] = useState({
+        top: false,
+        left: false,
+        bottom: false,
+        right: false,
+    });
+
+    const toggleDrawer = (anchor: Anchor, open: boolean) =>
+        (event: React.KeyboardEvent | React.MouseEvent) => {
+            if (
+                event.type === 'keydown' &&
+                ((event as React.KeyboardEvent).key === 'Tab' ||
+                    (event as React.KeyboardEvent).key === 'Shift')
+            ) {
+                return;
+            }
+
+            setStateDrawer({ ...stateDrawer, [anchor]: open });
+        };
     return (
         <StyleContent>
             <h3>Class</h3>
@@ -580,110 +329,27 @@ export default function ClassMain() {
                     <StyleButton variant="contained"><ClearIcon /> Xoá</StyleButton>
                 </StyleBoxSearch2>
             </Grid>
-            <Box
-                sx={{
-                    height: 'auto',
-                    maxHeight: '85%',
-                    width: '100%',
-                    ".MuiDataGrid-columnHeaderTitle": {
-                        color: "rgb(35,50,85,0.8)",
-                        fontSize: '15px'
-                    },
-                    ".MuiDataGrid-cellContent": {
-                        color: "rgb(35,50,85,0.7)",
-                        fontSize: '14px'
-                    },
-                    ".MuiDataGrid-columnHeaders": {
-                        background: "#F8F8F8",
-                        border: '0.5px solid rgb(35,50,85,0.1) !important'
-                    },
-                    ".MuiDataGrid-row": {
-                        background: 'white',
-                        border: '0.5px solid rgb(35,50,85,0.1) !important',
-                        width: '100% !important'
-                    },
-                    ".MuiDataGrid-virtualScrollerRenderZone": {
-                        width: '100% !important'
-                    },
-                    ".MuiSvgIcon-root": {
-                        width: '15px',
-                        height: '15px'
-                    },
-                    ".MuiCheckbox-root": {
-                        color: 'rgb(35,50,85,0.1)'
-                    },
-                    ".MuiDataGrid-cell[data-colindex='1']": {
-                        minWidth: "16% !important",
-                        maxWidth: "16% !important"
-                    },
-                    ".MuiDataGrid-cell[data-colindex='2']": {
-                        minWidth: "22% !important",
-                        maxWidth: "22% !important",
-                    },
-                    ".MuiDataGrid-cell[data-colindex='3']": {
-                        minWidth: "22% !important",
-                        maxWidth: "22% !important",
-                    },
-                    ".MuiDataGrid-cell[data-colindex='4']": {
-                        minWidth: "16% !important",
-                        maxWidth: "16% !important",
-                    },
-                    ".MuiDataGrid-cell[data-colindex='5']": {
-                        minWidth: "24% !important",
-                        maxWidth: "24% !important",
-                    },
-                    ".MuiDataGrid-columnHeader[aria-colindex='2']": {
-                        minWidth: "16% !important",
-                        maxWidth: "16% !important"
-                    },
-                    ".MuiDataGrid-columnHeader[aria-colindex='3']": {
-                        minWidth: "22% !important",
-                        maxWidth: "22% !important",
-                    },
-                    ".MuiDataGrid-columnHeader[aria-colindex='4']": {
-                        minWidth: "22% !important",
-                        maxWidth: "22% !important",
-                    },
-                    ".MuiDataGrid-columnHeader[aria-colindex='5']": {
-                        minWidth: "16% !important",
-                        maxWidth: "16% !important",
-                    },
-                    ".MuiDataGrid-columnHeader[aria-colindex='6']": {
-                        minWidth: "24% !important",
-                        maxWidth: "24% !important",
-                    },
-                    ".MuiDataGrid-columnHeadersInner": {
-                        width: '100%',
-                    },
-                    ".css-yrdy0g-MuiDataGrid-columnHeaderRow": {
-                        width: '100%'
-                    },
-                    ".MuiTablePagination-displayedRows": {
-                        display: 'none'
-                    },
-                    ".MuiDataGrid-virtualScrollerContent": {
-                        minHeight: '30vh !important'
-                    },
-
-                }}
-            >
-                <DataGrid
-                    onRowClick={(e: any) => handleShowStudent(e.id)}
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 10,
+            <StyleBoxTable>
+                {
+                    rows && rows.length > 0 ? <><DataGrid
+                        onRowClick={(e: any) => handleShowStudent(e.id)}
+                        rows={rows}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 10,
+                                },
                             },
-                        },
-                    }}
-                    pageSizeOptions={[5]}
-                    checkboxSelection
-                    disableRowSelectionOnClick
-                />
-                <StyleCountStu>Showing 1 - 10 of {rows.length} </StyleCountStu>
-            </Box>
+                        }}
+                        pageSizeOptions={[5]}
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                    />
+                        <StyleCountStu>Showing 1 - 10 of {rows.length} </StyleCountStu></> : <LinearProgress />
+                }
+
+            </StyleBoxTable>
         </StyleContent>
     );
 }

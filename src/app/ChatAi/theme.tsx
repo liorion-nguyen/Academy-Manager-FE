@@ -31,7 +31,7 @@ import ThemeMessage from "../../components/ChatAi/theme.message";
 import EmotionalMessage from "../../components/ChatAi/emotional.message";
 import NickName from "../../components/ChatAi/nickname.message";
 import Gif from "../../components/ChatAi/gif.message";
-import { MessageActions } from "@/redux/chat/chat";
+import { MessageActions } from "@/redux/chat";
 import Icon from "../../components/ChatAi/icon.message";
 import { StyleBoxColumn, StyleRowGap20, StyleRowGap5 } from "../style-mui";
 

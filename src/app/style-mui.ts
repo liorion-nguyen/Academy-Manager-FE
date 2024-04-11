@@ -73,13 +73,14 @@ export const StyleBoxInBoxUser = muiStyled(Box)(({ theme }) => ({
 export const StyleNameUser = muiStyled('p')(({ theme }) => ({
     color: "rgb(35,50,85, 0.8)",
     fontSize: "14px",
+    fontWeight: '500'
 }));
 
 export const StyleBoxUserDisplay = muiStyled(Box)(({ theme }) => ({
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '90%'
 }));
 
 export const StyleCalendarEvent = muiStyled(StyleBoxColumn)(({ theme }) => ({
@@ -158,8 +159,8 @@ export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     flexDirection: 'column',
     padding: '10px',
     width: '100%',
-    height: '80%',
-    position: 'relative'
+    position: 'relative',
+    height: '100%'
 }));
 
 export const StyleNavLeft = muiStyled(Box)(({ theme }) => ({
@@ -247,8 +248,9 @@ export const StyleDashboardCard = muiStyled(Grid)(({ theme }) => ({
 export const StyleContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     margin: '170px 0 0 100px',
     gap: "50px",
-    height: "calc(100vh - 110px - 100px) !important",
-    overflow: 'scroll'
+    // height: "calc(100vh - 120px - 100px) !important",
+    height: '100%',
+    overflow: 'auto'
 }));
 
 export const StyleCircle = muiStyled(Box)(({ width, height, theme }) => ({
@@ -344,7 +346,7 @@ export const StyleTitleTable = muiStyled('p')(({ theme }) => ({
     fontSize: "20px"
 }));
 
-export const StyleViewAllTable = muiStyled('p')(({ theme }) => ({
+export const StyleViewAllTable = muiStyled('a')(({ theme }) => ({
     color: "rgb(35,50,85,0.6)",
     fontSize: "14px"
 }));

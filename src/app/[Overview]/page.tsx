@@ -1,6 +1,6 @@
 "use client"
 import { Box } from "@mui/system";
-import { Breadcrumbs, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Breadcrumbs, Button, Grid, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { StyleBoxUser, StyleGridLeft, StyleGridUserNotification, StyleBoxNotification, StyleImgLeft, StyleBoxAvatarUser, StyleNameUser, StyleBoxInBoxUser, StyleIconDown, StyleBoxUserDisplay, StyleCalendarEvent, StyleEvent, StyleH3TitleEvent, StyleBoxButton, StyleBoxNote, StyleContentNote, StyleTitleNote, StyleTimeNote, StyleNote, StyleCalendar, StyleComponent, StyleGridRight, StyleNavLeft, StyleIconNavLeft, StyleBoxIconNavLeft, StyleBoxHeader, StyleLinkPoint, StyleTypographyPoint, StyleContent, StyleSearch, StyleInpSearch, StyleHeaderTop, StyleDashboardCard, StyleCircle, StyleProcessBar, StyleTitleCard, StyleContentCard, StyleSumCoundCard, StyleBoxIndexFirst, StyleBoxIndexSecond, StyleRowGap5, StyleRowGap20, StyleColumnGap10, StyleTitleGrap, StyleDashboardCardGrap, StyleBoxCardGrap, StyleTable, StyleTitleTable, StyleViewAllTable, StyleHeadTable } from "../style-mui";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
@@ -25,20 +25,75 @@ import PeopleExtra from "../People/extra";
 import ClassMain from "../Class/main";
 import ClassExtra from "../Class/extra";
 import ChatAiExtra from "../ChatAi/extra";
-import Image from "next/image";
+import { GetUsers } from "@/api/user";
+import { GetClass } from "@/api/class";
+interface createData {
+    name: string,
+    id: string,
+    role: string,
+    gender: string,
+    email: string,
+}
 export default function Overview({ params }: any) {
-    var title = params.Overview;
-    const router = useRouter();
+    const [user, setUser] = useState<any>(null);
+    const [users, setUsers] = useState<any>(null);
+    const [detailUsers, setDetailUsers] = useState<any>(null);
+    const [timer, setTimer] = useState<Date>(new Date());
+    const [classData, setClassData] = useState<any>(null);
+    
+    function createData(
+        name: string,
+        id: string,
+        role: string,
+        gender: string,
+        email: string,
+    ) {
+        return { name, id, role, gender, email };
+    }
+
+    const [rows, setRows] = useState<createData[] | null>(null);
 
     useEffect(() => {
-        checkLogin().then((e) => {
-            if (e) {
-                router.push(`/${title}`)
+        const handleGetClass = async () => {
+            const classFake = await GetClass();
+            setClassData(classFake);
+        }
+        handleGetClass();
+    }, [])
+
+    useEffect(() => {
+        const handleCheckCookie = async () => {
+            const userInfo = await checkLogin();
+            if (userInfo) {
+                setUser(userInfo);
+                if (title === "Overview") {
+                    const usersInfo = await GetUsers();
+                    let countMale = 0;
+                    let rowsFake: createData[] = [];
+                    usersInfo.map((item: any) => {
+                        if (item.gender === "male") countMale += 1;
+                        rowsFake.push(createData(item.fullName, item.id, item.role, item.gender, item.email));
+                    });
+                    setDetailUsers({
+                        gender: {
+                            sum: usersInfo.length,
+                            male: countMale,
+                            female: usersInfo.length - countMale
+                        }
+                    });
+                    setUsers(usersInfo);
+                    setRows(rowsFake);
+                }
+                router.push(`/${title}`);
                 return;
+            } else {
+                router.push('/login');
             }
-            router.push('/login')
-        })
-    }, [title])
+        };
+        handleCheckCookie();
+    }, []);
+    var title = params.Overview;
+    const router = useRouter();
     const chartSetting = {
         yAxis: [
             {
@@ -116,24 +171,6 @@ export default function Overview({ params }: any) {
         },
     ];
 
-    function createData(
-        name: string,
-        id: string,
-        role: string,
-        gender: string,
-        email: string,
-    ) {
-        return { name, id, role, gender, email };
-    }
-
-    const rows = [
-        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
-        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
-        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
-        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
-        createData('ActivEdge Technologies', 'AET154-5671', "Teacher", "Male", "activedgetecnologies@gmail.com"),
-    ];
-
     const valueFormatter = (value: number) => `${value}mm`;
     const Notes = [{
         title: "Saturday",
@@ -174,7 +211,6 @@ export default function Overview({ params }: any) {
     }, []);
 
     const pathname = usePathname()
-    
 
     return (
         <>
@@ -184,14 +220,14 @@ export default function Overview({ params }: any) {
                     <StyleGridUserNotification container spacing={2}>
                         <StyleGridRight item xs={9} ref={elementRef}>
                             <Header value={elementWidth} />
-                            {pathname === "/Student" && <PeopleMain people="Student"/>}
-                            {pathname === "/Teacher" && <PeopleMain people="Teacher"/>}
-                            {pathname === "/Class" && <ClassMain />}
+                            {pathname === "/Student" && <PeopleMain people="Student" />}
+                            {pathname === "/Teacher" && <PeopleMain people="Teacher" />}
+                            {pathname === "/Class" && <ClassMain classSend={classData}/>}
                             {pathname === "/ChatAi" && <ChatAiMain />}
                             {(pathname === "/Overview") && <StyleContent>
                                 <Grid container spacing={2}>
                                     <StyleDashboardCard item xs={4}>
-                                        <StyleCircle width={61} height={39}>
+                                        <StyleCircle width={(detailUsers?.gender.female / detailUsers?.gender.sum) * 100 || 50} height={(detailUsers?.gender.male / detailUsers?.gender.sum) * 100 || 50}>
                                             <StyleProcessBar>
                                                 <img src="/Images/admin/icon_student.svg" />
                                             </StyleProcessBar>
@@ -202,14 +238,20 @@ export default function Overview({ params }: any) {
                                                 <StyleRowGap20>
                                                     <StyleRowGap5>
                                                         <StyleBoxIndexFirst></StyleBoxIndexFirst>
-                                                        <StyleContentCard>male (61%)</StyleContentCard>
+                                                        {
+                                                            detailUsers ? <StyleContentCard>male ({detailUsers.gender.male}%)</StyleContentCard> : <Skeleton width={70} height={20} />
+                                                        }
                                                     </StyleRowGap5>
                                                     <StyleRowGap5>
                                                         <StyleBoxIndexSecond></StyleBoxIndexSecond>
-                                                        <StyleContentCard>Female (39%)</StyleContentCard>
+                                                        {
+                                                            detailUsers ? <StyleContentCard>Female ({detailUsers.gender.female}%)</StyleContentCard> : <Skeleton width={70} height={20} />
+                                                        }
                                                     </StyleRowGap5>
                                                 </StyleRowGap20>
-                                                <StyleSumCoundCard>308</StyleSumCoundCard>
+                                                {
+                                                    detailUsers ? <StyleSumCoundCard>{detailUsers.gender.sum}</StyleSumCoundCard> : <Skeleton width={60} height={35} />
+                                                }
                                             </StyleColumnGap10>
                                         </Box>
                                     </StyleDashboardCard>
@@ -225,14 +267,20 @@ export default function Overview({ params }: any) {
                                                 <StyleRowGap20>
                                                     <StyleRowGap5>
                                                         <StyleBoxIndexFirst></StyleBoxIndexFirst>
-                                                        <StyleContentCard>male (55%)</StyleContentCard>
+                                                        {
+                                                            user ? <StyleContentCard>male (55%)</StyleContentCard> : <Skeleton width={70} height={20} />
+                                                        }
                                                     </StyleRowGap5>
                                                     <StyleRowGap5>
                                                         <StyleBoxIndexSecond></StyleBoxIndexSecond>
-                                                        <StyleContentCard>Female (45%)</StyleContentCard>
+                                                        {
+                                                            user ? <StyleContentCard>Female (45%)</StyleContentCard> : <Skeleton width={70} height={20} />
+                                                        }
                                                     </StyleRowGap5>
                                                 </StyleRowGap20>
-                                                <StyleSumCoundCard>100</StyleSumCoundCard>
+                                                {
+                                                    user ? <StyleSumCoundCard>308</StyleSumCoundCard> : <Skeleton width={60} height={35} />
+                                                }
                                             </StyleColumnGap10>
                                         </Box>
                                     </StyleDashboardCard>
@@ -248,14 +296,20 @@ export default function Overview({ params }: any) {
                                                 <StyleRowGap20>
                                                     <StyleRowGap5>
                                                         <StyleBoxIndexFirst></StyleBoxIndexFirst>
-                                                        <StyleContentCard>male (50%)</StyleContentCard>
+                                                        {
+                                                            user ? <StyleContentCard>Female (45%)</StyleContentCard> : <Skeleton width={70} height={20} />
+                                                        }
                                                     </StyleRowGap5>
                                                     <StyleRowGap5>
                                                         <StyleBoxIndexSecond></StyleBoxIndexSecond>
-                                                        <StyleContentCard>Female (50%)</StyleContentCard>
+                                                        {
+                                                            user ? <StyleContentCard>Female (45%)</StyleContentCard> : <Skeleton width={70} height={20} />
+                                                        }
                                                     </StyleRowGap5>
                                                 </StyleRowGap20>
-                                                <StyleSumCoundCard>50</StyleSumCoundCard>
+                                                {
+                                                    user ? <StyleSumCoundCard>308</StyleSumCoundCard> : <Skeleton width={60} height={35} />
+                                                }
                                             </StyleColumnGap10>
                                         </Box>
                                     </StyleDashboardCard>
@@ -316,7 +370,7 @@ export default function Overview({ params }: any) {
                                 <StyleTable>
                                     <StyleHeadTable>
                                         <StyleTitleTable>Recently registered users</StyleTitleTable>
-                                        <StyleViewAllTable>view all users</StyleViewAllTable>
+                                        <StyleViewAllTable href="./Users">view all users</StyleViewAllTable>
                                     </StyleHeadTable>
                                     <TableContainer component={Paper}>
                                         <Table aria-label="simple table"
@@ -356,20 +410,34 @@ export default function Overview({ params }: any) {
                                                     }
                                                 }}
                                             >
-                                                {rows.map((row) => (
-                                                    <TableRow
-                                                        key={row.name}
-                                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                    >
-                                                        <TableCell component="th" scope="row">
-                                                            {row.name}
-                                                        </TableCell>
-                                                        <TableCell align="right">{row.id}</TableCell>
-                                                        <TableCell align="right">{row.role}</TableCell>
-                                                        <TableCell align="right">{row.gender}</TableCell>
-                                                        <TableCell align="right">{row.email}</TableCell>
-                                                    </TableRow>
-                                                ))}
+                                                {
+                                                    rows ? rows.map((row: any, index: number) => (
+                                                        <TableRow
+                                                            key={index}
+                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                        >
+                                                            <TableCell component="th" scope="row">
+                                                                {row.name}
+                                                            </TableCell>
+                                                            <TableCell align="right">{row.id}</TableCell>
+                                                            <TableCell align="right">{row.role}</TableCell>
+                                                            <TableCell align="right">{row.gender}</TableCell>
+                                                            <TableCell align="right">{row.email}</TableCell>
+                                                        </TableRow>
+                                                    )) :
+                                                        Array.from({ length: 4 }).map((_, index) => (
+                                                            <TableRow
+                                                                key={index}
+                                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                            >
+                                                                <TableCell component="th" scope="row"><Skeleton width={140} height={25} /></TableCell>
+                                                                <TableCell align="right"><Skeleton width={140} height={25} /></TableCell>
+                                                                <TableCell align="right"><Skeleton width={140} height={25} /></TableCell>
+                                                                <TableCell align="right"><Skeleton width={140} height={25} /></TableCell>
+                                                                <TableCell align="right"><Skeleton width={140} height={25} /></TableCell>
+                                                            </TableRow>
+                                                        ))
+                                                }
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
@@ -381,82 +449,82 @@ export default function Overview({ params }: any) {
                         <StyleGridLeft item xs={3}>
                             <MenuUser />
 
-                            {pathname === "/Student" && <PeopleExtra people="Student"/>}
-                            {pathname === "/Teacher" && <PeopleExtra people="Teacher"/>}
+                            {pathname === "/Student" && <PeopleExtra people="Student" />}
+                            {pathname === "/Teacher" && <PeopleExtra people="Teacher" />}
                             {pathname === "/ChatAi" && <ChatAiExtra />}
                             {pathname === "/Class" && <ClassExtra />}
 
                             {pathname === "/Overview" &&
-                            <StyleCalendarEvent>
-                                <StyleCalendar>
-                                    <LocalizationProvider
-                                        dateAdapter={AdapterDayjs}>
-                                        <DemoContainer
-                                            sx={{
-                                                ".MuiPickersToolbar-root": {
-                                                    display: 'none'
-                                                },
-                                                ".MuiDialogActions-root": {
-                                                    display: 'none'
-                                                },
-                                                ".MuiPickersCalendarHeader-label": {
-                                                    color: '#7FBDE4',
-                                                    fontSize: '16px'
-                                                },
-                                                ".MuiPickersCalendarHeader-switchViewButton": {
-                                                    display: 'none'
-                                                },
-                                                ".MuiSvgIcon-fontSizeInherit": {
-                                                    color: "#7FBDE4"
-                                                },
-                                                ".css-1u23akw-MuiButtonBase-root-MuiPickersDay-root.Mui-selected": {
-                                                    borderRadius: '5px',
-                                                    background: '#7FBDE4',
-                                                    color: '#FFFFFF'
-                                                },
-                                                ".MuiPickersLayout-root": {
-                                                    borderRadius: '10px'
-                                                }
-                                            }}
-                                            components={[
-                                                'DatePicker',
-                                                'MobileDatePicker',
-                                                'DesktopDatePicker',
-                                                'StaticDatePicker',
-                                            ]}
-                                        >
-                                            <StaticDatePicker defaultValue={dayjs('2022-04-17')} />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
-                                </StyleCalendar>
-                                <StyleEvent>
-                                    <StyleH3TitleEvent>Upcoming events</StyleH3TitleEvent>
-                                    <StyleBoxButton sx={{
-                                        ".MuiButton-outlinedPrimary": {
-                                            border: "1px solid rgb(127,189,228,0.8)",
-                                            borderRadius: "21px",
-                                            fontSize: '10px',
-                                            minWidth: '50px',
-                                        }
-                                    }}>
-                                        <Button sx={{ background: timeNote === "all" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "all" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("all")}>All</Button>
-                                        <Button sx={{ background: timeNote === "today" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "today" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("today")}>Today</Button>
-                                        <Button sx={{ background: timeNote === "weekly" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "weekly" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("weekly")}>Weekly</Button>
-                                        <Button sx={{ background: timeNote === "monthly" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "monthly" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("monthly")}>Monthly</Button>
-                                    </StyleBoxButton>
-                                    <StyleNote>
-                                        {
-                                            Notes.map((note, index) => (
-                                                <StyleBoxNote color={(note.color)} key={index}>
-                                                    <StyleTitleNote>{note.title}</StyleTitleNote>
-                                                    <StyleContentNote>{note.content}</StyleContentNote>
-                                                    <StyleTimeNote>{note.date}</StyleTimeNote>
-                                                </StyleBoxNote>
-                                            ))
-                                        }
-                                    </StyleNote>
-                                </StyleEvent>
-                            </StyleCalendarEvent>}
+                                <StyleCalendarEvent>
+                                    <StyleCalendar>
+                                        <LocalizationProvider
+                                            dateAdapter={AdapterDayjs}>
+                                            <DemoContainer
+                                                sx={{
+                                                    ".MuiPickersToolbar-root": {
+                                                        display: 'none'
+                                                    },
+                                                    ".MuiDialogActions-root": {
+                                                        display: 'none'
+                                                    },
+                                                    ".MuiPickersCalendarHeader-label": {
+                                                        color: '#7FBDE4',
+                                                        fontSize: '16px'
+                                                    },
+                                                    ".MuiPickersCalendarHeader-switchViewButton": {
+                                                        display: 'none'
+                                                    },
+                                                    ".MuiSvgIcon-fontSizeInherit": {
+                                                        color: "#7FBDE4"
+                                                    },
+                                                    ".css-1u23akw-MuiButtonBase-root-MuiPickersDay-root.Mui-selected": {
+                                                        borderRadius: '5px',
+                                                        background: '#7FBDE4',
+                                                        color: '#FFFFFF'
+                                                    },
+                                                    ".MuiPickersLayout-root": {
+                                                        borderRadius: '10px'
+                                                    }
+                                                }}
+                                                components={[
+                                                    'DatePicker',
+                                                    'MobileDatePicker',
+                                                    'DesktopDatePicker',
+                                                    'StaticDatePicker',
+                                                ]}
+                                            >
+                                                <StaticDatePicker defaultValue={dayjs(`${timer.getFullYear()}-${timer.getMonth()}-${timer.getDate()}`)} />
+                                            </DemoContainer>
+                                        </LocalizationProvider>
+                                    </StyleCalendar>
+                                    <StyleEvent>
+                                        <StyleH3TitleEvent>Upcoming events</StyleH3TitleEvent>
+                                        <StyleBoxButton sx={{
+                                            ".MuiButton-outlinedPrimary": {
+                                                border: "1px solid rgb(127,189,228,0.8)",
+                                                borderRadius: "21px",
+                                                fontSize: '10px',
+                                                minWidth: '50px',
+                                            }
+                                        }}>
+                                            <Button sx={{ background: timeNote === "all" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "all" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("all")}>All</Button>
+                                            <Button sx={{ background: timeNote === "today" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "today" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("today")}>Today</Button>
+                                            <Button sx={{ background: timeNote === "weekly" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "weekly" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("weekly")}>Weekly</Button>
+                                            <Button sx={{ background: timeNote === "monthly" ? "rgb(35,50,85,0.8)" : "transparent", color: timeNote === "monthly" ? "#FFD791" : "rgb(2,189,228,0.8)", }} variant="outlined" onClick={() => handleChangeTimeNote("monthly")}>Monthly</Button>
+                                        </StyleBoxButton>
+                                        <StyleNote>
+                                            {
+                                                Notes.map((note, index) => (
+                                                    <StyleBoxNote color={(note.color)} key={index}>
+                                                        <StyleTitleNote>{note.title}</StyleTitleNote>
+                                                        <StyleContentNote>{note.content}</StyleContentNote>
+                                                        <StyleTimeNote>{note.date}</StyleTimeNote>
+                                                    </StyleBoxNote>
+                                                ))
+                                            }
+                                        </StyleNote>
+                                    </StyleEvent>
+                                </StyleCalendarEvent>}
 
                         </StyleGridLeft>
                     </StyleGridUserNotification>

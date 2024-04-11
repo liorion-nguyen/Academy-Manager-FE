@@ -2,7 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box, ImageList, ImageListItem, Tab, Tabs } from "@mui/material";
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MessageActions } from "@/redux/chat/chat";
+import { MessageActions } from "@/redux/chat";
 import { BoxSearchMui, GifMui, IconSearchMui, InputSearchMui } from "../../app/ChatAi/style-mui";
 import Image from 'next/image';
 

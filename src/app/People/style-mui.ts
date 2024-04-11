@@ -1,6 +1,7 @@
 "use client"
 import { Box, Button, Grid } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
+import { StyleBoxTable } from "../Class/style-mui";
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
     display: "flex",
@@ -19,7 +20,8 @@ export const StyleDetailStudent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     justifyContent: 'space-between',
     padding: '30px 20px',
     boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
-    gap: "20px"
+    gap: "20px",
+    minHeight: '700px'
 }));
 
 export const StyleTitleDetailStu = muiStyled('p')(({ theme }) => ({
@@ -105,7 +107,20 @@ export const StyleSearch = muiStyled(StyleBoxRow)(({ theme }) => ({
 export const StyleFilter = muiStyled(Grid)(({ theme }) => ({
     borderTop: '1px solid rgb(35,50,85,0.1)',
     borderBottom: '1px solid rgb(35,50,85,0.1)',
-    paddingBottom: '16px'
+    paddingBottom: '16px',
+    "em": {
+        color: 'rgb(35,50,85,0.8)',
+        fontSize: '16px'
+    },
+    ".MuiInputBase-input": {
+        background: 'white'
+    },
+    ".MuiFormControl-root": {
+        width: '100%'
+    },
+    ".MuiOutlinedInput-notchedOutline": {
+        border: '0.5px solid #E5E5E5 !important'
+    }
 }));
 
 export const StyleCountStu = muiStyled('p')(({ theme }) => ({
@@ -114,4 +129,10 @@ export const StyleCountStu = muiStyled('p')(({ theme }) => ({
     padding: "20px 10px",
     background: "white",
     marginBottom: '3px'
+}));
+
+export const StyleBoxTable2 = muiStyled(StyleBoxTable)(({ theme }) => ({
+    ".MuiDataGrid-virtualScrollerContent": {
+        minHeight: '45vh !important'
+    }
 }));
