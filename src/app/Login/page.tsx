@@ -43,15 +43,25 @@ interface notify {
 
 export default function Login() {
   const router = useRouter();
+  async function Auth(request: account) {
+    const data = await Request.post("/auth/login", request);
+    return data;
+  }
   useEffect(() => {
-    checkLogin().then((e) => {
-      if (e) {
-        router.push("/")
-        return;
+    const handleLoginCheck = async () => {
+      try {
+        const loggedIn = await checkLogin();
+        if (loggedIn) {
+          router.push("/Overview")
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking login status:', error);
       }
-      router.push('/login')
-    });
-  }, [router])
+    };
+    handleLoginCheck();
+  }, []);
+
   const [account, setAccount] = useState<account>({ email: "", password: "", agree: false });
   const [notify, setNotify] = useState<notify>({
     open: false,
@@ -73,10 +83,10 @@ export default function Login() {
       });
       error.push('isChecked');
     }
-    if (account.password.length < 9) {
+    if (account.password.length < 5) {
       setNotify({
         open: true,
-        message: "Vui lòng nhập mật khẩu lớn hơn 8 kí tự !",
+        message: "Vui lòng nhập mật khẩu lớn hơn 5 kí tự !",
         severity: "error",
       });
       error.push('pass')
@@ -94,11 +104,10 @@ export default function Login() {
     if (error.length > 0) {
       return;
     }
-
     try {
       const data = await Auth(account);
       if (data.access_token) {
-        Cookies.set("access", data.access_token, { expires: 1 });
+        Cookies.set("academy_manager", data.access_token, { expires: 1 });
         setNotify({
           open: true,
           message: "Đăng nhập thành công",
@@ -106,7 +115,7 @@ export default function Login() {
         });
         setTimeout(() => {
           router.push("/Overview");
-        }, 1200);
+        }, 500);
       } else {
         setNotify({
           open: true,
@@ -117,7 +126,7 @@ export default function Login() {
     } catch (error) {
       setNotify({
         open: true,
-        message: "Email hoặc mật khẩu không chính xác!",
+        message: "Fetch error!",
         severity: "error",
       });
     }
@@ -178,9 +187,4 @@ export default function Login() {
       </StyleBoxMain>
     </>
   );
-}
-
-async function Auth(request: account) {
-  const data = await Request.post("/auth/login", request);
-  return data;
 }

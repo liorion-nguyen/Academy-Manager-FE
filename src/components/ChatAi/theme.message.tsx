@@ -1,7 +1,7 @@
 import { Box, Button, DialogActions, DialogContent, DialogTitle, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MessageActions } from "@/redux/chat/chat";
+import { MessageActions } from "@/redux/chat";
 import { BoxThemeMui, DialogContentMui, DialogTitleMui, GridThemeMui } from "../../app/ChatAi/style-mui";
 
 export default function ThemeMessage(props: { theme: string }) {

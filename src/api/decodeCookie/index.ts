@@ -1,10 +1,7 @@
 import jwt from 'jsonwebtoken';
 export const verifyToken = (token: string) => {
   try {
-    console.log("token: ", token);
-    
-    const decoded = jwt.verify(token, 'duy');
-    console.log("decoded: ", decoded);
+    const decoded = jwt.verify(token, 'academy_manager');
     return decoded;
   } catch (error) {
     console.error('Invalid token:', error);

@@ -4,7 +4,7 @@ import Icon from "./icon.message";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useDispatch, useSelector } from "react-redux";
 import { BoxCoverRMMui, BoxRemoveMui, DialogContentMui, DialogTitleMui } from "../../app/ChatAi/style-mui";
-import { MessageActions } from "@/redux/chat/chat";
+import { MessageActions } from "@/redux/chat";
 
 export default function EmotionalMessage(props: { emoji: string }) {
     const basicInformation = useSelector((state: any) => state.message.basicinformation);

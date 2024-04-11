@@ -116,7 +116,7 @@ export const StyleBoxAgree = muiStyled(StyleBoxRow)(({ theme }) => ({
 }))
 
 export const StylePAgree = muiStyled('p')(({ theme }) => ({
-    fontSize: '16px',
+    fontSize: '15px',
     color: 'rgb(35,50,85,0.8)'
 }))
 

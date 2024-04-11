@@ -5,7 +5,7 @@ import { AvatarSizeMessMui, BoxInpNicknameMui, DialogContentMui, DialogTitleMui,
 import CheckIcon from '@mui/icons-material/Check';
 import { Contact, Nickname } from "@/app/ChatAi/schema";
 import { useDispatch, useSelector } from "react-redux";
-import { MessageActions } from "@/redux/chat/chat";
+import { MessageActions } from "@/redux/chat";
 
 export default function NickName(props: { nickname: Nickname, author: Contact, audiences: Contact }) {
     const [currentNickname, setCurrentNickname] = useState(props.nickname);
