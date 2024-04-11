@@ -1,5 +1,5 @@
 "use client"
-import { Box, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
@@ -14,7 +14,7 @@ export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
 export const StyleMain = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: "100%",
     height: "100vh",
-    maxWidth: '1440px',
+    // maxWidth: '1440px',
     position: 'relative'
 }));
 
@@ -133,4 +133,10 @@ export const StyleBoxMain = muiStyled(StyleBoxColumn)(({ theme }) => ({
     width: "100%",
     height: '100%',
     alignItems: 'center'
+}))
+
+export const StyleCircularProgress = muiStyled(CircularProgress)(({ theme }) => ({
+    color: "#7f7f80",
+    width: '30px !important',
+    height: '30px !important',
 }))

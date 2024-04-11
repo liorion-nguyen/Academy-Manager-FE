@@ -6,8 +6,11 @@ import { Button, Menu, MenuItem, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { checkLogin } from "@/api/readtime";
+import { useDispatch } from "react-redux";
+import { UserActions } from "@/redux/user";
 
 export default function MenuUser() {
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,6 +24,7 @@ export default function MenuUser() {
         const handleCheckCookie = async () => {
             const userInfo = await checkLogin();
             setUser(userInfo);
+            dispatch(UserActions.setUser(userInfo));
         }
         handleCheckCookie();
     }, [])

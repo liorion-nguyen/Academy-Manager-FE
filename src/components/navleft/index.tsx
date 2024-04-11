@@ -1,6 +1,5 @@
 import { StyleBoxIconNavLeft, StyleIconNavLeft, StyleImgLeft, StyleNavLeft } from "@/app/style-mui";
 import { Box } from "@mui/material";
-import Image from "next/image";
 import { usePathname } from 'next/navigation'
 
 export default function NavLeft() {
@@ -30,7 +29,7 @@ export default function NavLeft() {
             icon: "/Images/admin/icon_navleft/users.svg",
         },
         {
-            href: "ChatAi",
+            href: "/ChatAi",
             icon: "/Images/admin/icon_navleft/messages.svg",
         },
         {

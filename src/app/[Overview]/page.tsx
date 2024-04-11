@@ -1,7 +1,7 @@
 "use client"
 import { Box } from "@mui/system";
-import { Breadcrumbs, Button, Grid, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { StyleBoxUser, StyleGridLeft, StyleGridUserNotification, StyleBoxNotification, StyleImgLeft, StyleBoxAvatarUser, StyleNameUser, StyleBoxInBoxUser, StyleIconDown, StyleBoxUserDisplay, StyleCalendarEvent, StyleEvent, StyleH3TitleEvent, StyleBoxButton, StyleBoxNote, StyleContentNote, StyleTitleNote, StyleTimeNote, StyleNote, StyleCalendar, StyleComponent, StyleGridRight, StyleNavLeft, StyleIconNavLeft, StyleBoxIconNavLeft, StyleBoxHeader, StyleLinkPoint, StyleTypographyPoint, StyleContent, StyleSearch, StyleInpSearch, StyleHeaderTop, StyleDashboardCard, StyleCircle, StyleProcessBar, StyleTitleCard, StyleContentCard, StyleSumCoundCard, StyleBoxIndexFirst, StyleBoxIndexSecond, StyleRowGap5, StyleRowGap20, StyleColumnGap10, StyleTitleGrap, StyleDashboardCardGrap, StyleBoxCardGrap, StyleTable, StyleTitleTable, StyleViewAllTable, StyleHeadTable } from "../style-mui";
+import { Button, Grid, LinearProgress, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { StyleGridLeft, StyleGridUserNotification, StyleCalendarEvent, StyleEvent, StyleH3TitleEvent, StyleBoxButton, StyleBoxNote, StyleContentNote, StyleTitleNote, StyleTimeNote, StyleNote, StyleCalendar, StyleComponent, StyleGridRight, StyleNavLeft, StyleIconNavLeft, StyleBoxIconNavLeft, StyleBoxHeader, StyleLinkPoint, StyleTypographyPoint, StyleContent, StyleSearch, StyleInpSearch, StyleHeaderTop, StyleDashboardCard, StyleCircle, StyleProcessBar, StyleTitleCard, StyleContentCard, StyleSumCoundCard, StyleBoxIndexFirst, StyleBoxIndexSecond, StyleRowGap5, StyleRowGap20, StyleColumnGap10, StyleTitleGrap, StyleDashboardCardGrap, StyleBoxCardGrap, StyleTable, StyleTitleTable, StyleViewAllTable, StyleHeadTable } from "../style-mui";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs from 'dayjs';
@@ -36,11 +36,11 @@ interface createData {
 }
 export default function Overview({ params }: any) {
     const [user, setUser] = useState<any>(null);
-    const [users, setUsers] = useState<any>(null);
     const [detailUsers, setDetailUsers] = useState<any>(null);
     const [timer, setTimer] = useState<Date>(new Date());
     const [classData, setClassData] = useState<any>(null);
-    
+    const [loading, setLoading] = useState(true);
+
     function createData(
         name: string,
         id: string,
@@ -64,6 +64,7 @@ export default function Overview({ params }: any) {
     useEffect(() => {
         const handleCheckCookie = async () => {
             const userInfo = await checkLogin();
+            setLoading(false);
             if (userInfo) {
                 setUser(userInfo);
                 if (title === "Overview") {
@@ -81,7 +82,6 @@ export default function Overview({ params }: any) {
                             female: usersInfo.length - countMale
                         }
                     });
-                    setUsers(usersInfo);
                     setRows(rowsFake);
                 }
                 router.push(`/${title}`);
@@ -211,7 +211,6 @@ export default function Overview({ params }: any) {
     }, []);
 
     const pathname = usePathname()
-
     return (
         <>
             <SpeedInsights />
@@ -222,7 +221,7 @@ export default function Overview({ params }: any) {
                             <Header value={elementWidth} />
                             {pathname === "/Student" && <PeopleMain people="Student" />}
                             {pathname === "/Teacher" && <PeopleMain people="Teacher" />}
-                            {pathname === "/Class" && <ClassMain classSend={classData}/>}
+                            {pathname === "/Class" && <ClassMain classSend={classData} />}
                             {pathname === "/ChatAi" && <ChatAiMain />}
                             {(pathname === "/Overview") && <StyleContent>
                                 <Grid container spacing={2}>
@@ -411,7 +410,7 @@ export default function Overview({ params }: any) {
                                                 }}
                                             >
                                                 {
-                                                    rows ? rows.map((row: any, index: number) => (
+                                                    rows && Array.isArray(rows) && rows.length > 0 ? rows.map((row: any, index: number) => (
                                                         <TableRow
                                                             key={index}
                                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -438,6 +437,7 @@ export default function Overview({ params }: any) {
                                                             </TableRow>
                                                         ))
                                                 }
+
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
@@ -529,6 +529,7 @@ export default function Overview({ params }: any) {
                         </StyleGridLeft>
                     </StyleGridUserNotification>
                 </StyleMain >
+
             </StyleComponent>
         </>
     );

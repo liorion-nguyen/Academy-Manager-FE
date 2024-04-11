@@ -12,6 +12,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearIcon from '@mui/icons-material/Clear';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { StyleCountStu } from "../People/style-mui"; import { GetClass } from "@/api/class";
+import { useDispatch } from "react-redux";
+import { PeopleActions } from "@/redux/people";
 interface ClassData {
     id: string;
     name: string;
@@ -36,6 +38,8 @@ export default function ClassMain(props: { classSend: any }) {
     const [elementWidth, setElementWidth] = useState<number | 1000>(1000);
     const [rows, setRows] = useState<ClassData[]>([]);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         if (props.classSend && props.classSend.length > 0) {
             const dataFake: ClassData[] = props.classSend.map((item: any) => ({
@@ -55,6 +59,7 @@ export default function ClassMain(props: { classSend: any }) {
                 updatedAt: item.updatedAt 
             }));
             setRows(dataFake);
+            dispatch(PeopleActions.setPeople(dataFake[0]));
         }
     }, [props.classSend]);
 
@@ -156,6 +161,7 @@ export default function ClassMain(props: { classSend: any }) {
             const foundStudents = rows.filter((student: ClassData) => student.id === id);
             if (foundStudents.length > 0) {
                 findStu = foundStudents[0];
+                dispatch(PeopleActions.setPeople(findStu));
             }
         }
     };

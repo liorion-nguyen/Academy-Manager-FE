@@ -7,8 +7,6 @@ export default function OverView() {
     useEffect(() => {
         window.location.href = '/Overview';
     }, []);
-
-
     return (
         <StyleBoxBody>
             <CircularProgress />
