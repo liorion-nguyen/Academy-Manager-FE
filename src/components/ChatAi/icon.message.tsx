@@ -10,7 +10,7 @@ export default function Icon() {
     const icons = [
         {
             name: 'Smile face & human figure',
-            src: 'https://cdn-icons-png.flaticon.com/128/569/569501.png',
+            src: '/Images/chat/emoji/open_emoji.png',
             icon: [
                 "😂",
                 "😮",
@@ -1507,7 +1507,7 @@ export default function Icon() {
             >
                 {
                     icons.map((icon) => (
-                        <Tab icon={<Image alt="#" src={icon.src} style={{ width: '20px' }} />} aria-label={icon.name} key={icon.name} />
+                        <Tab icon={<img alt="#" src={icon.src} style={{ width: '20px' }} />} aria-label={icon.name} key={icon.name} />
                     ))
                 }
             </Tabs>

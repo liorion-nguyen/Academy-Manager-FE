@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { MessageActions } from "@/redux/chat";
 import { BoxSearchMui, GifMui, IconSearchMui, InputSearchMui } from "../../app/ChatAi/style-mui";
-import Image from "next/image";
 
 export default function Gif() {
     const gifs = [
@@ -1046,8 +1045,8 @@ export default function Gif() {
                 <ImageList sx={{ width: '100%', maxHeight: '300px' }} cols={4} rowHeight={70}>
                     {gifs[value].gif.map((gif) => (
                         <ImageListItem key={gif.src} className="gif-detail" onClick={() => dispatch(MessageActions.SetGif(gif.src))}>
-                            <Image
-                                // srcSet={`${gif.src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                            <img
+                                srcSet={`${gif.src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                 src={`${gif.src}?w=164&h=164&fit=crop&auto=format`}
                                 alt={gif.name}
                                 loading="lazy"

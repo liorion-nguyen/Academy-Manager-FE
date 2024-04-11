@@ -18,7 +18,8 @@ const MessageSlice = createSlice({
         emoji: '',
         detail: '',
         gif: '',
-        theme: ''
+        theme: '',
+        choose: ''
     },
     reducers: {
         setBasicInformation(state, action) {
@@ -31,6 +32,12 @@ const MessageSlice = createSlice({
             return {
                 ...state,
                 icon: action.payload,
+            }
+        },
+        SetChoose(state, action) {
+            return {
+                ...state,
+                choose: action.payload,
             }
         },
         SetFunction(state, action) {

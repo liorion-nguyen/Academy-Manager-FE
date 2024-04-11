@@ -17,26 +17,39 @@ export const BoxMessageMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
     borderTopLeftRadius: '10px',
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'space-between',
     width: 'calc(100% - 100px)',
-    top: '100px',
+    padding: '100px 0 20px 0',
+    height: '100vh'
 }));
 
 export const FeatureMessMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
     padding: '10px',
     width: '-webkit-fill-available',
     position: 'relative',
-    background: "white"
+    background: "white",
+    height: '90px'
 }));
 
-export const ContentMessageMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
-    height: '100%',
+export const ContentMessageMui = muiStyled(Box)(({ theme }) => ({
     overflowX: 'hidden',
-    overflowY: 'auto',
+    overflowY: 'scroll',
     background: 'white',
     width: '-webkit-fill-available',
     padding: '40px 10px 10px 10px',
     gap: '10px',
-    position: 'absolute'
+    height: '-webkit-fill-available',
+    scrollbarWidth: 'thin', // ẩn thanh cuộn của Firefox
+    '&::-webkit-scrollbar': {
+        width: '8px', // Độ rộng của thanh cuộn
+    },
+    '&::-webkit-scrollbar-thumb': {
+        background: '#c4c4c4', // Màu của thanh cuộn
+        borderRadius: '8px', // Bo góc của thanh cuộn
+    },
+    '&::-webkit-scrollbar-thumb:hover': {
+        background: '#a0a0a0', // Màu của thanh cuộn khi hover
+    },
 }));
 
 export const FullNameMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
@@ -502,6 +515,20 @@ export const StyleExtraLi = muiStyled('li')(({ theme }) => ({
     padding: '10px 3px',
     ':hover': {
         background: "#e5e3e3",
+        cursor: "pointer",
         borderRadius: '8px'
     }
+}));
+
+export const StyleBoxNoDataMess = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    widtth: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '15px'
+}));
+
+export const StyleTextNoDataMess = muiStyled('p')(({ theme }) => ({
+   fontSize: '25px',
+   fontWeight: '500'
 }));

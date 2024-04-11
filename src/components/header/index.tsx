@@ -2,7 +2,6 @@ import { StyleBoxHeader, StyleHeaderTop, StyleInpSearch, StyleLinkPoint, StyleSe
 import { StyleImgLeft, StyleLogo } from "@/app/Login/style-mui";
 import { Breadcrumbs } from "@mui/material";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 
 export default function Header({value}:any) {
     const pathname = usePathname()

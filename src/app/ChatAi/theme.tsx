@@ -1,6 +1,6 @@
 "use client"
 import { Avatar, Box, Button, Grid, MenuItem } from "@mui/material";
-import { AvatarSizeMessMui, BoxCountEmoj, BoxImgContentMui, BoxImgReplyMui, BoxInputMessMui, BoxMessageMui, ButtonEmoji, ContentMessageMui, ContentMessageRightMui, DialogMui, EmojiCount, FeatureMessMui, FullNameMui, GridRoundDownMui, GridRoundTopMui, IconEmojiMui, LineHrMui, ListIconMessMui, MainContentMessMui, MainContentReplyMui, MenuDetailMessMui, MenuEmoji, NameMessageMui, OneMessageMui, PopoverMui, StyleBoxTitleMess, StyleBtnHidden, TextareaAutosizeMui, TitleMessageMui, UserActiveMui, VisuallyHiddenInput } from "./style-mui";
+import { AvatarSizeMessMui, BoxCountEmoj, BoxImgContentMui, BoxImgReplyMui, BoxInputMessMui, BoxMessageMui, ButtonEmoji, ContentMessageMui, ContentMessageRightMui, DialogMui, EmojiCount, FeatureMessMui, FullNameMui, GridRoundDownMui, GridRoundTopMui, IconEmojiMui, LineHrMui, ListIconMessMui, MainContentMessMui, MainContentReplyMui, MenuDetailMessMui, MenuEmoji, NameMessageMui, OneMessageMui, PopoverMui, StyleBoxNoDataMess, StyleBoxTitleMess, StyleBtnHidden, StyleTextNoDataMess, TextareaAutosizeMui, TitleMessageMui, UserActiveMui, VisuallyHiddenInput } from "./style-mui";
 import SendIcon from '@mui/icons-material/Send';
 import { Fragment, useEffect, useRef, useState } from "react";
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
@@ -33,13 +33,15 @@ import NickName from "../../components/ChatAi/nickname.message";
 import Gif from "../../components/ChatAi/gif.message";
 import { MessageActions } from "@/redux/chat";
 import Icon from "../../components/ChatAi/icon.message";
-import { StyleBoxColumn, StyleRowGap20, StyleRowGap5 } from "../style-mui";
+import { StyleRowGap20, StyleRowGap5 } from "../style-mui";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 export default function ChatBox(props: BoxMessage) {
-
     const { messages, author, audiences, basicinformation } = props;
-
     const [listMessages, setListMessages] = useState(messages);
+    useEffect(()=> {
+        setListMessages(messages);
+    }, [props])
     const feeling = [{ name: "Like", src: '/Images/chat/emoji/like.png' }, { name: "Love", src: '/Images/chat/emoji/love.png' }, { name: "Haha", src: '/Images/chat/emoji/haha.png' }, { name: "Wow", src: '/Images/chat/emoji/wow.png' }, { name: "Sad", src: '/Images/chat/emoji/sad.png' },];
 
     const dispatch = useDispatch();
@@ -217,13 +219,11 @@ export default function ChatBox(props: BoxMessage) {
                 creator: true,
             }
         };
-
-
         const newListMessages = [...listMessages, messPush];
 
         setListMessages(newListMessages);
         setValueMess('');
-        setReply({});
+        setReply({}); 
     };
 
     const convertNewlinesToBreaks = (text: string) => {
@@ -235,15 +235,15 @@ export default function ChatBox(props: BoxMessage) {
         const moment = require('moment-timezone');
         moment.tz.setDefault('Asia/Ho_Chi_Minh');
         const currentTimeInVietnam = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-        const emoji_i = basicInformation.emoji === "" ? basicinformation.emotional : basicInformation.emoji;
 
         const newListMessages = [...listMessages, {
             id: uuidv4(),
-            content: emoji_i,
+            content: basicInformation.emoji || basicinformation.emotional,
             createAt: currentTimeInVietnam,
             emoji: [],
             creator: true,
         }];
+
         setListMessages(newListMessages);
     }
 
@@ -272,13 +272,27 @@ export default function ChatBox(props: BoxMessage) {
         }
     }
 
+    const handleStartMess = (mess: string) => {
+        const moment = require('moment-timezone');
+        moment.tz.setDefault('Asia/Ho_Chi_Minh');
+        const currentTimeInVietnam = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        let messPush = {
+            id: uuidv4(),
+            content: convertNewlinesToBreaks(mess),
+            createAt: currentTimeInVietnam,
+            emoji: [],
+            creator: false,
+        };
+        setListMessages([...listMessages, messPush]);
+    }
+
     useEffect(() => {
         if (inpicon) {
             const inp = valueMess + inpicon;
             setValueMess(inp);
             inputRef.current?.focus();
         }
-    }, [inpicon, valueMess]);
+    }, [inpicon]);
 
     useEffect(() => {
         if (basicInformation.theme != "") setTheme(basicInformation.theme);
@@ -426,95 +440,109 @@ export default function ChatBox(props: BoxMessage) {
             </FeatureMessMui>
 
             <ContentMessageMui ref={messageListRef}>
-                {listMessages.map((message: any, index: number) => (
-                    <OneMessageMui key={message.id} className={message.creator ? 'me' : 'you'}>
-                        <AvatarSizeMessMui alt={audiences.name} src={audiences.avt} />
-                        <Box className="main-right">
-                            <ContentMessageRightMui className={message.creator ? 'me' : 'you'}>
-                                <NameMessageMui className="nameAuthor">{basicInformation.nickname.audiences || basicinformation.nickname.audiences || audiences.name}</NameMessageMui>
-                                {message.reply && <Box className="replyMessage">
-                                    {
-                                        message.reply.content.includes('img:') &&
-                                        extractImageUrl(message.reply.content || "") && (
-                                            <BoxImgReplyMui sx={{ backgroundImage: `url("${extractImageUrl(message.reply.content || "") || ""}") !important`, }}></BoxImgReplyMui>
-                                        )
-                                    }
-                                    {
-                                        !message.reply.content.includes('img:') && (
-                                            <MainContentReplyMui> <p className="replyContent" dangerouslySetInnerHTML={{ __html: message.reply.content || "" }}></p> </MainContentReplyMui>
+                {
+                    listMessages.length === 0 ?
+                        <StyleBoxNoDataMess>
+                            <StyleTextNoDataMess>How can I help you today?</StyleTextNoDataMess>
+                            <Button variant="outlined" onClick={() => {handleStartMess("Xin chào bạn, hôm nay của bạn thế nào?")}}>
+                                Start a conversation
+                                <PlayArrowIcon />
+                            </Button>
+                        </StyleBoxNoDataMess>
+                        :
+                        <>
+                            {listMessages.map((message: any, index: number) => (
+                                <OneMessageMui key={message.id} className={message.creator ? 'me' : 'you'}>
+                                    <AvatarSizeMessMui alt={audiences.name} src={audiences.avt} />
+                                    <Box className="main-right">
+                                        <ContentMessageRightMui className={message.creator ? 'me' : 'you'}>
+                                            <NameMessageMui className="nameAuthor">{basicInformation.nickname.audiences || basicinformation.nickname.audiences || audiences.name}</NameMessageMui>
+                                            {message.reply && <Box className="replyMessage">
+                                                {
+                                                    message.reply.content.includes('img:') &&
+                                                    extractImageUrl(message.reply.content || "") && (
+                                                        <BoxImgReplyMui sx={{ backgroundImage: `url("${extractImageUrl(message.reply.content || "") || ""}") !important`, }}></BoxImgReplyMui>
+                                                    )
+                                                }
+                                                {
+                                                    !message.reply.content.includes('img:') && (
+                                                        <MainContentReplyMui> <p className="replyContent" dangerouslySetInnerHTML={{ __html: message.reply.content || "" }}></p> </MainContentReplyMui>
 
-                                        )
-                                    }
-                                </Box>}
-                                {
-                                    message.content?.includes('img:') &&
-                                    extractImageUrl(message.content || "") && (
-                                        <BoxImgContentMui sx={{ backgroundImage: `url("${extractImageUrl(message.content || "") || ""}") !important`, }}></BoxImgContentMui>
-                                    )
-                                }
-                                {
-                                    !message.content?.includes('img:') && (
-                                        <MainContentMessMui dangerouslySetInnerHTML={{ __html: message.content || "" }} className={`contentMessage theme${index % colorTheme}`}></MainContentMessMui>
-                                    )
-                                }
+                                                    )
+                                                }
+                                            </Box>}
+                                            {
+                                                message.content?.includes('img:') &&
+                                                extractImageUrl(message.content || "") && (
+                                                    <BoxImgContentMui sx={{ backgroundImage: `url("${extractImageUrl(message.content || "") || ""}") !important`, }}></BoxImgContentMui>
+                                                )
+                                            }
+                                            {
+                                                !message.content?.includes('img:') && (
+                                                    <MainContentMessMui dangerouslySetInnerHTML={{ __html: message.content || "" }} className={`contentMessage theme${index % colorTheme}`}></MainContentMessMui>
+                                                )
+                                            }
 
-                                {(message.emoji?.length || 0) > 0 &&
-                                    <BoxCountEmoj className="count-emoji">
-                                        <p>{message.emoji?.length}</p>
-                                        {message.emoji && message.emoji.map((typeEmoji: any, i: number) => (
-                                            <Fragment key={i}>
-                                                {typeEmoji.type === "Love" && <EmojiCount src='/Images/chat/emoji/love.png' alt="Love" />}
-                                                {typeEmoji.type === "Like" && <EmojiCount src='/Images/chat/emoji/like.png' alt="Like" />}
-                                                {typeEmoji.type === "Haha" && <EmojiCount src='/Images/chat/emoji/haha.png' alt="Haha" />}
-                                                {typeEmoji.type === "Sad" && <EmojiCount src='/Images/chat/emoji/sad.png' alt="Sad" />}
-                                                {typeEmoji.type === "Wow" && <EmojiCount src='/Images/chat/emoji/wow.png' alt="Wow" />}
-                                            </Fragment>
-                                        ))}
-                                    </BoxCountEmoj>
-                                }
-                                <p className="details-time-message">{formatDateTime(message.createAt || "")}</p>
-                            </ContentMessageRightMui>
-                            <Box className="extension">
-                                <ButtonEmoji className="extensionChird"
-                                    onClick={(e: any) => handleClick(e, index)}
-                                >
-                                    <p className="details-extensionChird">Flying to oranges</p>
-                                    <SentimentSatisfiedAltIcon className="iconInactive" />
-                                </ButtonEmoji>
-                                <MenuEmoji
-                                    className="emoji"
-                                    id="basic-menu"
-                                    anchorEl={anchorEl}
-                                    open={open && index === emoji}
-                                    onClose={handleClose}
-                                    MenuListProps={{
-                                        'aria-labelledby': 'basic-button',
-                                    }}
-                                >
-                                    {feeling.map((feel, i) => (
-                                        <IconEmojiMui
-                                            key={i}
-                                            src={feel.src}
-                                            onClick={() => {
-                                                handlefeeling(index, { creator: true, type: feel.name });
-                                                handleClose();
-                                            }}
-                                        />
-                                    ))}
+                                            {(message.emoji?.length || 0) > 0 &&
+                                                <BoxCountEmoj className="count-emoji">
+                                                    <p>{message.emoji?.length}</p>
+                                                    {message.emoji && message.emoji.map((typeEmoji: any, i: number) => (
+                                                        <Fragment key={i}>
+                                                            {typeEmoji.type === "Love" && <EmojiCount src='/Images/chat/emoji/love.png' alt="Love" />}
+                                                            {typeEmoji.type === "Like" && <EmojiCount src='/Images/chat/emoji/like.png' alt="Like" />}
+                                                            {typeEmoji.type === "Haha" && <EmojiCount src='/Images/chat/emoji/haha.png' alt="Haha" />}
+                                                            {typeEmoji.type === "Sad" && <EmojiCount src='/Images/chat/emoji/sad.png' alt="Sad" />}
+                                                            {typeEmoji.type === "Wow" && <EmojiCount src='/Images/chat/emoji/wow.png' alt="Wow" />}
+                                                        </Fragment>
+                                                    ))}
+                                                </BoxCountEmoj>
+                                            }
+                                            <p className="details-time-message">{formatDateTime(message.createAt || "")}</p>
+                                        </ContentMessageRightMui>
+                                        <Box className="extension">
+                                            <ButtonEmoji className="extensionChird"
+                                                onClick={(e: any) => handleClick(e, index)}
+                                            >
+                                                <p className="details-extensionChird">Flying to oranges</p>
+                                                <SentimentSatisfiedAltIcon className="iconInactive" />
+                                            </ButtonEmoji>
+                                            <MenuEmoji
+                                                className="emoji"
+                                                id="basic-menu"
+                                                anchorEl={anchorEl}
+                                                open={open && index === emoji}
+                                                onClose={handleClose}
+                                                MenuListProps={{
+                                                    'aria-labelledby': 'basic-button',
+                                                }}
+                                            >
+                                                {feeling.map((feel, i) => (
+                                                    <IconEmojiMui
+                                                        key={i}
+                                                        src={feel.src}
+                                                        onClick={() => {
+                                                            handlefeeling(index, { creator: true, type: feel.name });
+                                                            handleClose();
+                                                        }}
+                                                    />
+                                                ))}
 
-                                </MenuEmoji>
-                                <Box className="extensionChird">
-                                    <p className="details-extensionChird">Reply</p>
-                                    <ReplyIcon className="iconInactive" onClick={() => handleReply(message)} />
-                                </Box>
-                                <Box className="extensionChird">
-                                    <p className="details-extensionChird">See more</p>
-                                    <MoreVertIcon className="iconInactive" />
-                                </Box>
-                            </Box>
-                        </Box>
-                    </OneMessageMui>
-                ))}
+                                            </MenuEmoji>
+                                            <Box className="extensionChird">
+                                                <p className="details-extensionChird">Reply</p>
+                                                <ReplyIcon className="iconInactive" onClick={() => handleReply(message)} />
+                                            </Box>
+                                            <Box className="extensionChird">
+                                                <p className="details-extensionChird">See more</p>
+                                                <MoreVertIcon className="iconInactive" />
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                </OneMessageMui>
+                            ))}
+                        </>
+                }
+
             </ContentMessageMui>
 
             <FeatureMessMui>

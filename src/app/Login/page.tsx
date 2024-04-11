@@ -1,5 +1,5 @@
 "use client";
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import {
   StyleAInTitle,
@@ -10,6 +10,7 @@ import {
   StyleBoxRight,
   StyleBoxSubmit,
   StyleBoxTitle,
+  StyleCircularProgress,
   StyleForm,
   StyleGridLeft,
   StyleGridRight,
@@ -42,7 +43,9 @@ interface notify {
 }
 
 export default function Login() {
+  const [submit, setSubmit] = useState(false);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   async function Auth(request: account) {
     const data = await Request.post("/auth/login", request);
     return data;
@@ -51,6 +54,7 @@ export default function Login() {
     const handleLoginCheck = async () => {
       try {
         const loggedIn = await checkLogin();
+        setLoading(false);
         if (loggedIn) {
           router.push("/Overview")
           return;
@@ -105,6 +109,7 @@ export default function Login() {
       return;
     }
     try {
+      setSubmit(true);
       const data = await Auth(account);
       if (data.access_token) {
         Cookies.set("academy_manager", data.access_token, { expires: 1 });
@@ -117,6 +122,7 @@ export default function Login() {
           router.push("/Overview");
         }, 500);
       } else {
+        setSubmit(false);
         setNotify({
           open: true,
           message: "Email hoặc mật khẩu không chính xác!",
@@ -131,6 +137,7 @@ export default function Login() {
       });
     }
   };
+
 
   return (
     <>
@@ -173,10 +180,13 @@ export default function Login() {
                   </StyleBoxAgree>
                   <StyleBoxSubmit onClick={Login}>
                     <StyleInputSubmit>
-                      <StyleIcon>
-                        <StyleImgLeft src="/Images/login/icon_login.png" />
-                      </StyleIcon>
-                      <p>Login</p>
+                      {
+                        submit ? <StyleCircularProgress /> :
+                          <><StyleIcon>
+                            <StyleImgLeft src="/Images/login/icon_login.png" />
+                          </StyleIcon>
+                            <p>Login</p></>
+                      }
                     </StyleInputSubmit>
                   </StyleBoxSubmit>
                 </StyleForm>

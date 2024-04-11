@@ -10,6 +10,7 @@ export const StyleComponent = muiStyled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: 'center',
     width: '100%',
+    height: '100vh',
     background: "#FAFAFA",
     margin: '0'
 }));
@@ -171,11 +172,12 @@ export const StyleNavLeft = muiStyled(Box)(({ theme }) => ({
     borderRadius: '50px 50px 0 0',
     position: 'fixed',
     bottom: '40px',
+    left: '20px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignContent: 'center',
-    padding: '40px 20px'
+    padding: '40px 20px',
 }));
 
 export const StyleIconNavLeft = muiStyled(Box)(({ theme }) => ({
@@ -189,11 +191,12 @@ export const StyleBoxIconNavLeft = muiStyled(StyleBoxColumn)(({ theme }) => ({
 
 export const StyleBoxHeader = muiStyled(StyleBoxColumn)(({ width, theme }) => ({
     position: 'fixed',
-    width: `${Number(width) - 30}px`,
+    width: `${Number(width) - 60}px`,
     justifyContent: 'space-between',
     height: '110px',
     background: "white",
-    padding: "15px",
+    top: '20px',
+    left: '20px'
 }));
 
 export const StyleHeaderTop = muiStyled(StyleBoxRow)(({ theme }) => ({
