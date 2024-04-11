@@ -1,14 +1,13 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+"use client"
 import { StyleBoxBody } from "./style-mui";
 import { CircularProgress } from "@mui/material";
+import { useEffect } from "react";
 
 export default function OverView() {
-    const router = useRouter();
-
     useEffect(() => {
-        router.push('/Overview');
+        window.location.href = '/Overview';
     }, []);
+
 
     return (
         <StyleBoxBody>
