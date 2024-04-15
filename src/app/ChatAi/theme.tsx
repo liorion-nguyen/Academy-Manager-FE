@@ -1,6 +1,6 @@
 "use client"
-import { Avatar, Box, Button, Grid, MenuItem } from "@mui/material";
-import { AvatarSizeMessMui, BoxCountEmoj, BoxImgContentMui, BoxImgReplyMui, BoxInputMessMui, BoxMessageMui, ButtonEmoji, ContentMessageMui, ContentMessageRightMui, DialogMui, EmojiCount, FeatureMessMui, FullNameMui, GridRoundDownMui, GridRoundTopMui, IconEmojiMui, LineHrMui, ListIconMessMui, MainContentMessMui, MainContentReplyMui, MenuDetailMessMui, MenuEmoji, NameMessageMui, OneMessageMui, PopoverMui, StyleBoxNoDataMess, StyleBoxTitleMess, StyleBtnHidden, StyleTextNoDataMess, TextareaAutosizeMui, TitleMessageMui, UserActiveMui, VisuallyHiddenInput } from "./style-mui";
+import { Avatar, Box, Button, CircularProgress, Drawer, Grid, MenuItem } from "@mui/material";
+import { AvatarSizeMessMui, BoxCountEmoj, BoxImgContentMui, BoxImgReplyMui, BoxInputMessMui, BoxMessageMui, ButtonEmoji, ContentMessageMui, ContentMessageRightMui, DialogMui, EmojiCount, FeatureMessMui, FullNameMui, GridRoundDownMui, GridRoundTopMui, IconEmojiMui, LineHrMui, ListIconCallMessMui, ListIconMessMui, MainContentMessMui, MainContentReplyMui, MenuDetailMessMui, MenuEmoji, NameMessageMui, OneMessageMui, PopoverMui, StyleBoxCenter, StyleBoxNoDataMess, StyleBoxTitleMess, StyleBtnHidden, StyleTextNoDataMess, StyleTxtTyping, TextareaAutosizeMui, TitleMessageMui, UserActiveMui, VisuallyHiddenInput } from "./style-mui";
 import SendIcon from '@mui/icons-material/Send';
 import { Fragment, useEffect, useRef, useState } from "react";
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
@@ -16,7 +16,7 @@ import { BoxMessage, Message } from "./schema/index";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { v4 as uuidv4 } from 'uuid';
-
+import MenuIcon from '@mui/icons-material/Menu';
 import { useDispatch, useSelector } from "react-redux";
 import SendMessageIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import ProfileIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -35,11 +35,16 @@ import { MessageActions } from "@/redux/chat";
 import Icon from "../../components/ChatAi/icon.message";
 import { StyleRowGap20, StyleRowGap5 } from "../style-mui";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { Request } from "@/api/request";
+import DrawerMessage from "@/components/drawerMessage";
+import { DrawerActions } from "@/redux/drawer";
 
 export default function ChatBox(props: BoxMessage) {
     const { messages, author, audiences, basicinformation } = props;
     const [listMessages, setListMessages] = useState(messages);
-    useEffect(()=> {
+    const idBoxChat = useSelector((state: any) => state.message.choose);
+    const userInfo = useSelector((state: any) => state.user.data);
+    useEffect(() => {
         setListMessages(messages);
     }, [props])
     const feeling = [{ name: "Like", src: '/Images/chat/emoji/like.png' }, { name: "Love", src: '/Images/chat/emoji/love.png' }, { name: "Haha", src: '/Images/chat/emoji/haha.png' }, { name: "Wow", src: '/Images/chat/emoji/wow.png' }, { name: "Sad", src: '/Images/chat/emoji/sad.png' },];
@@ -67,6 +72,8 @@ export default function ChatBox(props: BoxMessage) {
     const detail = useSelector((state: any) => state.message.detail);
     const gif = useSelector((state: any) => state.message.gif);
     const basicInformation = useSelector((state: any) => state.message.basicinformation);
+    const [modeSend, setModeSend] = useState(false);
+    const [loadingDelete, setLoadingdelete] = useState(false);
 
     const handleBoxClick = () => {
         if (checkBoxClick) {
@@ -192,7 +199,7 @@ export default function ChatBox(props: BoxMessage) {
         return [];
     }
 
-    const handleSend = (mess: string) => {
+    const handleSend = async (mess: string) => {
         const moment = require('moment-timezone');
         moment.tz.setDefault('Asia/Ho_Chi_Minh');
         const currentTimeInVietnam = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
@@ -219,11 +226,38 @@ export default function ChatBox(props: BoxMessage) {
                 creator: true,
             }
         };
+        setListMessages(prevMessages => [...prevMessages, messPush]);
+        setModeSend(true);
         const newListMessages = [...listMessages, messPush];
+        let dataFetch = {
+            id: userInfo.id,
+            boxId: idBoxChat,
+            content: [] as { role: string; parts: { text: any; }[] }[]
+        };
 
-        setListMessages(newListMessages);
+        newListMessages.forEach((content: any) => {
+            dataFetch.content.push({
+                role: content.creator ? "user" : "model",
+                parts: [{ text: content.content }]
+            });
+        });
+
+        const fetchMess = async () => {
+            const response = await Request.post(`/message`, dataFetch);
+            const newMessage = response;
+
+            setListMessages(prevMessages => [...prevMessages, {
+                id: newMessage.id,
+                content: newMessage.content,
+                createAt: newMessage.createAt,
+                emoji: [],
+                creator: false,
+            }]);
+            setModeSend(false);
+        };
         setValueMess('');
-        setReply({}); 
+        setReply({});
+        fetchMess();
     };
 
     const convertNewlinesToBreaks = (text: string) => {
@@ -272,20 +306,11 @@ export default function ChatBox(props: BoxMessage) {
         }
     }
 
-    const handleStartMess = (mess: string) => {
-        const moment = require('moment-timezone');
-        moment.tz.setDefault('Asia/Ho_Chi_Minh');
-        const currentTimeInVietnam = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-        let messPush = {
-            id: uuidv4(),
-            content: convertNewlinesToBreaks(mess),
-            createAt: currentTimeInVietnam,
-            emoji: [],
-            creator: false,
-        };
-        setListMessages([...listMessages, messPush]);
+    const handleStartMess = () => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
     }
-
     useEffect(() => {
         if (inpicon) {
             const inp = valueMess + inpicon;
@@ -328,16 +353,47 @@ export default function ChatBox(props: BoxMessage) {
         }
     }, [gif])
 
+    const handleDeleteBoxChat = async () => {
+        if (idBoxChat) {
+            setLoadingdelete(true);
+            await Request.delete(`/message/${idBoxChat}`);
+            dispatch(MessageActions.SetChoose(""));
+            setLoadingdelete(false);
+        }
+        handleCloseBoxDetail();
+    }
+
+    const handleCloseBox = () => {
+        dispatch(MessageActions.SetChoose(""));
+    }
+    const openDrawer = useSelector((state: any) => state.drawer.message);
+
+    const toggleDrawer = (newOpen: boolean) => () => {
+        dispatch(DrawerActions.setDrawerMessage(newOpen));
+    };
+    const width = useSelector((state: any) => state.display.width);
     return (
         <BoxMessageMui onClick={handleBoxClick} ref={BoxMessageRef}>
             <FeatureMessMui>
                 <StyleBoxTitleMess>
                     <StyleRowGap20>
+                        {width === "xs" && <> <MenuIcon onClick={toggleDrawer(true)} />
+                        <Drawer open={openDrawer} onClose={toggleDrawer(false)}
+                            sx={{
+                                ".MuiPaper-root": {
+                                    width: '80%'
+                                }
+                            }}
+                        >
+                            <DrawerMessage />
+                        </Drawer></>}
                         <Avatar alt={audiences.name} src={audiences.avt} />
                         <StyleRowGap5 className="extendBox">
                             <TitleMessageMui>
                                 <FullNameMui>{basicInformation.nickname.audiences || basicinformation.nickname.audiences || audiences.name}</FullNameMui>
-                                <UserActiveMui>Is active</UserActiveMui>
+                                {
+                                    modeSend ? <StyleTxtTyping>Chatbox is composing a message...</StyleTxtTyping> : <UserActiveMui>Is active</UserActiveMui>
+                                }
                             </TitleMessageMui>
                             <StyleBtnHidden onClick={handleClickBoxDetail}>
                                 <ExpandMoreIcon className={inpMess ? 'iconActive' : 'iconInactive'} />
@@ -420,9 +476,14 @@ export default function ChatBox(props: BoxMessage) {
                                     <p>Limit</p>
                                 </MenuItem>
                                 <LineHrMui />
-                                <MenuItem onClick={handleCloseBoxDetail}>
-                                    <DeleteIcon />
-                                    <p>Delete chat</p>
+                                <MenuItem onClick={handleDeleteBoxChat}>
+                                    {
+                                        loadingDelete ? <StyleBoxCenter><CircularProgress sx={{ width: '30px !important', height: '30px !important' }} /></StyleBoxCenter> : <>
+                                            <DeleteIcon />
+                                            <p>Delete chat</p>
+                                        </>
+                                    }
+
                                 </MenuItem>
                                 <MenuItem onClick={handleCloseBoxDetail}>
                                     <ReportIcon />
@@ -431,11 +492,11 @@ export default function ChatBox(props: BoxMessage) {
                             </MenuDetailMessMui>
                         </StyleRowGap5>
                     </StyleRowGap20>
-                    <ListIconMessMui>
+                    <ListIconCallMessMui>
                         <CallIcon className={inpMess ? 'iconActive' : 'iconInactive'} />
                         <VideocamIcon className={inpMess ? 'iconActive' : 'iconInactive'} />
-                        <ClearIcon className={inpMess ? 'iconActive' : 'iconInactive'} />
-                    </ListIconMessMui>
+                        <ClearIcon onClick={handleCloseBox} className={inpMess ? 'iconActive' : 'iconInactive'} />
+                    </ListIconCallMessMui>
                 </StyleBoxTitleMess>
             </FeatureMessMui>
 
@@ -444,7 +505,7 @@ export default function ChatBox(props: BoxMessage) {
                     listMessages.length === 0 ?
                         <StyleBoxNoDataMess>
                             <StyleTextNoDataMess>How can I help you today?</StyleTextNoDataMess>
-                            <Button variant="outlined" onClick={() => {handleStartMess("Xin chào bạn, hôm nay của bạn thế nào?")}}>
+                            <Button variant="outlined" onClick={handleStartMess}>
                                 Start a conversation
                                 <PlayArrowIcon />
                             </Button>
@@ -452,10 +513,10 @@ export default function ChatBox(props: BoxMessage) {
                         :
                         <>
                             {listMessages.map((message: any, index: number) => (
-                                <OneMessageMui key={message.id} className={message.creator ? 'me' : 'you'}>
+                                <OneMessageMui key={message.id} className={message && message.creator ? 'me' : 'you'}>
                                     <AvatarSizeMessMui alt={audiences.name} src={audiences.avt} />
                                     <Box className="main-right">
-                                        <ContentMessageRightMui className={message.creator ? 'me' : 'you'}>
+                                        <ContentMessageRightMui className={message && message.creator ? 'me' : 'you'}>
                                             <NameMessageMui className="nameAuthor">{basicInformation.nickname.audiences || basicinformation.nickname.audiences || audiences.name}</NameMessageMui>
                                             {message.reply && <Box className="replyMessage">
                                                 {
@@ -467,7 +528,6 @@ export default function ChatBox(props: BoxMessage) {
                                                 {
                                                     !message.reply.content.includes('img:') && (
                                                         <MainContentReplyMui> <p className="replyContent" dangerouslySetInnerHTML={{ __html: message.reply.content || "" }}></p> </MainContentReplyMui>
-
                                                     )
                                                 }
                                             </Box>}
@@ -567,7 +627,7 @@ export default function ChatBox(props: BoxMessage) {
                     </Box>
                 }
                 <GridRoundDownMui container spacing={2}>
-                    <Grid item xs={5} md={valueMess.length == 0 ? 2 : 1} className="p-10">
+                    <Grid item xs={valueMess.length == 0 ? 4.5 : 0.5} className="p-10">
                         <ListIconMessMui>
                             <Button
                                 sx={{
@@ -628,11 +688,11 @@ export default function ChatBox(props: BoxMessage) {
                             }
                         </ListIconMessMui>
                     </Grid>
-                    <Grid item xs={6} md={valueMess.length == 0 ? 9 : 10}>
+                    <Grid item xs={valueMess.length == 0 ? 7 : 11}>
                         <BoxInputMessMui>
                             <TextareaAutosizeMui
                                 minRows={1}
-                                maxRows={5}
+                                maxRows={2}
                                 placeholder="Aa"
                                 value={valueMess}
                                 ref={inputRef}
@@ -654,7 +714,7 @@ export default function ChatBox(props: BoxMessage) {
                             </Box>
                         </BoxInputMessMui>
                     </Grid>
-                    <Grid item xs={1} md={0.5} className="p-10">
+                    <Grid item xs={0.5} className="p-10">
                         {
                             valueMess.length > 0 ? <SendIcon className='iconActive' onClick={() => { handleSend(valueMess) }} /> : <p style={{ fontSize: '28px', }} onClick={handleSendIcon}>{basicInformation.emoji || basicinformation.emotional}</p>
                         }

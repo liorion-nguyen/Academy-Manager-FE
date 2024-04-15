@@ -15,7 +15,8 @@ export const StyleMain = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: "100%",
     height: "100vh",
     // maxWidth: '1440px',
-    position: 'relative'
+    position: 'relative',
+    overflow: 'scroll'
 }));
 
 export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
@@ -33,12 +34,25 @@ export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
 
 export const StyleImgLeft = muiStyled('img')(({ theme }) => ({
     width: "100%",
-    height: "100%"
+    height: "auto"
+}));
+
+
+export const StyleImgLeftTitle = muiStyled(StyleImgLeft)(({ theme }) => ({
+    [theme.breakpoints.down('xs')]: {
+        display: 'none',
+    },
+    [theme.breakpoints.up('sm')]: {
+        display: 'flex',
+    },
 }));
 
 export const StyleLogo = muiStyled(Box)(({ theme }) => ({
     width: "140px",
-    height: '50px'
+    height: '50px',
+    [theme.breakpoints.down('sm')]: {
+        display: 'none'
+    },
 }));
 
 export const StyleIcon = muiStyled(Box)(({ theme }) => ({

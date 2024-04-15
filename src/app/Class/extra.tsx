@@ -3,10 +3,11 @@ import { Box } from "@mui/system";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { StyleBoxBtn } from "./style-mui";
 import { GridColDef } from "@mui/x-data-grid";
-import { StyleBoxContact, StyleBoxContent, StyleBtnDelete, StyleBtnEdit, StyleCountStu, StyleDetailStudent, StyleMainContent, StyleTitleContent, StyleTitleDetailStu } from "../People/style-mui";
+import { StyleBoxContact, StyleBoxContent, StyleBtnDelete, StyleBtnEdit, StyleColumnGap30, StyleCountStu, StyleDetailStudent, StyleMainContent, StyleTitleContent, StyleTitleDetailStu } from "../People/style-mui";
 import Drawer from '@mui/material/Drawer';
 import DrawerClass from "@/components/drawerClass/page";
 import { useSelector } from "react-redux";
+import { LinearProgress } from "@mui/material";
 
 type detailStuType = { title: string; content: any; }
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -250,17 +251,23 @@ export default function ClassExtra() {
     ])
     return (
         <StyleDetailStudent>
-            <StyleTitleDetailStu>Class Details</StyleTitleDetailStu>
-            <StyleBoxContact>
+            <StyleColumnGap30>
+                <StyleTitleDetailStu>Class Details</StyleTitleDetailStu>
                 {
-                    detailStu.map((student, index) => (
-                        <StyleBoxContent key={index}>
-                            <StyleTitleContent>{student.title}</StyleTitleContent>
-                            <StyleMainContent color={(student.title === "email" || student.title === "address") ? "#7FBDE4" : (student.title === "student status" ? (student.content === "ACTIVE" ? "#84DE88" : "#F62B2B") : "rgb(35,50,85,0.8)")}>{student.content}</StyleMainContent>
-                        </StyleBoxContent>
-                    ))
+                    detailStu && detailStu.length > 0 ? <>
+                        <StyleBoxContact>
+                            {
+                                detailStu.map((student, index) => (
+                                    <StyleBoxContent key={index}>
+                                        <StyleTitleContent>{student.title}</StyleTitleContent>
+                                        <StyleMainContent color={(student.title === "email" || student.title === "address") ? "#7FBDE4" : (student.title === "student status" ? (student.content === "ACTIVE" ? "#84DE88" : "#F62B2B") : "rgb(35,50,85,0.8)")}>{student.content}</StyleMainContent>
+                                    </StyleBoxContent>
+                                ))
+                            }
+                        </StyleBoxContact>
+                    </> : <LinearProgress color="inherit" />
                 }
-            </StyleBoxContact>
+            </StyleColumnGap30>
             <StyleBoxBtn>
                 <Fragment key="right">
                     <StyleBtnEdit onClick={toggleDrawer('right', true)} variant="outlined">SHOW</StyleBtnEdit>
@@ -273,7 +280,6 @@ export default function ClassExtra() {
                     </Drawer>
                 </Fragment>
             </StyleBoxBtn>
-
         </StyleDetailStudent>
     );
 }

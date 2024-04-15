@@ -49,14 +49,14 @@ export default function ClassMain(props: { classSend: any }) {
                 course: item.course,
                 operate: item.operate,
                 countTime: item.countTime,
-                start: item.start, 
+                start: item.start,
                 state: item.state,
                 mostLesson: item.mostLesson,
                 countTeacher: item.teachers.length,
                 countStudent: item.students.length,
-                lecturer: item.teachers[0] || "", 
-                createdAt: item.createdAt, 
-                updatedAt: item.updatedAt 
+                lecturer: item.teachers[0] || "",
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt
             }));
             setRows(dataFake);
             dispatch(PeopleActions.setPeople(dataFake[0]));

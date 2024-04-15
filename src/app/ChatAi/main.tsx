@@ -48,10 +48,31 @@ export default function ChatAiMain() {
             })
             setLoading(false);
         }
-        if (idBoxChat) {
+        if (idBoxChat && userInfo) {
             fetchData();
+        } else if (userInfo) {
+            setMessages([]);
+            setAuthor({
+                id: userInfo.id,
+                name: userInfo.fullName,
+                avt: userInfo.avatar,
+            })
+            setAudiences({
+                id: 'liorionAi',
+                name: 'ChatBox AI',
+                avt: '/Images/chat/logo-page/icon_logo.png',
+            })
+            setBasicinformation({
+                theme: "radial-gradient(circle at center 75%, rgb(85, 208, 255) 0%, rgb(117, 151, 215) 33%, rgb(255, 159, 179) 66%, rgb(255, 159, 179) 99%)",
+                emotional: "😮",
+                nickname: {
+                    author: '',
+                    audiences: '',
+                }
+            })
+            setLoading(false);
         }
-    }, [idBoxChat])
+    }, [idBoxChat, userInfo])
 
     return loading ? <LinearProgress sx={{ width: "100%" }} /> : (
         <ChatBox
