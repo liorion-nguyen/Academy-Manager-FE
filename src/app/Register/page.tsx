@@ -117,10 +117,10 @@ export default function Register() {
                 <StyleMain>
                     <SimpleSnackbar notify={notify} setNotify={setNotify} />
                     <Grid container>
-                        <StyleGridLeft item xs={7}>
+                        <StyleGridLeft item md={7} xs={true}>
                             <StyleImgLeft src="/Images/login/bg_left.png" />
                         </StyleGridLeft>
-                        <StyleGridRight item xs={5}>
+                        <StyleGridRight item md={5} xs={12}>
                             <StyleBoxRight>
                                 <StyleLogo>
                                     <StyleImgLeft src="/Images/login/Logo.png" />

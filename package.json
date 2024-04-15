@@ -34,6 +34,7 @@
     "react-dom": "^18",
     "react-quill": "^2.0.0",
     "react-redux": "^9.1.0",
+    "react-window-size": "^1.2.2",
     "recharts": "^2.10.4",
     "uuid": "^9.0.1"
   },

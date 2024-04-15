@@ -86,6 +86,7 @@ export default function PeopleMain(props: { people: string }) {
             setElementWidth(elementRef.current.clientWidth);
         }
     }, []);
+    
     const [age, setAge] = useState('');
 
     const handleChange = (event: any) => {

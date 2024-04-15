@@ -17,6 +17,7 @@ import {
   StyleH3Title,
   StyleIcon,
   StyleImgLeft,
+  StyleImgLeftTitle,
   StyleInputSubmit,
   StyleInputText,
   StyleLogo,
@@ -146,10 +147,10 @@ export default function Login() {
         <StyleMain>
           <SimpleSnackbar notify={notify} setNotify={setNotify} />
           <Grid container>
-            <StyleGridLeft item xs={7}>
-              <StyleImgLeft src="/Images/login/bg_left.png" />
+            <StyleGridLeft item md={7} xs={true}>
+              <StyleImgLeftTitle src="/Images/login/bg_left.png" />
             </StyleGridLeft>
-            <StyleGridRight item xs={5}>
+            <StyleGridRight item md={5} xs={12}>
               <StyleBoxRight>
                 <StyleLogo>
                   <StyleImgLeft src="/Images/login/Logo.png" />

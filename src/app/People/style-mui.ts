@@ -16,12 +16,14 @@ export const StyleDetailStudent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     background: "#FFFFFF",
     borderRadius: '20px 0 0 20px',
     width: '100%',
-    height: 'auto',
-    justifyContent: 'space-between',
-    padding: '30px 20px',
+    height: '-webkit-fill-available',
+    padding: '40px 20px 80px 20px',
     boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
-    gap: "20px",
-    minHeight: '700px'
+    gap: "60px"
+}));
+
+export const StyleColumnGap30 = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    gap: "30px"
 }));
 
 export const StyleTitleDetailStu = muiStyled('p')(({ theme }) => ({
@@ -60,8 +62,15 @@ export const StyleBtnDelete = muiStyled(Button)(({ theme }) => ({
     fontSize: '16px',
 }));
 
+export const StyleBtnSave = muiStyled(Button)(({ theme }) => ({
+    color: '#11a311c9',
+    border: '1px solid #11a311c9',
+    fontSize: '16px',
+}));
+
 export const StyleBoxBtn = muiStyled(StyleBoxRow)(({ theme }) => ({
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    padding: '0 20px'
 }));
 
 export const StyleButton = muiStyled(Button)(({ theme }) => ({
@@ -88,7 +97,10 @@ export const StyleContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     background: "#F8F8F8",
     padding: '15px',
     borderRadius: '10px 10px 0 0',
-    height: '100%'
+    height: '100%',
+    [theme.breakpoints.down('sm')]: {
+        margin: '60px 0 0 0',
+    },
 }));
 
 

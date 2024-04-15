@@ -2,13 +2,19 @@ import { StyleBoxHeader, StyleHeaderTop, StyleInpSearch, StyleLinkPoint, StyleSe
 import { StyleImgLeft, StyleLogo } from "@/app/Login/style-mui";
 import { Breadcrumbs } from "@mui/material";
 import { usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { DisplayActions } from "@/redux/display";
 
 export default function Header({value}:any) {
-    const pathname = usePathname()
+    const pathname = usePathname();
+    const dispatch = useDispatch();
+    const handleFocus = () => {
+        dispatch(DisplayActions.setNavLeft(true));
+    }
     return (
         <StyleBoxHeader width={value}>
             <StyleHeaderTop>
-                <StyleLogo>
+                <StyleLogo onFocus={handleFocus}>
                     <StyleImgLeft src="/Images/login/Logo.png" />
                 </StyleLogo>
                 <Breadcrumbs aria-label="breadcrumb"

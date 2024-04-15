@@ -1,6 +1,6 @@
 "use client"
-import { Box } from "@mui/system";
-import { Button, Grid, LinearProgress, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, display } from "@mui/system";
+import { Accordion, AccordionDetails, AccordionSlots, AccordionSummary, Button, Grid, LinearProgress, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from "@mui/material";
 import { StyleGridLeft, StyleGridUserNotification, StyleCalendarEvent, StyleEvent, StyleH3TitleEvent, StyleBoxButton, StyleBoxNote, StyleContentNote, StyleTitleNote, StyleTimeNote, StyleNote, StyleCalendar, StyleComponent, StyleGridRight, StyleNavLeft, StyleIconNavLeft, StyleBoxIconNavLeft, StyleBoxHeader, StyleLinkPoint, StyleTypographyPoint, StyleContent, StyleSearch, StyleInpSearch, StyleHeaderTop, StyleDashboardCard, StyleCircle, StyleProcessBar, StyleTitleCard, StyleContentCard, StyleSumCoundCard, StyleBoxIndexFirst, StyleBoxIndexSecond, StyleRowGap5, StyleRowGap20, StyleColumnGap10, StyleTitleGrap, StyleDashboardCardGrap, StyleBoxCardGrap, StyleTable, StyleTitleTable, StyleViewAllTable, StyleHeadTable } from "../style-mui";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
@@ -27,6 +27,14 @@ import ClassExtra from "../Class/extra";
 import ChatAiExtra from "../ChatAi/extra";
 import { GetUsers } from "@/api/user";
 import { GetClass } from "@/api/class";
+import UserMain from "../User/main";
+import UserExtra from "../User/extra";
+import { useDispatch, useSelector } from "react-redux";
+import { DisplayActions } from "@/redux/display";
+import HeaderPhone from "@/components/SizePhone/header";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Fade from '@mui/material/Fade';
+import BasisSynthesis from "@/components/basisSynthesis";
 interface createData {
     name: string,
     id: string,
@@ -40,6 +48,7 @@ export default function Overview({ params }: any) {
     const [timer, setTimer] = useState<Date>(new Date());
     const [classData, setClassData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
     function createData(
         name: string,
@@ -203,118 +212,95 @@ export default function Overview({ params }: any) {
     }
 
     const elementRef = useRef<HTMLDivElement | null>(null);
-    const [elementWidth, setElementWidth] = useState<number | 1000>(1000);
-    useEffect(() => {
-        if (elementRef.current) {
-            setElementWidth(elementRef.current.clientWidth);
-        }
-    }, []);
+    const [elementWidth, setElementWidth] = useState<number | null>(null);
 
-    const pathname = usePathname()
+    useEffect(() => {
+        const updateWidth = () => {
+            if (elementRef.current) {
+                setElementWidth(elementRef.current.clientWidth);
+            }
+        };
+        updateWidth();
+        const resizeListener = () => {
+            window.addEventListener('resize', updateWidth);
+            return () => {
+                window.removeEventListener('resize', updateWidth);
+            };
+        };
+        resizeListener();
+    }, [elementRef, elementWidth]);
+
+    const pathname = usePathname();
+    const getScreenSize = () => {
+        const width = document.documentElement.clientWidth;
+
+        if (width < 576) {
+            return 'xs';
+        } else if (width < 768) {
+            return 'sm';
+        } else if (width < 992) {
+            return 'md';
+        } else if (width < 1200) {
+            return 'lg';
+        } else {
+            return 'xl';
+        }
+    };
+    useEffect(() => {
+        dispatch(DisplayActions.setWidth(getScreenSize()));
+    }, [document.documentElement.clientWidth])
+    const width = useSelector((state: any) => state.display.width);
+    const [expanded, setExpanded] = useState(false);
+
+    const handleExpansion = () => {
+        setExpanded((prevExpanded) => !prevExpanded);
+    };
     return (
         <>
             <SpeedInsights />
             <StyleComponent>
                 <StyleMain>
                     <StyleGridUserNotification container spacing={2}>
-                        <StyleGridRight item xs={9} ref={elementRef}>
+                        <StyleGridRight item sm={8.75} xs={12} ref={elementRef}>
                             <Header value={elementWidth} />
                             {pathname === "/Student" && <PeopleMain people="Student" />}
                             {pathname === "/Teacher" && <PeopleMain people="Teacher" />}
                             {pathname === "/Class" && <ClassMain classSend={classData} />}
                             {pathname === "/ChatAi" && <ChatAiMain />}
+                            {pathname === "/User" && <UserMain />}
                             {(pathname === "/Overview") && <StyleContent>
+                                {width === "xs" && <HeaderPhone />}
+
+                                {
+                                    width !== "xs" ? <BasisSynthesis data={detailUsers} /> :
+                                        <Accordion
+                                            expanded={expanded}
+                                            onChange={handleExpansion}
+                                            slots={{ transition: Fade as AccordionSlots['transition'] }}
+                                            slotProps={{ transition: { timeout: 400 } }}
+                                            sx={{
+                                                '& .MuiAccordion-region': { height: expanded ? 'auto' : 0 },
+                                                '& .MuiAccordionDetails-root': { display: expanded ? 'block' : 'none' },
+                                                '.MuiButtonBase-root': {
+                                                    padding: '0'
+                                                },
+                                                boxShadow: '0'
+                                            }}
+                                        >
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panel1-content"
+                                                id="panel1-header"
+                                            >
+                                                <StyleTitleGrap>Basic synthesis</StyleTitleGrap>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <BasisSynthesis data={detailUsers} />
+                                            </AccordionDetails>
+                                        </Accordion>
+                                }
                                 <Grid container spacing={2}>
-                                    <StyleDashboardCard item xs={4}>
-                                        <StyleCircle width={(detailUsers?.gender.female / detailUsers?.gender.sum) * 100 || 50} height={(detailUsers?.gender.male / detailUsers?.gender.sum) * 100 || 50}>
-                                            <StyleProcessBar>
-                                                <img src="/Images/admin/icon_student.svg" />
-                                            </StyleProcessBar>
-                                        </StyleCircle>
-                                        <Box>
-                                            <StyleColumnGap10>
-                                                <StyleTitleCard>STUDENTS</StyleTitleCard>
-                                                <StyleRowGap20>
-                                                    <StyleRowGap5>
-                                                        <StyleBoxIndexFirst></StyleBoxIndexFirst>
-                                                        {
-                                                            detailUsers ? <StyleContentCard>male ({detailUsers.gender.male}%)</StyleContentCard> : <Skeleton width={70} height={20} />
-                                                        }
-                                                    </StyleRowGap5>
-                                                    <StyleRowGap5>
-                                                        <StyleBoxIndexSecond></StyleBoxIndexSecond>
-                                                        {
-                                                            detailUsers ? <StyleContentCard>Female ({detailUsers.gender.female}%)</StyleContentCard> : <Skeleton width={70} height={20} />
-                                                        }
-                                                    </StyleRowGap5>
-                                                </StyleRowGap20>
-                                                {
-                                                    detailUsers ? <StyleSumCoundCard>{detailUsers.gender.sum}</StyleSumCoundCard> : <Skeleton width={60} height={35} />
-                                                }
-                                            </StyleColumnGap10>
-                                        </Box>
-                                    </StyleDashboardCard>
-                                    <StyleDashboardCard item xs={4}>
-                                        <StyleCircle width={61} height={39}>
-                                            <StyleProcessBar>
-                                                <img src="/Images/admin/icon_staff.svg" />
-                                            </StyleProcessBar>
-                                        </StyleCircle>
-                                        <Box>
-                                            <StyleColumnGap10>
-                                                <StyleTitleCard>Staff</StyleTitleCard>
-                                                <StyleRowGap20>
-                                                    <StyleRowGap5>
-                                                        <StyleBoxIndexFirst></StyleBoxIndexFirst>
-                                                        {
-                                                            user ? <StyleContentCard>male (55%)</StyleContentCard> : <Skeleton width={70} height={20} />
-                                                        }
-                                                    </StyleRowGap5>
-                                                    <StyleRowGap5>
-                                                        <StyleBoxIndexSecond></StyleBoxIndexSecond>
-                                                        {
-                                                            user ? <StyleContentCard>Female (45%)</StyleContentCard> : <Skeleton width={70} height={20} />
-                                                        }
-                                                    </StyleRowGap5>
-                                                </StyleRowGap20>
-                                                {
-                                                    user ? <StyleSumCoundCard>308</StyleSumCoundCard> : <Skeleton width={60} height={35} />
-                                                }
-                                            </StyleColumnGap10>
-                                        </Box>
-                                    </StyleDashboardCard>
-                                    <StyleDashboardCard item xs={4}>
-                                        <StyleCircle width={61} height={39}>
-                                            <StyleProcessBar>
-                                                <img alt="#" src="/Images/admin/icon_subject.svg" />
-                                            </StyleProcessBar>
-                                        </StyleCircle>
-                                        <Box>
-                                            <StyleColumnGap10>
-                                                <StyleTitleCard>Subjects</StyleTitleCard>
-                                                <StyleRowGap20>
-                                                    <StyleRowGap5>
-                                                        <StyleBoxIndexFirst></StyleBoxIndexFirst>
-                                                        {
-                                                            user ? <StyleContentCard>Female (45%)</StyleContentCard> : <Skeleton width={70} height={20} />
-                                                        }
-                                                    </StyleRowGap5>
-                                                    <StyleRowGap5>
-                                                        <StyleBoxIndexSecond></StyleBoxIndexSecond>
-                                                        {
-                                                            user ? <StyleContentCard>Female (45%)</StyleContentCard> : <Skeleton width={70} height={20} />
-                                                        }
-                                                    </StyleRowGap5>
-                                                </StyleRowGap20>
-                                                {
-                                                    user ? <StyleSumCoundCard>308</StyleSumCoundCard> : <Skeleton width={60} height={35} />
-                                                }
-                                            </StyleColumnGap10>
-                                        </Box>
-                                    </StyleDashboardCard>
-                                </Grid>
-                                <Grid container spacing={2}>
-                                    <StyleDashboardCardGrap item xs={7}
+                                    <StyleDashboardCardGrap item md={7} xs={12}
                                         sx={{
                                             "text": {
                                                 fill: "rgb(35,50,85,0.7) !important"
@@ -332,7 +318,7 @@ export default function Overview({ params }: any) {
                                             ]}
                                         />
                                     </StyleDashboardCardGrap>
-                                    <StyleDashboardCardGrap item xs={5}>
+                                    <StyleDashboardCardGrap item md={5} xs={12}>
                                         <StyleTitleGrap>Financial Summary</StyleTitleGrap>
                                         <StyleBoxCardGrap
                                             sx={{
@@ -446,13 +432,15 @@ export default function Overview({ params }: any) {
 
                             <NavLeft />
                         </StyleGridRight>
-                        <StyleGridLeft item xs={3}>
-                            <MenuUser />
+                        <StyleGridLeft item sm={3} xs={12}>
+                            {width !== "xs" && <MenuUser />}
 
                             {pathname === "/Student" && <PeopleExtra people="Student" />}
                             {pathname === "/Teacher" && <PeopleExtra people="Teacher" />}
-                            {pathname === "/ChatAi" && <ChatAiExtra />}
+                            {pathname === "/ChatAi" && width !== "xs" && <ChatAiExtra />}
                             {pathname === "/Class" && <ClassExtra />}
+                            {pathname === "/User" && <UserExtra />}
+
 
                             {pathname === "/Overview" &&
                                 <StyleCalendarEvent>

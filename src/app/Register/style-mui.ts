@@ -4,7 +4,7 @@ import { styled as muiStyled } from "@mui/system";
 import { StyleInputText } from "../Login/style-mui";
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
-  display: "flex",
+    display: "flex",
 }));
 
 export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
@@ -14,12 +14,22 @@ export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
 
 export const StyleBoxRowHalf = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: '100%',
-    justifyContent: 'space-between',
-    gap: "50px"
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        gap: '20px',
+    },
+    [theme.breakpoints.up('sm')]: {
+        justifyContent: 'space-between',
+        gap: '50px',
+    },
 }));
 
 export const StyleInputInRowHalf = muiStyled(StyleInputText)(({ theme }) => ({
     width: '50%',
+    [theme.breakpoints.down('sm')]: {
+        width: '100%',
+    },
 }));
 
 export const StyleContainerAgree = muiStyled(StyleBoxRow)(({ theme }) => ({

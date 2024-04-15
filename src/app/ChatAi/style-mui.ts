@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Dialog, DialogContent, DialogTitle, Grid, Menu, Popover, TextareaAutosize } from '@mui/material';
-import { styled as muiStyled } from '@mui/system';
+import { keyframes, styled as muiStyled } from '@mui/system';
 import CallIcon from '@mui/icons-material/Call';
 import SearchIcon from '@mui/icons-material/Search';
 import { StyleBoxColumn, StyleBoxRow, StyleRowGap5 } from '../style-mui';
@@ -20,7 +20,12 @@ export const BoxMessageMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
     alignItems: 'space-between',
     width: 'calc(100% - 100px)',
     padding: '100px 0 20px 0',
-    height: '100vh'
+    height: '100vh',
+    [theme.breakpoints.down('sm')]: {
+        width: '100vw',
+        padding: '0',
+        right: '0',
+    },
 }));
 
 export const FeatureMessMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
@@ -36,19 +41,22 @@ export const ContentMessageMui = muiStyled(Box)(({ theme }) => ({
     overflowY: 'scroll',
     background: 'white',
     width: '-webkit-fill-available',
-    padding: '40px 10px 10px 10px',
+    padding: '40px 10px 10px 30px',
     gap: '10px',
     height: '-webkit-fill-available',
-    scrollbarWidth: 'thin', // ẩn thanh cuộn của Firefox
+    scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
-        width: '8px', // Độ rộng của thanh cuộn
+        width: '8px',
     },
     '&::-webkit-scrollbar-thumb': {
-        background: '#c4c4c4', // Màu của thanh cuộn
-        borderRadius: '8px', // Bo góc của thanh cuộn
+        background: '#c4c4c4',
+        borderRadius: '8px',
     },
     '&::-webkit-scrollbar-thumb:hover': {
-        background: '#a0a0a0', // Màu của thanh cuộn khi hover
+        background: '#a0a0a0',
+    },
+    [theme.breakpoints.down('sm')]: {
+        padding: '10px 10px 10px 10px',
     },
 }));
 
@@ -60,7 +68,7 @@ export const FullNameMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
 export const UserActiveMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
     fontSize: '13px',
     fontWeight: '400',
-    color: 'grey'
+    color: '#41bf0c'
 }));
 
 export const TitleMessageMui = muiStyled(Box)(({ theme }) => ({
@@ -77,10 +85,20 @@ export const StyleBtnHidden = muiStyled('button')(({ theme }) => ({
 
 export const ListIconMessMui = muiStyled(Box)(({ theme }) => ({
     display: 'flex',
-    width: 'auto',
+    width: 'auto !important',
     right: '0',
+    float: 'left',
+    justifyContent: 'space-around',
+    gap: '10px'
+}));
+
+export const ListIconCallMessMui = muiStyled(ListIconMessMui)(({ theme }) => ({
+    display: 'flex',
+    width: '100%',
+    right: '0',
+    float: 'left',
     gap: '10px',
-    float: 'left'
+    justifyContent: 'space-between'
 }));
 
 export const GridRoundTopMui = muiStyled(Grid)(({ theme }) => ({
@@ -102,13 +120,17 @@ export const StyleBoxTitleMess = muiStyled(Box)(({ theme }) => ({
     width: '100%',
     justifyContent: 'space-between',
     padding: "0 20px",
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+        padding: "0 10px",
+    },
 }));
 
 export const GridRoundDownMui = muiStyled(Grid)(({ theme }) => ({
     marginTop: '0',
     marginLeft: '0',
     padding: '10px',
+    width: "100%",
     alignItems: 'center',
     justifyContent: 'space-between',
     '.MuiGrid-item': {
@@ -122,7 +144,7 @@ export const GridRoundDownMui = muiStyled(Grid)(({ theme }) => ({
 export const TextareaAutosizeMui = muiStyled(TextareaAutosize)(({ theme }) => ({
     resize: 'none',
     lineHeight: '20px',
-    width: 'calc(100% - 50px)',
+    width: 'calc(100% - 100px) !important',
     background: 'transparent',
     border: 'none',
     outline: 'none',
@@ -469,10 +491,13 @@ export const StyleDetailChat = muiStyled(Box)(({ theme }) => ({
     background: "#FFFFFF",
     borderRadius: '20px 0 0 0',
     width: '100%',
-    height: 'calc(100% - 168px)',
+    height: '100%',
     padding: '30px 20px',
     boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
-    gap: "20px"
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+        height: '100vh'
+    },
 }));
 
 export const StyleExtraName = muiStyled('p')(({ theme }) => ({
@@ -529,6 +554,60 @@ export const StyleBoxNoDataMess = muiStyled(StyleBoxColumn)(({ theme }) => ({
 }));
 
 export const StyleTextNoDataMess = muiStyled('p')(({ theme }) => ({
-   fontSize: '25px',
-   fontWeight: '500'
+    fontSize: '25px',
+    fontWeight: '500'
+}));
+
+export const StyleNewChat = muiStyled('button')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '10px',
+    width: '100%',
+    border: '0',
+    borderRadius: '15px',
+    background: 'transparent',
+    ':hover': {
+        cursor: 'pointer',
+        background: '#e3e3e3'
+    }
+}));
+
+export const StyleIconLogo = muiStyled('img')(({ theme }) => ({
+    width: '30px',
+    height: '30px'
+}));
+
+export const StyleColumnGap20 = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    gap: '20px'
+}));
+
+const typingAnimation = keyframes`
+  from { width: 0 }
+  to { width: 100% }
+`;
+
+const blinkCaretAnimation = keyframes`
+  from, to { border-color: transparent }
+  50% { border-color: #2a91c2; }
+`;
+
+export const StyleTxtTyping = muiStyled(StyleBoxColumn)(({ theme }) => ({
+    overflow: 'hidden',
+    borderRight: '.15em solid orange',
+    whiteSpace: 'nowrap',
+    margin: '0 auto',
+    color: '#32cecd',
+    letterSpacing: '.10em',
+    fontSize: '15px',
+    animation: `${typingAnimation} 3.5s steps(40, end), ${blinkCaretAnimation} .75s step-end infinite`,
+}));
+
+export const StyleBoxCenter = muiStyled(StyleBoxRow)(({ theme }) => ({
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    background: '#e3e3e3',
+    padding: '5px',
+    borderRadius: '10px'
 }));

@@ -24,7 +24,8 @@ export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
     background: "#FAFAFA",
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px'
+    gap: '20px',
+    padding: '0 !important'
 }));
 
 export const StyleBoxUser = muiStyled(StyleBoxRow)(({ theme }) => ({
@@ -42,7 +43,10 @@ export const StyleBoxUser = muiStyled(StyleBoxRow)(({ theme }) => ({
 export const StyleGridUserNotification = muiStyled(Grid)(({ theme }) => ({
     width: '100%',
     height: "100vh",
-    overflow: 'hidden'
+    overflow: 'scroll',
+    margin: '0 !important',
+    display: 'flex',
+    justifyContent: 'space-between'
 }));
 
 export const StyleBoxNotification = muiStyled(Box)(({ theme }) => ({
@@ -161,23 +165,34 @@ export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     padding: '10px',
     width: '100%',
     position: 'relative',
-    height: '100%'
+    height: 'auto',
+    [theme.breakpoints.down('sm')]: {
+        padding: '0 !important',
+    },
 }));
 
 export const StyleNavLeft = muiStyled(Box)(({ theme }) => ({
     background: "#233255",
     border: "1px solid #F6AD2B",
     width: '70px',
-    height: '86vh',
-    borderRadius: '50px 50px 0 0',
     position: 'fixed',
-    bottom: '40px',
-    left: '20px',
+    left: '10px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignContent: 'center',
     padding: '40px 20px',
+    zIndex: '100000',
+    [theme.breakpoints.down('sm')]: {
+        top: '60px',
+        height: '90vh',
+        borderRadius: '0 0 50px 50px',
+    },
+    [theme.breakpoints.up('sm')]: {
+        bottom: '40px',
+        borderRadius: '50px 50px 0 0',
+        height: '86vh',
+    },
 }));
 
 export const StyleIconNavLeft = muiStyled(Box)(({ theme }) => ({
@@ -186,7 +201,12 @@ export const StyleIconNavLeft = muiStyled(Box)(({ theme }) => ({
 }));
 
 export const StyleBoxIconNavLeft = muiStyled(StyleBoxColumn)(({ theme }) => ({
-    gap: '30px'
+    [theme.breakpoints.down('sm')]: {
+        gap: '20px',
+    },
+    [theme.breakpoints.up('sm')]: {
+        gap: '30px',
+    }
 }));
 
 export const StyleBoxHeader = muiStyled(StyleBoxColumn)(({ width, theme }) => ({
@@ -196,7 +216,10 @@ export const StyleBoxHeader = muiStyled(StyleBoxColumn)(({ width, theme }) => ({
     height: '110px',
     background: "white",
     top: '20px',
-    left: '20px'
+    left: '20px',
+    [theme.breakpoints.down('sm')]: {
+        display: 'none'
+    },
 }));
 
 export const StyleHeaderTop = muiStyled(StyleBoxRow)(({ theme }) => ({
@@ -253,7 +276,10 @@ export const StyleContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     gap: "50px",
     // height: "calc(100vh - 120px - 100px) !important",
     height: '100%',
-    overflow: 'auto'
+    overflow: 'auto',
+    [theme.breakpoints.down('sm')]: {
+        margin: '60px 0 0 0',
+    },
 }));
 
 export const StyleCircle = muiStyled(Box)(({ width, height, theme }) => ({
@@ -328,7 +354,8 @@ export const StyleTitleGrap = muiStyled('p')(({ theme }) => ({
 
 export const StyleDashboardCardGrap = muiStyled(StyleDashboardCard)(({ theme }) => ({
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    height: '300px'
 }));
 
 export const StyleBoxCardGrap = muiStyled(Box)(({ theme }) => ({
@@ -340,7 +367,7 @@ export const StyleTable = muiStyled(StyleBoxColumn)(({ theme }) => ({
     background: '#FFFFFF',
     boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
     borderRadius: '20px',
-    padding: '20px',
+    padding: '20px 0',
     gap: '20px'
 }));
 
@@ -364,7 +391,7 @@ export const StyleBoxBody = muiStyled(Box)(({ theme }) => ({
     width: '100vw',
     background: 'white',
     display: 'flex',
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent: 'center',
+    alignItems: 'center'
 }));
 
