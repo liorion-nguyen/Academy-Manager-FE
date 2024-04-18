@@ -41,7 +41,7 @@ import { useRouter } from "next/navigation";
 import DrawerMessage from "@/components/drawer/drawerMessage";
 import socketIOClient, { Socket, io } from 'socket.io-client';
 // const socket = io(`${process.env.DOMAIN}`);
-const socket = io('http://localhost:8000');
+const socket = io('http://academy-manager.vercel.app');
 export default function ChatBox(props: BoxMessage) {
     const { messages, author, audiences, basicinformation } = props;
     const [listMessages, setListMessages] = useState(messages);
