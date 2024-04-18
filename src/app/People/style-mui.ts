@@ -18,8 +18,13 @@ export const StyleDetailStudent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     width: '100%',
     height: '-webkit-fill-available',
     padding: '40px 20px 80px 20px',
-    boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
-    gap: "60px"
+    border: "1px solid #80808021",
+    gap: "60px",
+    [theme.breakpoints.down('sm')]: {
+        border: '0',
+        marginTop: '60px',
+        padding: '20px 20px 30px 20px',
+    },
 }));
 
 export const StyleColumnGap30 = muiStyled(StyleBoxColumn)(({ theme }) => ({
@@ -100,6 +105,13 @@ export const StyleContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     height: '100%',
     [theme.breakpoints.down('sm')]: {
         margin: '60px 0 0 0',
+        background: "white",
+    },
+    ".MuiDataGrid-columnHeadersInner, .css-yrdy0g-MuiDataGrid-columnHeaderRow, .MuiDataGrid-virtualScrollerRenderZone": {
+        width: '100% !important',
+        [theme.breakpoints.down('sm')]: {
+            width: 'inherit !important',
+        },
     },
 }));
 
@@ -112,8 +124,12 @@ export const StyleSearch = muiStyled(StyleBoxRow)(({ theme }) => ({
     paddingLeft: '15px',
     background: 'white',
     fontSize: '16px',
+    width: '30%',
     height: '100%',
-    width: '100%'
+    [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        height: '50px'
+    },
 }));
 
 export const StyleFilter = muiStyled(Grid)(({ theme }) => ({
@@ -146,5 +162,11 @@ export const StyleCountStu = muiStyled('p')(({ theme }) => ({
 export const StyleBoxTable2 = muiStyled(StyleBoxTable)(({ theme }) => ({
     ".MuiDataGrid-virtualScrollerContent": {
         minHeight: '45vh !important'
-    }
+    },
+    ".MuiDataGrid-columnHeadersInner, .css-yrdy0g-MuiDataGrid-columnHeaderRow, .MuiDataGrid-virtualScrollerRenderZone": {
+        width: '100% !important',
+        [theme.breakpoints.down('sm')]: {
+            width: 'inherit !important',
+        },
+    },
 }));

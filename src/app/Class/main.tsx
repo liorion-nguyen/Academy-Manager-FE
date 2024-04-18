@@ -2,7 +2,7 @@
 import { Box } from "@mui/system";
 import { StyleContent } from "../style-mui";
 import { useEffect, useRef, useState } from "react";
-import { Grid, LinearProgress } from "@mui/material";
+import { Drawer, Grid, LinearProgress } from "@mui/material";
 import { StyleBoxSearch, StyleBoxSearch2, StyleBoxTable, StyleButton, StyleInputSelect, StyleInputText, StyleTextP } from "./style-mui";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
@@ -12,8 +12,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearIcon from '@mui/icons-material/Clear';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { StyleCountStu } from "../People/style-mui"; import { GetClass } from "@/api/class";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PeopleActions } from "@/redux/people";
+import ClassExtra from "./extra";
 interface ClassData {
     id: string;
     name: string;
@@ -37,6 +38,7 @@ export default function ClassMain(props: { classSend: any }) {
     const elementRef = useRef<HTMLDivElement | null>(null);
     const [elementWidth, setElementWidth] = useState<number | 1000>(1000);
     const [rows, setRows] = useState<ClassData[]>([]);
+    const [modeDrawer, setModeDrawer] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -156,6 +158,7 @@ export default function ClassMain(props: { classSend: any }) {
     ])
 
     const handleShowStudent = (id: string) => {
+        setModeDrawer(true);
         let findStu: ClassData | undefined = undefined;
         if (rows) {
             const foundStudents = rows.filter((student: ClassData) => student.id === id);
@@ -228,113 +231,125 @@ export default function ClassMain(props: { classSend: any }) {
         right: false,
     });
 
-    const toggleDrawer = (anchor: Anchor, open: boolean) =>
-        (event: React.KeyboardEvent | React.MouseEvent) => {
-            if (
-                event.type === 'keydown' &&
-                ((event as React.KeyboardEvent).key === 'Tab' ||
-                    (event as React.KeyboardEvent).key === 'Shift')
-            ) {
-                return;
-            }
+    const width = useSelector((state: any) => state.display.width);
 
-            setStateDrawer({ ...stateDrawer, [anchor]: open });
-        };
+    const toggleDrawer = (newOpen: boolean) => () => {
+        setModeDrawer(newOpen);
+    };
     return (
-        <StyleContent>
+        <StyleContent
+            sx={{
+                padding: '10px'
+            }}
+        >
             <h3>Class</h3>
-            <Grid container spacing={2}>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Tìm kiếm</StyleTextP>
-                    <StyleInputText placeholder="Tìm kiếm lớp" />
-                </StyleBoxSearch>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Cơ sở</StyleTextP>
-                    <StyleInputSelect onChange={handleChange}>
-                        {basis.map(item => (
-                            <option key={item.id} value={item.id}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </StyleInputSelect>
-                </StyleBoxSearch>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Phương thức vận hành</StyleTextP>
-                    <StyleInputSelect onChange={handleChange}>
-                        {operate.map(item => (
-                            <option key={item.id} value={item.id}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </StyleInputSelect>
-                </StyleBoxSearch>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Courses</StyleTextP>
-                    <StyleInputSelect onChange={handleChange}>
-                        {course.map(item => (
-                            <option key={item.id} value={item.id}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </StyleInputSelect>
-                </StyleBoxSearch>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Ngày bắt đầu</StyleTextP>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoItem>
-                            <MobileDatePicker defaultValue={dayjs('2022-04-17')}
-                                sx={{
-                                    ".MuiInputBase-input": {
-                                        padding: '8px',
-                                        color: 'grey'
-                                    }
-                                }}
-                            />
-                        </DemoItem>
-                    </LocalizationProvider>
-                </StyleBoxSearch>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Ngày kết thúc</StyleTextP>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoItem>
-                            <MobileDatePicker defaultValue={dayjs('2022-04-17')}
-                                sx={{
-                                    ".MuiInputBase-input": {
-                                        padding: '8px',
-                                        color: 'grey'
-                                    }
-                                }}
-                            />
-                        </DemoItem>
-                    </LocalizationProvider>
-                </StyleBoxSearch>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Trạng thái</StyleTextP>
-                    <StyleInputSelect onChange={handleChange}>
-                        {state.map(item => (
-                            <option key={item.name} value={item.name}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </StyleInputSelect>
-                </StyleBoxSearch>
-                <StyleBoxSearch item xs={2} md={2}>
-                    <StyleTextP>Giảng viên</StyleTextP>
-                    <StyleInputSelect onChange={handleChange}>
-                        {teacher.map(item => (
-                            <option key={item.id} value={item.id}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </StyleInputSelect>
-                </StyleBoxSearch>
-                <StyleBoxSearch2 item xs={2} md={2}>
-                    <StyleButton variant="contained"><RefreshIcon /> Làm mới</StyleButton>
-                </StyleBoxSearch2>
-                <StyleBoxSearch2 item xs={2} md={2}>
-                    <StyleButton variant="contained"><ClearIcon /> Xoá</StyleButton>
-                </StyleBoxSearch2>
-            </Grid>
+            <Grid container spacing={2}
+                sx={{
+                    width: '100%'
+                }}
+            >
+                <Box
+                    sx={{
+                        width: '100%'
+                    }}
+                >
+                    <Grid container spacing={2}
+                        sx={{
+                            margin: '0',
+                            alignItems: 'end'
+                        }}
+                    >
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Tìm kiếm</StyleTextP>
+                            <StyleInputText placeholder="Tìm kiếm lớp" />
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Cơ sở</StyleTextP>
+                            <StyleInputSelect onChange={handleChange}>
+                                {basis.map(item => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </StyleInputSelect>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Phương thức vận hành</StyleTextP>
+                            <StyleInputSelect onChange={handleChange}>
+                                {operate.map(item => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </StyleInputSelect>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Courses</StyleTextP>
+                            <StyleInputSelect onChange={handleChange}>
+                                {course.map(item => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </StyleInputSelect>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Ngày bắt đầu</StyleTextP>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoItem>
+                                    <MobileDatePicker defaultValue={dayjs('2022-04-17')}
+                                        sx={{
+                                            ".MuiInputBase-input": {
+                                                padding: '8px',
+                                                color: 'grey'
+                                            }
+                                        }}
+                                    />
+                                </DemoItem>
+                            </LocalizationProvider>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Ngày kết thúc</StyleTextP>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoItem>
+                                    <MobileDatePicker defaultValue={dayjs('2022-04-17')}
+                                        sx={{
+                                            ".MuiInputBase-input": {
+                                                padding: '8px',
+                                                color: 'grey'
+                                            }
+                                        }}
+                                    />
+                                </DemoItem>
+                            </LocalizationProvider>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Trạng thái</StyleTextP>
+                            <StyleInputSelect onChange={handleChange}>
+                                {state.map(item => (
+                                    <option key={item.name} value={item.name}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </StyleInputSelect>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}>
+                            <StyleTextP>Giảng viên</StyleTextP>
+                            <StyleInputSelect onChange={handleChange}>
+                                {teacher.map(item => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </StyleInputSelect>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}> <StyleButton variant="contained"><RefreshIcon /> Làm mới</StyleButton>
+                        </Grid>
+                        <Grid item md={2} sm={3} xs={6}> <StyleButton variant="contained"><ClearIcon /> Xoá</StyleButton>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Grid >
             <StyleBoxTable>
                 {
                     rows && rows.length > 0 ? <><DataGrid
@@ -356,6 +371,14 @@ export default function ClassMain(props: { classSend: any }) {
                 }
 
             </StyleBoxTable>
-        </StyleContent>
+            {
+                width === "xs" &&
+                <Drawer open={modeDrawer} onClose={toggleDrawer(false)}>
+                    <Box role="presentation">
+                        <ClassExtra />
+                    </Box>
+                </Drawer>
+            }
+        </StyleContent >
     );
 }

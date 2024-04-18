@@ -1,13 +1,13 @@
 "use client"
 import { Box } from "@mui/system";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { StyleBoxBtn } from "./style-mui";
+import { StyleBoxBtn, StyleTapClass } from "./style-mui";
 import { GridColDef } from "@mui/x-data-grid";
 import { StyleBoxContact, StyleBoxContent, StyleBtnDelete, StyleBtnEdit, StyleColumnGap30, StyleCountStu, StyleDetailStudent, StyleMainContent, StyleTitleContent, StyleTitleDetailStu } from "../People/style-mui";
 import Drawer from '@mui/material/Drawer';
-import DrawerClass from "@/components/drawerClass/page";
 import { useSelector } from "react-redux";
 import { LinearProgress } from "@mui/material";
+import DrawerClass from "@/components/drawer/drawerClass/page";
 
 type detailStuType = { title: string; content: any; }
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -34,14 +34,12 @@ export default function ClassExtra() {
             };
 
     const list = (anchor: Anchor) => (
-        <Box
-            sx={{ width: '50vw' }}
+        <StyleTapClass
             role="presentation"
-            // onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <DrawerClass />
-        </Box>
+        </StyleTapClass>
     );
 
     const elementRef = useRef<HTMLDivElement | null>(null);

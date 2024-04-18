@@ -1,6 +1,6 @@
 "use client"
 import { Grid } from "@mui/material";
-import { StyleAInTitle, StyleAllInput, StyleBoxAgree, StyleBoxColumn, StyleBoxDownTitle, StyleBoxMain, StyleBoxRight, StyleBoxRow, StyleBoxSubmit, StyleBoxTitle, StyleForm, StyleGridLeft, StyleGridRight, StyleH3Title, StyleIcon, StyleImgLeft, StyleInputSubmit, StyleInputText, StyleLogo, StyleMain, StylePAgree, StylePInTitle } from "../Login/style-mui";
+import { StyleAInTitle, StyleAllInput, StyleBoxAgree, StyleBoxColumn, StyleBoxDownTitle, StyleBoxMain, StyleBoxRight, StyleBoxRow, StyleBoxSubmit, StyleBoxTitle, StyleCircularProgress, StyleForm, StyleGridLeft, StyleGridRight, StyleH3Title, StyleIcon, StyleImgLeft, StyleInputSubmit, StyleInputText, StyleLogo, StyleMain, StylePAgree, StylePInTitle } from "../Login/style-mui";
 import { StyleBoxRowHalf, StyleContainerAgree, StyleInputInRowHalf } from "./style-mui";
 import { useEffect, useState } from "react";
 import { Request } from "@/api/request";
@@ -27,6 +27,7 @@ interface notify {
     severity: string;
 }
 export default function Register() {
+    const [submit, setSubmit] = useState(false);
     useEffect(() => {
         const handleLoginCheck = async () => {
             try {
@@ -61,6 +62,7 @@ export default function Register() {
     const [gender, setGender] = useState('');
     const handleCreateUser = async () => {
         try {
+            setSubmit(true);
             const data = await CreateAccount(
                 {
                     fullName: firstName + " " + lastName,
@@ -75,13 +77,17 @@ export default function Register() {
                     isLoggedIn: false,
                     lastLoginAt: null
                 }
-            );;
+            );
+            setSubmit(false);
             if (data.message) {
                 setNotify({
                     open: true,
                     message: "Error validation!",
                     severity: "error",
                 });
+                setTimeout(() => {
+                    router.push("/login");
+                }, 1000);
             } else {
                 setNotify({
                     open: true,
@@ -92,12 +98,9 @@ export default function Register() {
         } catch (error) {
             setNotify({
                 open: true,
-                message: "Đăng ký thành công!",
-                severity: "success",
+                message: "Register account error!",
+                severity: "error",
             });
-            setTimeout(() => {
-                router.push("/login");
-            }, 1000);
         }
     }
 
@@ -173,10 +176,13 @@ export default function Register() {
                                     </StyleAllInput>
                                     <StyleBoxSubmit>
                                         <StyleInputSubmit onClick={handleCreateUser}>
-                                            <StyleIcon>
-                                                <StyleImgLeft src="/Images/login/icon_login.png" />
-                                            </StyleIcon>
-                                            <p>REGISTER</p>
+                                            {
+                                                submit ? <StyleCircularProgress /> :
+                                                    <><StyleIcon>
+                                                    <StyleImgLeft src="/Images/login/icon_login.png" />
+                                                </StyleIcon>
+                                                <p>REGISTER</p></>
+                                            }
                                         </StyleInputSubmit>
                                     </StyleBoxSubmit>
                                 </StyleForm>

@@ -15,7 +15,16 @@ export default function ChatAiExtra() {
     const idBoxChat = useSelector((state: any) => state.message.choose);
     useEffect(() => {
         const fetchData = async (id: string) => {
-            const dataInfo = await Request.get(`/message/box/${id}`);
+            const dataInfo = await Request.get(`/BoxChat/user/${id}`);
+            dataInfo.map((boxChat: any) => {
+                if (boxChat.contactUser.length === 2) {
+                    if (user.id == boxChat.contactUser[0].userId) {
+                        boxChat.name = boxChat.contactUser[1].nickName;
+                    } else {
+                        boxChat.name = boxChat.contactUser[0].nickName;
+                    }
+                }
+            })
             setBoxChat(dataInfo);
         }
         if (user) {
@@ -23,13 +32,12 @@ export default function ChatAiExtra() {
         }
     }, [user, idBoxChat])
 
-    const handleClick = async (id: string) => {
-        dispatch(MessageActions.SetChoose(id));
+    const handleClick = async (box: any) => {
+        dispatch(MessageActions.SetChoose(box));
     }
 
     const handleNewchat = () => {
-        dispatch(MessageActions.SetChoose(""))
-        
+        dispatch(MessageActions.SetChoose(null))
     }
 
     return (
@@ -52,7 +60,7 @@ export default function ChatAiExtra() {
                                 <StyleRowGap10>
                                     <StyleExtraAvater src="/Images/chat/logo-page/icon_logo.png" />
                                     <StyleColumnGap5>
-                                        <StyleExtraName>ChatBox Ai {index + 1}</StyleExtraName>
+                                        <StyleExtraName>{box.name}</StyleExtraName>
                                         {/* <StyleExtraContent>You: {box.message} {box.time}</StyleExtraContent> */}
                                     </StyleColumnGap5>
                                 </StyleRowGap10>
@@ -70,7 +78,9 @@ export default function ChatAiExtra() {
                     )}
                 </ul>
             </StyleColumnGap20>
-            <StyleNewChat onClick={handleNewchat}>
+            <StyleNewChat
+                onClick={handleNewchat}
+            >
                 <StyleRowGap10>
                     <StyleIconLogo src="/Images/chat/logo-page/icon_logo.png" />
                     <StyleExtraName>New chat</StyleExtraName>

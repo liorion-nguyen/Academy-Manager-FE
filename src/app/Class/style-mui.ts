@@ -41,11 +41,13 @@ export const StyleInputSelect = muiStyled('select')(({ theme }) => ({
     fontSize: '15px',
     padding: '8px',
     borderRadius: '5px',
+    width: '-webkit-fill-available'
 }));
 
 export const StyleButton = muiStyled(Button)(({ theme }) => ({
     background: '#e0e0e0',
     color: 'rgba(0, 0, 0, 0.87)',
+    width: '-webkit-fill-available',
     ':hover': {
         background: '#b7b4b4'
     }
@@ -53,6 +55,14 @@ export const StyleButton = muiStyled(Button)(({ theme }) => ({
 
 export const StyleBoxBtn = muiStyled(StyleBoxRow)(({ theme }) => ({
     justifyContent: 'center'
+}));
+
+export const StyleTapClass = muiStyled(Box)(({ theme }) => ({
+    width: '50vw',
+    [theme.breakpoints.down('sm')]: {
+        width: '100vw',
+        marginTop: '60px'
+    },
 }));
 
 export const StyleBoxTable = muiStyled(Box)(({ theme }) => ({
@@ -76,9 +86,6 @@ export const StyleBoxTable = muiStyled(Box)(({ theme }) => ({
         border: '0.5px solid rgb(35,50,85,0.1) !important',
         width: '100% !important'
     },
-    ".MuiDataGrid-virtualScrollerRenderZone": {
-        width: '100% !important'
-    },
     ".MuiSvgIcon-root": {
         width: '15px',
         height: '15px'
@@ -86,51 +93,23 @@ export const StyleBoxTable = muiStyled(Box)(({ theme }) => ({
     ".MuiCheckbox-root": {
         color: 'rgb(35,50,85,0.1)'
     },
-    ".MuiDataGrid-cell[data-colindex='1']": {
-        minWidth: "16% !important",
-        maxWidth: "16% !important"
-    },
-    ".MuiDataGrid-cell[data-colindex='2']": {
+    ".MuiDataGrid-cell[data-colindex='2'], .MuiDataGrid-cell[data-colindex='3'], .MuiDataGrid-columnHeader[aria-colindex='4'], .MuiDataGrid-columnHeader[aria-colindex='3']": {
         minWidth: "22% !important",
         maxWidth: "22% !important",
     },
-    ".MuiDataGrid-cell[data-colindex='3']": {
-        minWidth: "22% !important",
-        maxWidth: "22% !important",
-    },
-    ".MuiDataGrid-cell[data-colindex='4']": {
+    ".MuiDataGrid-cell[data-colindex='1'], .MuiDataGrid-cell[data-colindex='4'], .MuiDataGrid-columnHeader[aria-colindex='5'], .MuiDataGrid-columnHeader[aria-colindex='2']": {
         minWidth: "16% !important",
         maxWidth: "16% !important",
     },
-    ".MuiDataGrid-cell[data-colindex='5']": {
+    ".MuiDataGrid-cell[data-colindex='5'], .MuiDataGrid-columnHeader[aria-colindex='6']": {
         minWidth: "24% !important",
         maxWidth: "24% !important",
     },
-    ".MuiDataGrid-columnHeader[aria-colindex='2']": {
-        minWidth: "16% !important",
-        maxWidth: "16% !important"
-    },
-    ".MuiDataGrid-columnHeader[aria-colindex='3']": {
-        minWidth: "22% !important",
-        maxWidth: "22% !important",
-    },
-    ".MuiDataGrid-columnHeader[aria-colindex='4']": {
-        minWidth: "22% !important",
-        maxWidth: "22% !important",
-    },
-    ".MuiDataGrid-columnHeader[aria-colindex='5']": {
-        minWidth: "16% !important",
-        maxWidth: "16% !important",
-    },
-    ".MuiDataGrid-columnHeader[aria-colindex='6']": {
-        minWidth: "24% !important",
-        maxWidth: "24% !important",
-    },
-    ".MuiDataGrid-columnHeadersInner": {
-        width: '100%',
-    },
-    ".css-yrdy0g-MuiDataGrid-columnHeaderRow": {
-        width: '100%'
+    ".MuiDataGrid-columnHeadersInner, .css-yrdy0g-MuiDataGrid-columnHeaderRow, .MuiDataGrid-virtualScrollerRenderZone": {
+        width: '100% !important',
+        [theme.breakpoints.down('sm')]: {
+            width: 'max-content !important',
+        },
     },
     ".MuiTablePagination-displayedRows": {
         display: 'none'
