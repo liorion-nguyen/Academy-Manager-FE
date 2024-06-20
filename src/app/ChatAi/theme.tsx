@@ -39,9 +39,7 @@ import { Request } from "@/api/request";
 import { DrawerActions } from "@/redux/drawer";
 import { useRouter } from "next/navigation";
 import DrawerMessage from "@/components/drawer/drawerMessage";
-import socketIOClient, { Socket, io } from 'socket.io-client';
-// const socket = io(`${process.env.DOMAIN}`);
-const socket = io('http://academy-manager.vercel.app');
+
 export default function ChatBox(props: BoxMessage) {
     const { messages, author, audiences, basicinformation } = props;
     const [listMessages, setListMessages] = useState(messages);
@@ -223,6 +221,7 @@ export default function ChatBox(props: BoxMessage) {
                 },
                 emoji: [],
                 creator: true,
+                userId: userInfo.id
             }
         } else {
             messPush = {
@@ -231,12 +230,12 @@ export default function ChatBox(props: BoxMessage) {
                 createAt: currentTimeInVietnam,
                 emoji: [],
                 creator: true,
+                userId: userInfo.id
             }
         };
         setListMessages(prevMessages => [...prevMessages, messPush]);
         setModeSend(true);
         const newListMessages = [...listMessages, messPush];
-        socket.emit('chat', newListMessages);
         let dataFetch = {
             id: userInfo.id,
             boxId: idBoxChat?.id || idBoxChatAi,
@@ -264,16 +263,10 @@ export default function ChatBox(props: BoxMessage) {
                 createAt: newMessage.createAt,
                 emoji: [],
                 creator: false,
+                userId: "d6435b92-f9fe-480e-a8b6-b8cea08900ab",
             });
-            socket.emit('chat', newResultChatAi);
 
-            setListMessages(prevMessages => [...prevMessages, {
-                id: newMessage.id,
-                content: newMessage.content,
-                createAt: newMessage.createAt,
-                emoji: [],
-                creator: false,
-            }]);
+            setListMessages(newResultChatAi);
             setModeSend(false);
         };
         setValueMess('');
@@ -298,6 +291,7 @@ export default function ChatBox(props: BoxMessage) {
                 },
                 emoji: [],
                 creator: true,
+                userId: userInfo.id
             }
             dataFetch = {
                 id: userInfo.id,
@@ -315,6 +309,7 @@ export default function ChatBox(props: BoxMessage) {
                 createAt: currentTimeInVietnam,
                 emoji: [],
                 creator: true,
+                userId: userInfo.id
             }
             dataFetch = {
                 id: userInfo.id,
@@ -325,7 +320,6 @@ export default function ChatBox(props: BoxMessage) {
         setListMessages(prevMessages => [...prevMessages, messPush]);
         setModeSend(true);
         const newListMessages = [...listMessages, messPush];
-        socket.emit('chat', newListMessages);
         const fetchMess = async () => {
             const response = await Request.post(`/message`, dataFetch);
             const newMessage = response;
@@ -346,15 +340,15 @@ export default function ChatBox(props: BoxMessage) {
         const moment = require('moment-timezone');
         moment.tz.setDefault('Asia/Ho_Chi_Minh');
         const currentTimeInVietnam = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-
-        const newListMessages = [...listMessages, {
+        const newAddMessage = {
             id: uuidv4(),
             content: basicInformation.emoji || basicinformation.emotional,
             createAt: currentTimeInVietnam,
             emoji: [],
             creator: true,
-        }];
-        socket.emit('chat', newListMessages);
+            userId: userInfo.id 
+        }
+        const newListMessages = [...listMessages, newAddMessage];
         const fetchMess = async () => {
             const res = await Request.post(`/message`, {
                 id: userInfo.id,
@@ -449,15 +443,6 @@ export default function ChatBox(props: BoxMessage) {
         }
         handleCloseBoxDetail();
     }
-
-    useEffect(() => {
-        socket.on('chat', (conversations) => {
-            console.log(conversations);
-
-            setListMessages(conversations);
-            setChat(conversations);
-        });
-    }, [chat]);
 
     const handleCloseBox = () => {
         if (width === "xs") {
@@ -614,10 +599,10 @@ export default function ChatBox(props: BoxMessage) {
                             :
                             <>
                                 {listMessages.map((message: any, index: number) => (
-                                    <OneMessageMui key={message.id} className={message && message.creator ? 'me' : 'you'}>
+                                    <OneMessageMui key={message.id} className={message && message.userId === userInfo.id ? 'me' : 'you'}>
                                         <AvatarSizeMessMui alt={audiences.name} src={audiences.avt} />
                                         <Box className="main-right">
-                                            <ContentMessageRightMui className={message && message.creator ? 'me' : 'you'}>
+                                            <ContentMessageRightMui className={message && message.userId === userInfo.id ? 'me' : 'you'}>
                                                 <NameMessageMui className="nameAuthor">{basicInformation.nickname.audiences || basicinformation.nickname.audiences || audiences.name}</NameMessageMui>
                                                 {message.reply && <Box className="replyMessage">
                                                     {

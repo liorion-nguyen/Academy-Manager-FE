@@ -7,6 +7,7 @@ import { checkLogin } from "@/api/readtime";
 import { UserActions } from "@/redux/user";
 import { StyleBoxAvatarUser, StyleImgLeft } from "@/app/style-mui";
 import { ArrowDropDownIcon } from "@mui/x-date-pickers";
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function HeaderPhone() {
     const dispatch = useDispatch();
@@ -18,8 +19,8 @@ export default function HeaderPhone() {
     useEffect(() => {
         const handleCheckCookie = async () => {
             const userInfo = await checkLogin();
-            setUser(userInfo);
             dispatch(UserActions.setUser(userInfo));
+            setUser(userInfo);
         }
         handleCheckCookie();
     }, [])
@@ -48,7 +49,10 @@ export default function HeaderPhone() {
                 padding: '0 15px'
             }}
         >
-            <MenuIcon onClick={handleOpen} />
+            {
+                mode ? <CloseIcon onClick={handleOpen} /> : <MenuIcon onClick={handleOpen} />
+            }
+            
             <Button
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}

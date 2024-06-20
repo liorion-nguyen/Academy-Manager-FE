@@ -73,11 +73,6 @@ export default function Login() {
     message: "",
     severity: "",
   });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setAccount((prevUser) => ({ ...prevUser, [name]: name === 'agree' ? !account.agree : value }));
-  };
   const Login = async () => {
     const error = [];
     if (!account.agree) {
@@ -97,14 +92,13 @@ export default function Login() {
       error.push('pass')
 
     }
-    if (account.email.length < 9) {
+    if (account.email.length < 7) {
       setNotify({
         open: true,
-        message: "Vui lòng nhập email lớn hơn 8 kí tự !",
+        message: "Vui lòng nhập email lớn hơn 6 kí tự !",
         severity: "error",
       });
       error.push('email')
-
     }
     if (error.length > 0) {
       return;
@@ -147,10 +141,10 @@ export default function Login() {
         <StyleMain>
           <SimpleSnackbar notify={notify} setNotify={setNotify} />
           <Grid container>
-            <StyleGridLeft item md={7} xs={true}>
+            <StyleGridLeft item md={7} sm={5} xs={true}>
               <StyleImgLeftTitle src="/Images/login/bg_left.png" />
             </StyleGridLeft>
-            <StyleGridRight item md={5} xs={12}>
+            <StyleGridRight item md={5} sm={7} xs={12}>
               <StyleBoxRight>
                 <StyleLogo>
                   <StyleImgLeft src="/Images/login/Logo.png" />
@@ -167,16 +161,18 @@ export default function Login() {
                     <StyleInputText
                       placeholder="Enter Email *"
                       name="email"
-                      onChange={handleChange}
+                      value={account.email}
+                      onChange={(e) => {setAccount((prevUser) => ({ ...prevUser, email: e.target.value}))}}
                     />
                     <StyleInputText
                       placeholder="Enter Password *"
                       name="password"
-                      onChange={handleChange}
+                      value={account.password}
+                      onChange={(e) => {setAccount((prevUser) => ({ ...prevUser, password: e.target.value}))}}
                     />
                   </StyleAllInput>
                   <StyleBoxAgree>
-                    <input type="checkbox" name='agree' onChange={handleChange} />
+                    <input type="checkbox" checked={account.agree} onChange={() => {setAccount((prevUser) => ({ ...prevUser, agree: !account.agree}))}} />
                     <StylePAgree>Agree to Lms terms</StylePAgree>
                   </StyleBoxAgree>
                   <StyleBoxSubmit onClick={Login}>

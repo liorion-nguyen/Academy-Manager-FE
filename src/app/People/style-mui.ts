@@ -52,7 +52,9 @@ export const StyleBoxContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
 }));
 
 export const StyleBoxContact = muiStyled(StyleBoxColumn)(({ theme }) => ({
-    gap: '20px'
+    gap: '20px',
+    maxHeight: '65vh',
+    overflowY: 'auto',
 }));
 
 export const StyleBtnEdit = muiStyled(Button)(({ theme }) => ({

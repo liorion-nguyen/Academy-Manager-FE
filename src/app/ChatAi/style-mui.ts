@@ -492,7 +492,8 @@ export const StyleSearchChat = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: '100%',
     height: '50px',
     gap: '15px',
-    paddingLeft: '15px'
+    paddingLeft: '15px',
+    position: 'relative'
 }));
 
 export const StyleDetailChat = muiStyled(Box)(({ theme }) => ({
@@ -548,6 +549,7 @@ export const StyleColumnGap5 = muiStyled(Box)(({ theme }) => ({
 
 export const StyleExtraLi = muiStyled('li')(({ theme }) => ({
     padding: '10px 3px',
+    width: '100%',
     ':hover': {
         background: "#e5e3e3",
         cursor: "pointer",

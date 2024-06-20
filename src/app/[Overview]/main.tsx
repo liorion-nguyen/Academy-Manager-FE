@@ -11,6 +11,7 @@ import { checkLogin } from "@/api/readtime";
 import { axisClasses } from '@mui/x-charts';
 import { Request } from "@/api/request";
 import { usePathname, useRouter } from "next/navigation";
+import { UserActions } from "@/redux/user";
 
 interface createData {
     name: string,
@@ -24,25 +25,20 @@ export default function OverviewMain() {
     const [detailUsers, setDetailUsers] = useState<any>(null);
     const [rows, setRows] = useState<createData[] | null>(null);
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<any>(null);
     const dispatch = useDispatch();
     const pathname = usePathname();
     const router = useRouter();
     const width = useSelector((state: any) => state.display.width);
     const [expanded, setExpanded] = useState(false);
-
+    const user = useSelector((state: any) => state.user.data);
     const handleExpansion = () => {
         setExpanded((prevExpanded) => !prevExpanded);
     };
 
     useEffect(() => {
         const handleCheckCookie = async () => {
-            const userInfo = await checkLogin();
             setLoading(false);
-            if (userInfo) {
-                setUser(userInfo);
-                console.log(pathname);
-
+            if (user) {
                 if (pathname === "/Overview") {
                     const usersInfo = await Request.get(`/users/page?page=1&show=4&search=`);
                     let countMale = 0;
@@ -67,12 +63,10 @@ export default function OverviewMain() {
                 }
                 router.push(pathname);
                 return;
-            } else {
-                router.push('/login');
             }
         };
         handleCheckCookie();
-    }, []);
+    }, [user]);
 
     function createData(
         name: string,

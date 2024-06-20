@@ -25,13 +25,13 @@ import HeaderPhone from "@/components/SizePhone/header";
 export default function Overview({ params }: any) {
     const [classData, setClassData] = useState<any>(null);
     const dispatch = useDispatch();
-    useEffect(() => {
-        const handleGetClass = async () => {
-            const classFake = await GetClass();
-            setClassData(classFake);
-        }
-        handleGetClass();
-    }, [])
+    // useEffect(() => {
+    //     const handleGetClass = async () => {
+    //         const classFake = await GetClass();
+    //         setClassData(classFake);
+    //     }
+    //     handleGetClass();
+    // }, [])
 
     const elementRef = useRef<HTMLDivElement | null>(null);
     const [elementWidth, setElementWidth] = useState<number | null>(null);

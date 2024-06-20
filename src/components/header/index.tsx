@@ -14,7 +14,7 @@ export default function Header({value}:any) {
     return (
         <StyleBoxHeader width={value}>
             <StyleHeaderTop>
-                <StyleLogo onFocus={handleFocus}>
+                <StyleLogo onFocus={handleFocus} sx={{margin: '0 100px', width: '200px'}}>
                     <StyleImgLeft src="/Images/login/Logo.png" />
                 </StyleLogo>
                 <Breadcrumbs aria-label="breadcrumb"

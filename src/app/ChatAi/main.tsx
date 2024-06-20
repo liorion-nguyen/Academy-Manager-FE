@@ -42,7 +42,6 @@ export default function ChatAiMain() {
                 })
             }
 
-
             setBasicinformation({
                 theme: BoxChat.theme,
                 emotional: BoxChat.emotional,
@@ -62,7 +61,8 @@ export default function ChatAiMain() {
                         createAt: item.createdAt,
                         emoji: item.emoji,
                         creator: item.userId === userInfo.id ? true : false,
-                        reply: item.reply
+                        reply: item.reply,
+                        userId: item.userId
                     }]);
                 });
             }

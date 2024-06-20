@@ -6,7 +6,7 @@ import { Button, Menu, MenuItem, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { checkLogin } from "@/api/readtime";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserActions } from "@/redux/user";
 import { useRouter } from "next/navigation";
 
@@ -24,11 +24,8 @@ export default function MenuUser() {
     useEffect(() => {
         const handleCheckCookie = async () => {
             const userInfo = await checkLogin();
-            if (!userInfo) {
-                handleLogout();
-            }
-            setUser(userInfo);
             dispatch(UserActions.setUser(userInfo));
+            setUser(userInfo);
         }
         handleCheckCookie();
     }, [])
@@ -39,6 +36,10 @@ export default function MenuUser() {
         router.push("/Login")
         handleClose()
     }
+    useEffect(()=> {
+        console.log(user);
+    }, [user])
+    
     return (
         <>
             <StyleBoxUser>
