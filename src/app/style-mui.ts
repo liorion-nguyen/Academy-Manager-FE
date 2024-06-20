@@ -36,17 +36,20 @@ export const StyleBoxUser = muiStyled(StyleBoxRow)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '0 20px',
-    boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
+    border: "1px solid #80808021",
     gap: "15px"
 }));
 
 export const StyleGridUserNotification = muiStyled(Grid)(({ theme }) => ({
     width: '100%',
     height: "100vh",
-    overflow: 'scroll',
+    overflow: 'hidden',
     margin: '0 !important',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+        overflow: 'scroll'
+    },
 }));
 
 export const StyleBoxNotification = muiStyled(Box)(({ theme }) => ({
@@ -89,7 +92,6 @@ export const StyleBoxUserDisplay = muiStyled(Box)(({ theme }) => ({
 }));
 
 export const StyleCalendarEvent = muiStyled(StyleBoxColumn)(({ theme }) => ({
-    paddingRight: "10px",
     width: '100%',
     gap: "20px",
     height: "calc(100vh - 110px)",
@@ -103,19 +105,35 @@ export const StyleCalendarEvent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     "&::-webkit-scrollbar": {
         width: "5px",
     },
+    ".MuiDateCalendar-root": {
+        width: '100%',
+        height: 'auto',
+        maxHeight: '400px'
+    },
+    ".MuiTypography-root, .MuiButtonBase-root, .MuiPickersDay-root": {
+        width: '40px',
+        height: '40px'
+    },
+    ".MuiDayCalendar-monthContainer": {
+        position: 'relative',
+        marginBottom: '10px'
+    },
+    [theme.breakpoints.down('sm')]: {
+        height: "auto",
+    },
 }));
 
 export const StyleCalendar = muiStyled(StyleBoxColumn)(({ theme }) => ({
     background: "#FFFFFF",
     borderRadius: '10px',
-    boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
+    border: "1px solid #80808021",
     gap: "20px"
 }));
 
 export const StyleEvent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     background: "#FFFFFF",
     borderRadius: '10px 10px 0 0',
-    boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
+    border: "1px solid #80808021",
     padding: '20px',
     gap: "20px"
 }));
@@ -162,10 +180,10 @@ export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     background: "#FFFFFF",
     display: 'flex',
     flexDirection: 'column',
-    padding: '10px',
+    paddingRight: '10px',
     width: '100%',
     position: 'relative',
-    height: 'auto',
+    height: '-webkit-fill-available',
     [theme.breakpoints.down('sm')]: {
         padding: '0 !important',
     },
@@ -211,12 +229,13 @@ export const StyleBoxIconNavLeft = muiStyled(StyleBoxColumn)(({ theme }) => ({
 
 export const StyleBoxHeader = muiStyled(StyleBoxColumn)(({ width, theme }) => ({
     position: 'fixed',
-    width: `${Number(width) - 60}px`,
+    width: `${Number(width)}px`,
     justifyContent: 'space-between',
     height: '110px',
     background: "white",
-    top: '20px',
-    left: '20px',
+    top: '0',
+    left: '0',
+    padding: '20px 20px 0 20px',
     [theme.breakpoints.down('sm')]: {
         display: 'none'
     },
@@ -239,7 +258,7 @@ export const StyleLinkPoint = muiStyled(Link)(({ theme }) => ({
 
 export const StyleSearch = muiStyled(StyleBoxRow)(({ theme }) => ({
     position: 'absolute',
-    right: '0',
+    right: '20px',
     bottom: '0',
     border: '1px solid #E5E5E5',
     borderRadius: '5px',
@@ -255,16 +274,15 @@ export const StyleInpSearch = muiStyled('input')(({ theme }) => ({
     border: 'none',
     outline: 'none',
     fontSize: '16px',
-    color: 'rgba(35, 50, 85, 0.8)', // Sửa lỗi ở đây
-
+    color: 'rgba(35, 50, 85, 0.8)', 
     "&::placeholder": {
-        color: "rgba(35, 50, 85, 0.3)", // Sửa lỗi ở đây
+        color: "rgba(35, 50, 85, 0.3)", 
     }
 }));
 
 export const StyleDashboardCard = muiStyled(Grid)(({ theme }) => ({
     background: '#FFFFFF',
-    boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
+    border: "1px solid #80808021",
     borderRadius: '20px',
     padding: '15px',
     display: 'flex',
@@ -273,11 +291,11 @@ export const StyleDashboardCard = muiStyled(Grid)(({ theme }) => ({
 
 export const StyleContent = muiStyled(StyleBoxColumn)(({ theme }) => ({
     margin: '170px 0 0 100px',
-    gap: "50px",
-    // height: "calc(100vh - 120px - 100px) !important",
+    gap: "20px",
     height: '100%',
-    overflow: 'auto',
+    overflow: 'hidden',
     [theme.breakpoints.down('sm')]: {
+        overflow: 'auto',
         margin: '60px 0 0 0',
     },
 }));
@@ -349,7 +367,8 @@ export const StyleColumnGap10 = muiStyled(StyleBoxColumn)(({ theme }) => ({
 
 export const StyleTitleGrap = muiStyled('p')(({ theme }) => ({
     color: "rgb(35,50,85,0.8)",
-    fontSize: '20px'
+    fontSize: '20px',
+    paddingLeft: '10px'
 }));
 
 export const StyleDashboardCardGrap = muiStyled(StyleDashboardCard)(({ theme }) => ({
@@ -365,9 +384,9 @@ export const StyleBoxCardGrap = muiStyled(Box)(({ theme }) => ({
 
 export const StyleTable = muiStyled(StyleBoxColumn)(({ theme }) => ({
     background: '#FFFFFF',
-    boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
+    border: "1px solid #80808021",
     borderRadius: '20px',
-    padding: '20px 0',
+    paddingTop: '10px',
     gap: '20px'
 }));
 
@@ -383,7 +402,8 @@ export const StyleViewAllTable = muiStyled('a')(({ theme }) => ({
 
 export const StyleHeadTable = muiStyled(StyleBoxRow)(({ theme }) => ({
     justifyContent: 'space-between',
-    alignItems: 'end'
+    alignItems: 'end',
+    padding: '0 10px'
 }));
 
 export const StyleBoxBody = muiStyled(Box)(({ theme }) => ({

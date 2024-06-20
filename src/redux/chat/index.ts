@@ -19,7 +19,7 @@ const MessageSlice = createSlice({
         detail: '',
         gif: '',
         theme: '',
-        choose: ''
+        choose: null,
     },
     reducers: {
         setBasicInformation(state, action) {

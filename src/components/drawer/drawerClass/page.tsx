@@ -6,7 +6,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { useState } from "react";
 import { StyleButton, StyleInputSelect } from "@/app/Class/style-mui";
-import Row from "../RowTable/page";
+import Row from "../../RowTable/page";
 import Paper from "@mui/material/Paper";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -297,31 +297,31 @@ export default function DrawerClass() {
         <TabPanel value="1">
           <StyleBoxMainTab1>
             <Grid container spacing={2}>
-              <Grid item xs={3}>
+              <Grid item md={3} sm={4} xs={6}>
                 <StyleBoxContentTab1>
                   <StyleContentTab1>Cơ sở</StyleContentTab1>
                   <StyleInputTab1 value="Nghi Xuân" placeholder="Cơ sở" />
                 </StyleBoxContentTab1>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item md={3} sm={4} xs={6}>
                 <StyleBoxContentTab1>
                   <StyleContentTab1>Khoá học</StyleContentTab1>
                   <StyleInputTab1 value={data.course} placeholder="Khoá học" />
                 </StyleBoxContentTab1>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item md={3} sm={4} xs={6}>
                 <StyleBoxContentTab1>
                   <StyleContentTab1>Phương thức vận hành</StyleContentTab1>
                   <StyleInputTab1 value={data.operate} placeholder="Phương thức vận hành" />
                 </StyleBoxContentTab1>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item md={3} sm={4} xs={6}>
                 <StyleBoxContentTab1>
                   <StyleContentTab1>Tên</StyleContentTab1>
                   <StyleInputTab1 value={data.name} placeholder="Tên" />
                 </StyleBoxContentTab1>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item md={3} sm={4} xs={6}>
                 <StyleBoxContentTab1>
                   <StyleContentTab1>Phòng khai giảng</StyleContentTab1>
                   <StyleInputTab1 value={data.basis} placeholder="Phòng khai giảng" />

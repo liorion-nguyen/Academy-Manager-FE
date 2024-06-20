@@ -30,7 +30,11 @@ export const StyleStateTxt = muiStyled('p')(({ theme }) => ({
 
 export const StyleBoxTitle = muiStyled(StyleBoxRow)(({ theme }) => ({
     gap: '15px',
-    alignItems: 'center'
+    alignItems: 'center',
+    ".MuiTabs-flexContainer": {
+        width: '100%',
+        overflowY: 'scroll'
+    }
 }));
 
 export const StyleTitleTab = muiStyled(Tab)(({ theme }) => ({

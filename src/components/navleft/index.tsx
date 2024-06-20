@@ -133,14 +133,18 @@ export default function NavLeft() {
     }, [width])
     useEffect(() => {
         setOpenMode(mode);
-        if (mode) {
-            setTimeout(() => {
-                if (!isHovered) {
-                    dispatch(DisplayActions.setNavLeft(false));
-                }
-            }, 3000)
-        }
+        // if (mode) {
+        //     setTimeout(() => {
+        //         if (!isHovered) {
+        //             dispatch(DisplayActions.setNavLeft(false));
+        //         }
+        //     }, 3000)
+        // }
     }, [mode])
+
+    const handleCloseNavLeft = () => {
+        dispatch(DisplayActions.setNavLeft(false));
+    }
     
     return (
         <StyleNavLeft sx={{
@@ -152,8 +156,8 @@ export default function NavLeft() {
             <StyleBoxIconNavLeft>
                 {
                     Icons.map((icon, index) => (
-                        <Box key={index}>
-                            <a href={icon.href}>
+                        <Box key={index} onClick={handleCloseNavLeft}>
+                            <a href={icon.href} >
                                 <img src={icon.icon}
                                     style={{
                                         filter: pathname === icon.href ? 'invert(85%) sepia(105%) saturate(4000%) hue-rotate(42deg) brightness(108%) contrast(61%)' : ''

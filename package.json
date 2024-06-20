@@ -20,7 +20,7 @@
     "@mui/x-data-grid": "^6.19.1",
     "@mui/x-date-pickers": "^6.19.0",
     "@reduxjs/toolkit": "^2.2.2",
-    "@vercel/speed-insights": "^1.0.8",
+    "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.6.7",
     "cookie": "^0.6.0",
     "dayjs": "^1.11.10",

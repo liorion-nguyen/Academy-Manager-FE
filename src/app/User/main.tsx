@@ -1,14 +1,16 @@
 import { Box } from "@mui/system";
-import { StyleContent } from "../People/style-mui";
-import { Autocomplete } from "@mui/material";
+import { StyleContent, StyleSearch } from "../People/style-mui";
+import { Autocomplete, Drawer } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { StyleBoxInput, StyleBoxRowInput, StyleBoxRowInputFirst, StyleButtonChoose, StyleButtonInput, StyleDataGrid, StyleInput, StyleLabelInput, StyleTitleH3 } from "./style-mui";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PeopleActions } from "@/redux/people";
 import { Request } from "@/api/request";
+import { StyleInpSearch } from "../style-mui";
+import UserExtra from "./extra";
 
 type ClassData = {
     id: string;
@@ -23,7 +25,9 @@ export default function UserMain() {
     const options = ['Option 1', 'Option 2'];
     const [rows, setRows] = useState<ClassData[]>([]);
     const dispatch = useDispatch();
+    const [modeDrawer, setModeDrawer] = useState(false);
     const handleShowStudent = (id: string) => {
+        setModeDrawer(true);
         let findStu: ClassData | undefined = undefined;
         if (rows) {
             const foundStudents = rows.filter((student: ClassData) => student.id === id);
@@ -92,71 +96,67 @@ export default function UserMain() {
             overlayElements[0].innerHTML = "<div class='boxLoader'><div class='loader'></div></div>";
         }
     })
+    const width = useSelector((state: any) => state.display.width);
 
-
+    const toggleDrawer = (newOpen: boolean) => () => {
+        setModeDrawer(newOpen);
+    };
     return (
         <StyleContent>
             <StyleTitleH3>User managerment</StyleTitleH3>
             <StyleBoxRowInput>
+                <StyleSearch className="search">
+                    <img src="/Images/admin/icon_search.svg" />
+                    <StyleInpSearch type="text" placeholder="Search..." />
+                </StyleSearch>
                 <StyleBoxRowInputFirst>
-                    <StyleInput placeholder="Search items..." value="" />
                     <StyleBoxInput>
-                        <p>Permissions</p>
-                        <StyleLabelInput>
-                            <Autocomplete
-                                sx={{
-                                    display: 'inline-block',
-                                    '& input': {
-                                        width: 200,
-                                        bgcolor: 'background.paper',
-                                        color: (theme) =>
-                                            theme.palette.getContrastText(theme.palette.background.paper),
-                                    },
-                                }}
-                                id="custom-input-demo"
-                                options={options}
-                                renderInput={(params) => (
-                                    <div ref={params.InputProps.ref}>
-                                        <input type="text" {...params.inputProps} />
-                                    </div>
-                                )}
-                            />
-                            <ExpandMoreIcon />
-                        </StyleLabelInput>
+                        <Autocomplete
+                            sx={{
+                                width: 'calc(50% - 34px)',
+                                display: 'inline-block',
+                                '& input': {
+                                    bgcolor: 'background.paper',
+                                    color: (theme) =>
+                                        theme.palette.getContrastText(theme.palette.background.paper),
+                                },
+                            }}
+                            id="custom-input-demo"
+                            options={options}
+                            renderInput={(params) => (
+                                <div ref={params.InputProps.ref}>
+                                    <input type="text" {...params.inputProps} value={options[0]} />
+                                </div>
+                            )}
+                        />
+                        <ExpandMoreIcon />
                     </StyleBoxInput>
                     <StyleBoxInput>
-                        <p>Joined</p>
-                        <StyleLabelInput>
-                            <Autocomplete
-                                sx={{
-                                    display: 'inline-block',
-                                    '& input': {
-                                        width: 200,
-                                        bgcolor: 'background.paper',
-                                        color: (theme) =>
-                                            theme.palette.getContrastText(theme.palette.background.paper),
-                                    },
-                                }}
-                                id="custom-input-demo"
-                                options={options}
-                                renderInput={(params) => (
-                                    <div ref={params.InputProps.ref}>
-                                        <input type="text" {...params.inputProps} />
-                                    </div>
-                                )}
-                            />
-                            <ExpandMoreIcon />
-                        </StyleLabelInput>
+                        <Autocomplete
+                            sx={{
+                                width: 'calc(50% - 34px)',
+                                display: 'inline-block',
+                                '& input': {
+                                    bgcolor: 'background.paper',
+                                    color: (theme) =>
+                                        theme.palette.getContrastText(theme.palette.background.paper),
+                                },
+                            }}
+                            id="custom-input-demo"
+                            options={options}
+                            renderInput={(params) => (
+                                <div ref={params.InputProps.ref}>
+                                    <input type="text" {...params.inputProps} value={options[0]} />
+                                </div>
+                            )}
+                        />
+                        <ExpandMoreIcon />
                     </StyleBoxInput>
                 </StyleBoxRowInputFirst>
                 <StyleBoxRowInputFirst>
-                    <StyleButtonInput>
-                        <MoreVertIcon />
-                    </StyleButtonInput>
                     <StyleButtonInput>Export</StyleButtonInput>
                     <StyleButtonChoose>+ New User</StyleButtonChoose>
                 </StyleBoxRowInputFirst>
-
             </StyleBoxRowInput>
             <StyleDataGrid
                 onRowClick={(e: any) => handleShowStudent(e.id)}
@@ -173,6 +173,14 @@ export default function UserMain() {
                 checkboxSelection
                 disableRowSelectionOnClick
             />
+             {
+                width === "xs" &&
+                <Drawer open={modeDrawer} onClose={toggleDrawer(false)}>
+                    <Box role="presentation">
+                        <UserExtra />
+                    </Box>
+                </Drawer>
+            }
         </StyleContent>
     );
 }

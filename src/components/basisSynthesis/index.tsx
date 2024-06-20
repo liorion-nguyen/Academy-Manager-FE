@@ -5,9 +5,16 @@ import { useSelector } from "react-redux";
 export default function BasisSynthesis(props: { data: any }) {
     const detailUsers = props.data;
     const user = useSelector((state: any) => state.user.data);
+    const width = useSelector((state: any) => state.display.width);
     return (
-        <Grid container spacing={3}>
-            <StyleDashboardCard item md={4} xs={12}>
+        <Grid container
+            sx={{
+                gap: width === "xs" ? "10px" : '0',
+                justifyContent: 'space-between',
+                marginBottom: '10px'
+            }}
+        >
+            <StyleDashboardCard item md={3.9} xs={12}>
                 <StyleCircle width={(detailUsers?.gender.female / detailUsers?.gender.sum) * 100 || 50} height={(detailUsers?.gender.male / detailUsers?.gender.sum) * 100 || 50}>
                     <StyleProcessBar>
                         <img src="/Images/admin/icon_student.svg" />
@@ -36,7 +43,7 @@ export default function BasisSynthesis(props: { data: any }) {
                     </StyleColumnGap10>
                 </Box>
             </StyleDashboardCard>
-            <StyleDashboardCard item md={4} xs={12}>
+            <StyleDashboardCard item md={3.9} xs={12}>
                 <StyleCircle width={61} height={39}>
                     <StyleProcessBar>
                         <img src="/Images/admin/icon_staff.svg" />
@@ -65,7 +72,7 @@ export default function BasisSynthesis(props: { data: any }) {
                     </StyleColumnGap10>
                 </Box>
             </StyleDashboardCard>
-            <StyleDashboardCard item md={4} xs={12}>
+            <StyleDashboardCard item md={3.9} xs={12}>
                 <StyleCircle width={61} height={39}>
                     <StyleProcessBar>
                         <img alt="#" src="/Images/admin/icon_subject.svg" />

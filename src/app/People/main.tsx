@@ -3,12 +3,16 @@ import { Box } from "@mui/system";
 import { StyleBoxUser, StyleGridLeft, StyleGridUserNotification, StyleBoxNotification, StyleImgLeft, StyleBoxAvatarUser, StyleNameUser, StyleBoxInBoxUser, StyleIconDown, StyleBoxUserDisplay, StyleComponent, StyleGridRight, StyleInpSearch } from "../style-mui";
 import { useEffect, useRef, useState } from "react";
 import { StyleBoxBtn, StyleBoxBtnHandle, StyleBoxContact, StyleBoxContent, StyleBoxTable2, StyleBtnDelete, StyleBtnEdit, StyleButton, StyleButtonCreate, StyleContent, StyleCountStu, StyleDetailStudent, StyleFilter, StyleMainContent, StyleSearch, StyleTitleContent, StyleTitleDetailStu } from "./style-mui";
-import { FormControl, Grid, LinearProgress, MenuItem, Select } from "@mui/material";
+import { Drawer, FormControl, Grid, LinearProgress, MenuItem, Select } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Request } from "@/api/request";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PeopleActions } from "@/redux/people";
+import HeaderPhone from "@/components/SizePhone/header";
+import PeopleExtra from "./extra";
+import { DrawerActions } from "@/redux/drawer";
+import { usePathname } from "next/navigation";
 
 type detailStuType = { title: string; content: any; }
 interface PersonData {
@@ -26,10 +30,11 @@ export default function PeopleMain(props: { people: string }) {
     const [rows, setRows] = useState<PersonData[]>([]);
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
+    const [modeDrawer, setModeDrawer] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const dataFake = await Request.get(`/class/people/${title === "Student" ? 'student' : 'teacher'}`);            
+                const dataFake = await Request.get(`/class/people/${title === "Student" ? 'student' : 'teacher'}`);
                 setLoading(false);
                 if (dataFake && dataFake.length > 0) {
                     let newData: PersonData[] = [];
@@ -62,12 +67,15 @@ export default function PeopleMain(props: { people: string }) {
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
-            }            
+            }
         };
         fetchData();
     }, [title]);
 
     const handleShowStudent = (id: string) => {
+        setModeDrawer(true);
+        console.log(modeDrawer);
+
         if (rows && rows.length > 0) {
             const findStu = rows.filter((student: any) => student.id === id);
             if (findStu.length > 0) {
@@ -86,7 +94,7 @@ export default function PeopleMain(props: { people: string }) {
             setElementWidth(elementRef.current.clientWidth);
         }
     }, []);
-    
+
     const [age, setAge] = useState('');
 
     const handleChange = (event: any) => {
@@ -116,21 +124,28 @@ export default function PeopleMain(props: { people: string }) {
             sortable: false,
         },
     ];
+    const width = useSelector((state: any) => state.display.width);
+
+    const toggleDrawer = (newOpen: boolean) => () => {
+        setModeDrawer(newOpen);
+    };
+    const pathname = usePathname();
+    
     return (
         <StyleContent>
             <StyleBoxBtnHandle>
                 <StyleButton variant="contained">PRINT</StyleButton>
                 <StyleButton variant="contained">EXPORT</StyleButton>
-                <StyleButtonCreate variant="contained">{title === "Student" ? "CREATE STUDENT" : "CREATE TEACHER"}</StyleButtonCreate>
+                <StyleButtonCreate variant="contained">{width !== "xs" ? (title === "Student" ? "CREATE STUDENT" : "CREATE TEACHER") : "CREATE"}</StyleButtonCreate>
             </StyleBoxBtnHandle>
             <StyleFilter container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item sm={6} xs={12}>
                     <StyleSearch>
                         <img src="/Images/admin/icon_search.svg" />
                         <StyleInpSearch type="text" placeholder="Search..." />
                     </StyleSearch>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item sm={2} xs={4}>
                     <FormControl>
                         <Select
                             value={age}
@@ -147,7 +162,7 @@ export default function PeopleMain(props: { people: string }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item sm={2} xs={4}>
                     <FormControl>
                         <Select
                             value={age}
@@ -164,7 +179,7 @@ export default function PeopleMain(props: { people: string }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item sm={2} xs={4}>
                     <FormControl>
                         <Select
                             value={age}
@@ -183,27 +198,37 @@ export default function PeopleMain(props: { people: string }) {
             </StyleFilter>
             <StyleBoxTable2>
                 {
-                    !loading ?  <>
-                            <StyleCountStu>Showing 1 - 10 of {rows.length} {title === "Student" ? "students" : "teachers"}</StyleCountStu>
-                            <DataGrid
-                                onRowClick={(e: any) => handleShowStudent(e.id)}
-                                rows={rows}
-                                columns={columns}
-                                initialState={{
-                                    pagination: {
-                                        paginationModel: {
-                                            pageSize: 10,
-                                        },
+                    !loading ? <>
+                        <StyleCountStu>Showing 1 - 10 of {rows.length} {title === "Student" ? "students" : "teachers"}</StyleCountStu>
+                        <DataGrid
+                            onRowClick={(e: any) => handleShowStudent(e.id)}
+                            rows={rows}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 10,
                                     },
-                                }}
-                                pageSizeOptions={[5]}
-                                checkboxSelection
-                                disableRowSelectionOnClick
-                            />
-                        </> : <LinearProgress />
-                        
+                                },
+                            }}
+                            pageSizeOptions={[5]}
+                            checkboxSelection
+                            disableRowSelectionOnClick
+                        />
+                    </> : <LinearProgress />
+
                 }
             </StyleBoxTable2>
+            {
+                width === "xs" &&
+                <Drawer open={modeDrawer}
+                 onClose={toggleDrawer(false)}
+                >
+                    <Box role="presentation">
+                        <PeopleExtra people={pathname.substring(1)} />
+                    </Box>
+                </Drawer>
+            }
         </StyleContent>
     );
 }

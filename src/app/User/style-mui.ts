@@ -1,9 +1,7 @@
 "use client"
-import { Box, Button, Grid } from "@mui/material";
-import { display, styled as muiStyled } from "@mui/system";
-import { StyleBoxTable } from "../Class/style-mui";
+import { Box } from "@mui/material";
+import { styled as muiStyled } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
-import { StyleRowGap5 } from "../style-mui";
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
     display: "flex",
@@ -35,11 +33,12 @@ export const StyleBoxInput = muiStyled(StyleBoxRow)(({ theme }) => ({
     background: 'transparent',
     gap: '10px',
     alignItems: 'center',
-    width: 'min-content',
+    width: 'calc(50% - 10px)',
+    justifyContent: 'space-between',
     "input": {
         border: '0',
         background: 'transparent !important',
-        width: '50px !important'
+        width: 'auto'
     }
 }));
 
@@ -51,11 +50,18 @@ export const StyleLabelInput = muiStyled('label')(({ theme }) => ({
 
 
 export const StyleBoxRowInputFirst = muiStyled(StyleBoxRow)(({ theme }) => ({
-    gap: '20px'
+    gap: '20px',
+    [theme.breakpoints.down('sm')]: {
+        height: '40px'
+    },
 }));
 
 export const StyleBoxRowInput = muiStyled(StyleBoxRow)(({ theme }) => ({
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        gap: '20px'
+    },
 }));
 
 export const StyleButtonInput = muiStyled('button')(({ theme }) => ({
@@ -65,7 +71,10 @@ export const StyleButtonInput = muiStyled('button')(({ theme }) => ({
     padding: '0 10px',
     ":hover": {
         cursor: 'pointer'
-    }
+    },
+    [theme.breakpoints.down('sm')]: {
+        height: '40px'
+    },
 }));
 
 export const StyleButtonChoose = muiStyled(StyleButtonInput)(({ theme }) => ({
@@ -103,7 +112,16 @@ export const StyleModalBox = muiStyled(StyleBoxColumn)(({ theme }) => ({
     padding: '50px 30px',
     borderRadius: '20px',
     width: '40%',
-    gap: '20px'
+    gap: '20px',
+    [theme.breakpoints.down('sm')]: {
+        width: '90%',
+        height: 'calc(100% - 100px)',
+        transform: 'none',
+        overflow: 'scroll',
+        top: '80px',
+        left: '5%',
+        boxShadow: '#825d5791 0 0 5px 3px',
+    },
 }));
 
 export const StyleGroupInp = muiStyled(StyleBoxRow)(({ theme }) => ({

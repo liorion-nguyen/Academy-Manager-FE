@@ -1,6 +1,4 @@
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { Box } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
 import { DrawerActions } from "@/redux/drawer";
 import ChatAiExtra from "@/app/ChatAi/extra";

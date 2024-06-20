@@ -6,8 +6,9 @@ import { Button, Menu, MenuItem, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { checkLogin } from "@/api/readtime";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserActions } from "@/redux/user";
+import { useRouter } from "next/navigation";
 
 export default function MenuUser() {
     const dispatch = useDispatch();
@@ -23,14 +24,26 @@ export default function MenuUser() {
     useEffect(() => {
         const handleCheckCookie = async () => {
             const userInfo = await checkLogin();
-            setUser(userInfo);
             dispatch(UserActions.setUser(userInfo));
+            setUser(userInfo);
         }
         handleCheckCookie();
     }, [])
+
+    const router = useRouter();
+    const handleLogout = () => {
+        document.cookie = "academy_manager=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        router.push("/Login")
+        handleClose()
+    }
+    useEffect(()=> {
+        console.log(user);
+    }, [user])
+    
     return (
         <>
             <StyleBoxUser>
+
                 <StyleBoxUserDisplay>
                     <StyleBoxInBoxUser>
                         {
@@ -39,10 +52,10 @@ export default function MenuUser() {
                                     <StyleImgLeft src="/Images/admin/avatar_preview.png" />
                                 </StyleBoxAvatarUser>
                                 <StyleNameUser>{user.fullName}</StyleNameUser>
-                                </> : 
+                            </> :
                                 <>
-                                <Skeleton variant="circular" width={50} height={50} />
-                                <Skeleton width={100} height={50} />
+                                    <Skeleton variant="circular" width={50} height={50} />
+                                    <Skeleton width={100} height={50} />
                                 </>
                         }
 
@@ -74,12 +87,7 @@ export default function MenuUser() {
                     >
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
                         <MenuItem onClick={handleClose}>My account</MenuItem>
-                        <MenuItem onClick={() => {
-                            document.cookie = "academy_manager=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-                            window.location.reload();
-                            handleClose()
-                        }
-                        }>Logout</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </Menu>
                 </StyleBoxUserDisplay>
             </StyleBoxUser>

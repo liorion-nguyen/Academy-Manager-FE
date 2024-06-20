@@ -1,6 +1,6 @@
 "use client"
 import { Box, CircularProgress, Grid } from "@mui/material";
-import { styled as muiStyled } from "@mui/system";
+import { styled as muiStyled, width } from "@mui/system";
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
     display: "flex",
@@ -14,9 +14,7 @@ export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
 export const StyleMain = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: "100%",
     height: "100vh",
-    // maxWidth: '1440px',
     position: 'relative',
-    overflow: 'scroll'
 }));
 
 export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
@@ -29,7 +27,7 @@ export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
 export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
     background: "#FFFFFF",
     position: "relative",
-    height: "100%",
+    height: "100%"
 }));
 
 export const StyleImgLeft = muiStyled('img')(({ theme }) => ({
@@ -48,10 +46,11 @@ export const StyleImgLeftTitle = muiStyled(StyleImgLeft)(({ theme }) => ({
 }));
 
 export const StyleLogo = muiStyled(Box)(({ theme }) => ({
-    width: "140px",
-    height: '50px',
+    width: "300px",
+    margin: '0 auto',
+    paddingBottom: '20px',
     [theme.breakpoints.down('sm')]: {
-        display: 'none'
+        width: "250px",
     },
 }));
 
@@ -62,7 +61,7 @@ export const StyleIcon = muiStyled(Box)(({ theme }) => ({
 
 export const StyleInputText = muiStyled('input')(({ theme }) => ({
     width: "100%",
-    height: '50px',
+    minHeight: '50px',
     borderRadius: '5px',
     border: "1px solid rgb(35,50,85,0.4)",
     paddingLeft: "15px",
@@ -87,11 +86,15 @@ export const StyleInputSubmit = muiStyled('button')(({ theme }) => ({
 
 export const StyleForm = muiStyled(StyleBoxColumn)(({ theme }) => ({
     marginTop: '15px',
-    gap: "30px"
+    gap: "30px",
 }))
 
 export const StyleAllInput = muiStyled(StyleBoxColumn)(({ theme }) => ({
-    gap: "25px"
+    gap: "25px",
+    maxHeight: '350px',
+    [theme.breakpoints.down('sm')]: {
+        overflowY: 'scroll',
+    },
 }))
 
 export const StyleBoxSubmit = muiStyled(StyleBoxRow)(({ theme }) => ({

@@ -37,6 +37,9 @@ export const FeatureMessMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
 }));
 
 export const ContentMessageMui = muiStyled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     overflowX: 'hidden',
     overflowY: 'scroll',
     background: 'white',
@@ -88,8 +91,16 @@ export const ListIconMessMui = muiStyled(Box)(({ theme }) => ({
     width: 'auto !important',
     right: '0',
     float: 'left',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     gap: '10px'
+}));
+
+export const ListIconMessMui2 = muiStyled(Box)(({ theme }) => ({
+    display: 'flex',
+    width: '100%',
+    right: '0',
+    float: 'left',
+    justifyContent: 'space-between'
 }));
 
 export const ListIconCallMessMui = muiStyled(ListIconMessMui)(({ theme }) => ({
@@ -367,7 +378,6 @@ export const DialogContentMui = muiStyled(DialogContent)(({ theme }) => ({
     borderTop: '1px solid #80808085',
     borderBottom: '1px solid #80808085',
     paddingTop: '20px !important',
-    // width: 'calc(100% - 48px)',
     '.box-emoji': {
         padding: '0',
         boxShadow: 'none',
@@ -482,7 +492,8 @@ export const StyleSearchChat = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: '100%',
     height: '50px',
     gap: '15px',
-    paddingLeft: '15px'
+    paddingLeft: '15px',
+    position: 'relative'
 }));
 
 export const StyleDetailChat = muiStyled(Box)(({ theme }) => ({
@@ -493,7 +504,7 @@ export const StyleDetailChat = muiStyled(Box)(({ theme }) => ({
     width: '100%',
     height: '100%',
     padding: '30px 20px',
-    boxShadow: "-4px 2px 6px 0px rgb(179 179 179 / 50%)",
+    border: "1px solid #80808021",
     justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
         height: '100vh'
@@ -538,6 +549,7 @@ export const StyleColumnGap5 = muiStyled(Box)(({ theme }) => ({
 
 export const StyleExtraLi = muiStyled('li')(({ theme }) => ({
     padding: '10px 3px',
+    width: '100%',
     ':hover': {
         background: "#e5e3e3",
         cursor: "pointer",
