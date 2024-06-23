@@ -25,7 +25,6 @@ export default function OverviewMain() {
     const [detailUsers, setDetailUsers] = useState<any>(null);
     const [rows, setRows] = useState<createData[] | null>(null);
     const [loading, setLoading] = useState(true);
-    const dispatch = useDispatch();
     const pathname = usePathname();
     const router = useRouter();
     const width = useSelector((state: any) => state.display.width);
@@ -40,7 +39,7 @@ export default function OverviewMain() {
             setLoading(false);
             if (user) {
                 if (pathname === "/Overview") {
-                    const usersInfo = await Request.get(`/users/page?page=1&show=4&search=`);
+                    const usersInfo = await Request.get(`/users/page?page=1&show=3&search=`);
                     let countMale = 0;
                     let countFemale = 0;
                     let rowsFake: createData[] = [];
@@ -155,14 +154,9 @@ export default function OverviewMain() {
         },
     ];
     const valueFormatter = (value: number) => `${value}mm`;
+    
     return (
-        <StyleContent
-            sx={{
-                ".MuiPaper-root": {
-                    margin: '0 !important'
-                },
-            }}
-        >
+        <StyleContent>
             {
                 width !== "xs" ? <BasisSynthesis data={detailUsers} /> :
                     <Accordion
@@ -230,26 +224,7 @@ export default function OverviewMain() {
                 </StyleDashboardCardGrap>
                 <StyleDashboardCardGrap item md={5} xs={12}>
                     <StyleTitleGrap>Financial Summary</StyleTitleGrap>
-                    <StyleBoxCardGrap
-                        sx={{
-                            ".MuiBarElement-root": {
-                                width: '3px !important',
-                                fill: "#7FBDE4 !important"
-                            },
-                            ".MuiBarElement-root:nth-child(-n+12)": {
-                                fill: "#233255 !important"
-                            },
-                            ".MuiChartsLegend-root": {
-                                display: 'none'
-                            },
-                            ".MuiChartsAxis-label": {
-                                display: 'none'
-                            },
-                            "text": {
-                                fill: "rgb(35,50,85,0.7) !important"
-                            }
-                        }}
-                    >
+                    <StyleBoxCardGrap>
                         <BarChart
                             dataset={dataset}
                             xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
@@ -271,24 +246,9 @@ export default function OverviewMain() {
                     <Table aria-label="simple table"
                         sx={{
                             minWidth: 650,
-                            ".MuiTableCell-sizeMedium": {
-                                fontSize: "14px",
-                                color: 'rgb(35,50,85,0.5)',
-                                background: 'white'
-                            },
                         }}
                     >
-                        <TableHead
-                            sx={{
-                                ".MuiTableCell-head": {
-                                    color: "rgb(35,50,85,0.8)",
-                                    fontSize: "14px",
-                                },
-                                ".MuiTableRow-head": {
-                                    background: 'white'
-                                }
-                            }}
-                        >
+                        <TableHead>
                             <TableRow>
                                 <TableCell>Name</TableCell>
                                 <TableCell align="right">ID</TableCell>
@@ -297,14 +257,7 @@ export default function OverviewMain() {
                                 <TableCell align="right">Email</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody
-                            sx={{
-                                ".MuiTableCell-root": {
-                                    border: '5px solid #f4f4f4 !important',
-                                    boxShadow: "0 0 9px 6px #d2d2d245",
-                                }
-                            }}
-                        >
+                        <TableBody>
                             {
                                 rows && Array.isArray(rows) && rows.length > 0 ? rows.map((row: any, index: number) => (
                                     <TableRow

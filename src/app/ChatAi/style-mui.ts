@@ -4,6 +4,20 @@ import CallIcon from '@mui/icons-material/Call';
 import SearchIcon from '@mui/icons-material/Search';
 import { StyleBoxColumn, StyleBoxRow, StyleRowGap5 } from '../style-mui';
 
+const mode = JSON.parse(localStorage.getItem('dark') || "false");
+const bgDark = '#131314';
+const bgDarkLight = '#1e1f20';
+const bgBright = '#FFFFFF';
+const bgBrightLight = '#FAFAFA';
+const clDark = 'rgb(188,189,191,0.7)';
+const clDark2 = 'rgb(188,189,191,0.8)';
+const clDark3 = 'rgb(188,189,191,0.6)';
+const clBright = 'rgb(35,50,85,0.7)';
+const clBright2 = 'rgb(35,50,85,0.8)';
+const clBright3 = 'rgb(35,50,85,0.6)';
+const bgDarkBtn = '#2b2b2b';
+const bgBrightBtn = '#e0e0e0';
+
 export const BoxContainerColMui = muiStyled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -32,7 +46,7 @@ export const FeatureMessMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
     padding: '10px',
     width: '-webkit-fill-available',
     position: 'relative',
-    background: "white",
+    background: mode ? bgDark : bgBright,
     height: '90px'
 }));
 
@@ -42,7 +56,7 @@ export const ContentMessageMui = muiStyled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     overflowX: 'hidden',
     overflowY: 'scroll',
-    background: 'white',
+    background: mode ? bgDark : bgBright,
     width: '-webkit-fill-available',
     padding: '40px 10px 10px 30px',
     gap: '10px',
@@ -66,6 +80,7 @@ export const ContentMessageMui = muiStyled(Box)(({ theme }) => ({
 export const FullNameMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
     fontSize: '15px',
     fontWeight: '600',
+    color: mode ? clDark : clBright,
 }));
 
 export const UserActiveMui = muiStyled(BoxContainerColMui)(({ theme }) => ({
@@ -160,7 +175,8 @@ export const TextareaAutosizeMui = muiStyled(TextareaAutosize)(({ theme }) => ({
     border: 'none',
     outline: 'none',
     padding: "0 10px",
-    fontSize: '16px'
+    fontSize: '16px',
+    color: mode ? clDark : clBright,
 }));
 
 export const BoxInputMessMui = muiStyled(Box)(({ theme }) => ({
@@ -168,7 +184,7 @@ export const BoxInputMessMui = muiStyled(Box)(({ theme }) => ({
     fontSize: '18px',
     padding: '10px',
     borderRadius: '30px',
-    background: '#f0f2f5',
+    background: mode ? bgDarkLight : bgBrightLight,
     position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
@@ -319,8 +335,15 @@ export const MenuDetailMessMui = muiStyled(Menu)(({ theme }) => ({
         gap: '10px',
         borderRadius: '10px'
     },
+    'li:hover': {
+        background: mode ? bgDark : bgBright,
+    },
     'ul': {
         padding: '8px',
+    },
+    '.MuiPaper-root': {
+        background: mode ? bgDarkLight : bgBrightLight,
+        color: mode ? clDark2 : clBright2,
     }
 }));
 
@@ -499,7 +522,7 @@ export const StyleSearchChat = muiStyled(StyleBoxRow)(({ theme }) => ({
 export const StyleDetailChat = muiStyled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    background: "#FFFFFF",
+    background: mode ? bgDark : bgBright,
     borderRadius: '20px 0 0 0',
     width: '100%',
     height: '100%',
@@ -513,7 +536,8 @@ export const StyleDetailChat = muiStyled(Box)(({ theme }) => ({
 
 export const StyleExtraName = muiStyled('p')(({ theme }) => ({
     fontSize: '16px',
-    fontWeight: '550'
+    fontWeight: '550',
+    color: mode ? clDark : clBright,
 }));
 
 export const StyleExtraContent = muiStyled('p')(({ theme }) => ({
@@ -525,7 +549,8 @@ export const StyleExtraContent = muiStyled('p')(({ theme }) => ({
 export const StyleExtraTitle = muiStyled('h1')(({ theme }) => ({
     fontSize: '25px',
     fontWeight: '500',
-    textAlign: 'center'
+    textAlign: 'center',
+    color: mode ? clDark : clBright,
 }));
 
 export const StyleExtraAvater = muiStyled('img')(({ theme }) => ({
@@ -567,7 +592,8 @@ export const StyleBoxNoDataMess = muiStyled(StyleBoxColumn)(({ theme }) => ({
 
 export const StyleTextNoDataMess = muiStyled('p')(({ theme }) => ({
     fontSize: '25px',
-    fontWeight: '500'
+    fontWeight: '500',
+    color: mode ? clDark : clBright,
 }));
 
 export const StyleNewChat = muiStyled('button')(({ theme }) => ({

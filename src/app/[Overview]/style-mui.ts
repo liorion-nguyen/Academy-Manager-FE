@@ -11,7 +11,3 @@ export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column"
 }));
-
-export const StyleDemoContainer = muiStyled(DemoContainer)(({ theme }) => ({
-    
-}));
