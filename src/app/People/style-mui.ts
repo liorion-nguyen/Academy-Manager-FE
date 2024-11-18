@@ -3,7 +3,8 @@ import { Box, Button, Grid } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
 import { StyleBoxTable } from "../Class/style-mui";
 
-const mode = JSON.parse(localStorage.getItem('dark') || "false");
+// const mode = JSON.parse(localStorage.getItem('dark') || "false");
+const mode = false;
 const bgDark = '#131314';
 const bgDarkLight = '#1e1f20';
 const bgBright = '#FFFFFF';

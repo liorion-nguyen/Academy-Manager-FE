@@ -2,8 +2,10 @@
 import { Box } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
-
-const mode = JSON.parse(localStorage.getItem('dark') || "false");
+let mode = false;
+if (typeof window !== 'undefined') {
+    mode = JSON.parse(localStorage.getItem('dark') || "false");
+}
 const bgDark = '#131314';
 const bgDarkLight = '#1e1f20';
 const bgBright = '#FFFFFF';
@@ -111,7 +113,7 @@ export const StyleDataGrid = muiStyled(DataGrid)(({ theme }) => ({
     ".MuiDataGrid-overlay": {
         display: 'none'
     },
-     ".MuiDataGrid-withBorderColor": {
+    ".MuiDataGrid-withBorderColor": {
         borderColor: mode ? bdDark : bdBright
     },
 }));

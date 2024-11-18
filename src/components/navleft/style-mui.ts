@@ -3,7 +3,8 @@ import { StyleBoxRow } from "@/app/style-mui";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
 
-const mode = JSON.parse(localStorage.getItem('dark') || "false");
+// const mode = JSON.parse(localStorage.getItem('dark') || "false");
+const mode = false;
 const bgDark = '#131314';
 const bgBright = '#FFFFFF';
 const bgDarkLight = '#1e1f20';

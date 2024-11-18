@@ -1,37 +1,28 @@
-This is a Next.js project bootstrapped with create-next-app.
+![Logo](./public/Images/screens/Logo.svg)
 
-Design
-Link: https://www.figma.com/file/uBO1X7QeIlv9Bj3EmRFlmq/School-Management-System-(Community)
+# Dự án Academy Manager
 
-Getting Started
-Using node_modules
-node 18
-First, run the development server:
+Dự án "Academy Manager" là một hệ thống quản lý trường học, cung cấp các chức năng quản lý lớp học, học sinh, giảng viên, cùng với tính năng chatbox và tin nhắn.
 
-npm run dev
-Open http://localhost:3000 with your browser to see the result.
+## Mô tả dự án
 
-You can start editing the page by modifying app/page.tsx. The page auto-updates as you edit the file.
+Hệ thống này được thiết kế để cung cấp một nền tảng quản lý toàn diện, cho phép người dùng quản lý quá trình học tập và giảng dạy một cách hiệu quả. Academy Manager không chỉ giúp người dùng theo dõi tiến độ học tập mà còn cung cấp các công cụ giao tiếp giữa học sinh và giảng viên.
 
-This project uses next/font to automatically optimize and load Inter, a custom Google Font.
+Academy Manager hoạt động tốt trên cả máy tính để bàn và thiết bị di động, mang đến trải nghiệm quản lý linh hoạt cho người dùng.
 
-Learn More
-To learn more about Next.js, take a look at the following resources:
+**Các tính năng chính:**
+- Quản lý lớp học và học sinh.
+- Quản lý giảng viên và khóa học.
+- Tính năng chatbox và gửi tin nhắn giữa học sinh và giảng viên.
 
-Next.js Documentation - learn about Next.js features and API.
-Learn Next.js - an interactive Next.js tutorial.
-You can check out the Next.js GitHub repository - your feedback and contributions are welcome!
+## Công nghệ sử dụng:
+* [Next.js](https://nextjs.org/): Framework React cho việc phát triển ứng dụng web.
+* [NestJS](https://nestjs.com/): Framework cho Node.js, giúp xây dựng ứng dụng server-side.
+* [Redux](https://redux.js.org/): Thư viện quản lý trạng thái cho ứng dụng React.
+* [PostgreSQL](https://www.postgresql.org/): Hệ quản trị cơ sở dữ liệu mã nguồn mở, cho phép lưu trữ và quản lý dữ liệu một cách hiệu quả.
+* [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket): Giao thức cho phép giao tiếp hai chiều giữa client và server.
 
-Deploy on Vercel
-The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js.
+## [Figma](https://www.figma.com/design/uBO1X7QeIlv9Bj3EmRFlmq/School-Management-System-(Community))
 
-Check out our Next.js deployment documentation for more details.
-
-For work
-git checkout main -> chuyển về nhánh main
-git pull origin main -> kéo những thay đổi mới nhất về
-git checkout -b (Tên nhánh)  -> Tạo nhánh mới
-{handle works} -> Xử lí công việc 
-git add . -> Thêm tất cả các file đã thay đổi để đẩy lên nhánh
-git commit -m "(content)" -> Ghi chú mình đã xử lí cái gì
-git push origin (Tên nhánh) -> đẩy lên nhánh
+# Demo
+[![Xem video](./public/Images/screens/previews.png)(./)](public/Images/screens/demo.mp4)

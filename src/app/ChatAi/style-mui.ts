@@ -4,7 +4,8 @@ import CallIcon from '@mui/icons-material/Call';
 import SearchIcon from '@mui/icons-material/Search';
 import { StyleBoxColumn, StyleBoxRow, StyleRowGap5 } from '../style-mui';
 
-const mode = JSON.parse(localStorage.getItem('dark') || "false");
+// const mode = JSON.parse(localStorage.getItem('dark') || "false");
+const mode = false;
 const bgDark = '#131314';
 const bgDarkLight = '#1e1f20';
 const bgBright = '#FFFFFF';
