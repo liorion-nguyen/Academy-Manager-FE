@@ -23,15 +23,7 @@ import { DisplayActions } from "@/redux/display";
 import HeaderPhone from "@/components/SizePhone/header";
 
 export default function Overview({ params }: any) {
-    const [classData, setClassData] = useState<any>(null);
     const dispatch = useDispatch();
-    // useEffect(() => {
-    //     const handleGetClass = async () => {
-    //         const classFake = await GetClass();
-    //         setClassData(classFake);
-    //     }
-    //     handleGetClass();
-    // }, [])
 
     const elementRef = useRef<HTMLDivElement | null>(null);
     const [elementWidth, setElementWidth] = useState<number | null>(null);
@@ -85,7 +77,7 @@ export default function Overview({ params }: any) {
                             {width === "xs" && pathname !== "/ChatAi" && <HeaderPhone />}
                             {pathname === "/Student" && <PeopleMain people="Student" />}
                             {pathname === "/Teacher" && <PeopleMain people="Teacher" />}
-                            {pathname === "/Class" && <ClassMain classSend={classData} />}
+                            {pathname === "/Class" && <ClassMain />}
                             {pathname === "/ChatAi" && <ChatAiMain />}
                             {pathname === "/User" && <UserMain />}
                             {(pathname === "/Overview") && <OverviewMain />}

@@ -1,7 +1,7 @@
 "use client"
 import { Box } from "@mui/system";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { StyleBoxBtn, StyleTapClass } from "./style-mui";
+import { StyleBoxBtn, StyleDrawer, StyleTapClass } from "./style-mui";
 import { GridColDef } from "@mui/x-data-grid";
 import { StyleBoxContact, StyleBoxContent, StyleBtnDelete, StyleBtnEdit, StyleColumnGap30, StyleCountStu, StyleDetailStudent, StyleMainContent, StyleTitleContent, StyleTitleDetailStu } from "../People/style-mui";
 import Drawer from '@mui/material/Drawer';
@@ -269,13 +269,13 @@ export default function ClassExtra() {
             <StyleBoxBtn>
                 <Fragment key="right">
                     <StyleBtnEdit onClick={toggleDrawer('right', true)} variant="outlined">SHOW</StyleBtnEdit>
-                    <Drawer
+                    <StyleDrawer
                         anchor="right"
                         open={stateDrawer['right']}
                         onClose={toggleDrawer('right', false)}
                     >
                         {list('right')}
-                    </Drawer>
+                    </StyleDrawer>
                 </Fragment>
             </StyleBoxBtn>
         </StyleDetailStudent>

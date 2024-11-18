@@ -2,6 +2,18 @@
 import { Box } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
+let mode = false;
+if (typeof window !== 'undefined') {
+    mode = JSON.parse(localStorage.getItem('dark') || "false");
+}
+const bgDark = '#131314';
+const bgDarkLight = '#1e1f20';
+const bgBright = '#FFFFFF';
+const bgBrightLight = '#FAFAFA';
+const bdDark = 'rgba(80, 80, 80, 1)';
+const bdBright = 'rgba(224, 224, 224, 1)';
+const clDark = 'rgb(188,189,191,0.7)';
+const clBright = 'rgb(35,50,85,0.7)';
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
     display: "flex",
@@ -15,6 +27,7 @@ export const StyleBoxColumn = muiStyled(Box)(({ theme }) => ({
 export const StyleTitleH3 = muiStyled('h3')(({ theme }) => ({
     fontSize: '23px',
     fontWeight: '500',
+    color: mode ? clDark : clBright,
 }));
 
 export const StyleInput = muiStyled('input')(({ theme }) => ({
@@ -90,7 +103,7 @@ export const StyleDataGrid = muiStyled(DataGrid)(({ theme }) => ({
     ".MuiDataGrid-columnHeader, .MuiDataGrid-cell": {
         maxWidth: '15% !important',
         minWidth: '15% !important',
-        width: '15% !important'
+        width: '15% !important',
     },
     ".MuiDataGrid-columnHeader:first-child,  .MuiDataGrid-cell:first-child": {
         maxWidth: '10% !important',
@@ -99,7 +112,10 @@ export const StyleDataGrid = muiStyled(DataGrid)(({ theme }) => ({
     },
     ".MuiDataGrid-overlay": {
         display: 'none'
-    }
+    },
+    ".MuiDataGrid-withBorderColor": {
+        borderColor: mode ? bdDark : bdBright
+    },
 }));
 
 export const StyleModalBox = muiStyled(StyleBoxColumn)(({ theme }) => ({
@@ -108,7 +124,7 @@ export const StyleModalBox = muiStyled(StyleBoxColumn)(({ theme }) => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     boxShadow: '#825d5791 0 0 5px 3px',
-    background: 'white',
+    background: mode ? bgDark : bgBright,
     padding: '50px 30px',
     borderRadius: '20px',
     width: '40%',
@@ -143,7 +159,8 @@ export const StyleInp = muiStyled('input')(({ theme }) => ({
     borderRadius: '5px',
     border: '1px solid #bdbdbd',
     padding: '0 15px',
-    color: '#grey'
+    color: mode ? clDark : clBright,
+    background: mode ? bgDark : bgBright,
 }));
 
 export const StyleBoxInp = muiStyled(StyleBoxColumn)(({ theme }) => ({
@@ -154,12 +171,14 @@ export const StyleBoxInp = muiStyled(StyleBoxColumn)(({ theme }) => ({
 export const StyleTitleInfo = muiStyled('p')(({ theme }) => ({
     fontSize: '23px',
     fontWeight: '500',
-    marginBottom: '25px'
+    marginBottom: '25px',
+    color: mode ? clDark : clDark,
 }));
 
 export const StyleTitleInp = muiStyled('p')(({ theme }) => ({
     fontSize: '16px',
-    fontWeight: '400'
+    fontWeight: '400',
+    color: mode ? clDark : clDark,
 }));
 
 export const StyleDesInp = muiStyled('p')(({ theme }) => ({

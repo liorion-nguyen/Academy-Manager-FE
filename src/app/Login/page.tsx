@@ -147,7 +147,7 @@ export default function Login() {
             <StyleGridRight item md={5} sm={7} xs={12}>
               <StyleBoxRight>
                 <StyleLogo>
-                  <StyleImgLeft src="/Images/login/Logo.png" />
+                  <StyleImgLeft src="/Images/login/Logo.svg" />
                 </StyleLogo>
                 <StyleBoxTitle>
                   <StyleH3Title>Login Form</StyleH3Title>

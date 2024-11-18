@@ -2,6 +2,16 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
 import { styled as muiStyled, width } from "@mui/system";
 
+let mode = false;
+if (typeof window !== 'undefined') {
+    // mode = JSON.parse(localStorage.getItem('dark') || "false");
+    const mode = false;
+}
+const bgDark = '#131314';
+const bgDarkLight = '#1e1f20';
+const bgBright = '#FFFFFF';
+const bgBrightLight = '#FAFAFA';
+
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
     display: "flex",
 }));
@@ -15,17 +25,16 @@ export const StyleMain = muiStyled(StyleBoxRow)(({ theme }) => ({
     width: "100%",
     height: "100vh",
     position: 'relative',
+    background: mode ? bgDarkLight : bgBrightLight,
 }));
 
 export const StyleGridLeft = muiStyled(Grid)(({ theme }) => ({
-    background: "#FFFFFF",
     position: "relative",
     height: "100%",
     display: 'flex'
 }));
 
 export const StyleGridRight = muiStyled(Grid)(({ theme }) => ({
-    background: "#FFFFFF",
     position: "relative",
     height: "100%"
 }));
@@ -66,7 +75,8 @@ export const StyleInputText = muiStyled('input')(({ theme }) => ({
     border: "1px solid rgb(35,50,85,0.4)",
     paddingLeft: "15px",
     fontSize: "14px",
-    color: "#233255"
+    color: "#233255",
+    background: mode ? bgDarkLight : ""
 }));
 
 export const StyleInputSubmit = muiStyled('button')(({ theme }) => ({

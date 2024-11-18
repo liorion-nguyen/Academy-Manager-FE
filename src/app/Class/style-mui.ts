@@ -1,6 +1,21 @@
 "use client"
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Drawer, Grid } from "@mui/material";
 import { styled as muiStyled } from "@mui/system";
+
+// const mode = JSON.parse(localStorage.getItem('dark') || "false");
+const mode = false;
+const bgDark = '#131314';
+const bgDarkLight = '#1e1f20';
+const bgBright = '#FFFFFF';
+const bgBrightLight = '#FAFAFA';
+const clDark = 'rgb(188,189,191,0.7)';
+const clDark2 = 'rgb(188,189,191,0.8)';
+const clDark3 = 'rgb(188,189,191,0.6)';
+const clBright = 'rgb(35,50,85,0.7)';
+const clBright2 = 'rgb(35,50,85,0.8)';
+const clBright3 = 'rgb(35,50,85,0.6)';
+const bgDarkBtn = '#2b2b2b';
+const bgBrightBtn = '#e0e0e0';
 
 export const StyleBoxRow = muiStyled(Box)(({ theme }) => ({
     display: "flex",
@@ -33,6 +48,7 @@ export const StyleInputText = muiStyled('input')(({ theme }) => ({
     fontSize: '15px',
     padding: '8px',
     borderRadius: '5px',
+    background: mode ? bgDark : bgBright,
 }));
 
 export const StyleInputSelect = muiStyled('select')(({ theme }) => ({
@@ -41,11 +57,12 @@ export const StyleInputSelect = muiStyled('select')(({ theme }) => ({
     fontSize: '15px',
     padding: '8px',
     borderRadius: '5px',
-    width: '-webkit-fill-available'
+    width: '-webkit-fill-available',
+    background: mode ? bgDark : bgBright,
 }));
 
 export const StyleButton = muiStyled(Button)(({ theme }) => ({
-    background: '#e0e0e0',
+    background: mode ? bgDarkBtn : bgBrightBtn,
     color: 'rgba(0, 0, 0, 0.87)',
     width: '-webkit-fill-available',
     ':hover': {
@@ -54,7 +71,13 @@ export const StyleButton = muiStyled(Button)(({ theme }) => ({
 }));
 
 export const StyleBoxBtn = muiStyled(StyleBoxRow)(({ theme }) => ({
-    justifyContent: 'center'
+    justifyContent: 'center',
+}));
+
+export const StyleDrawer = muiStyled(Drawer)(({ theme }) => ({
+    ".MuiPaper-root": {
+        background: mode ? bgDark : bgBright,
+    }
 }));
 
 export const StyleTapClass = muiStyled(Box)(({ theme }) => ({
@@ -116,5 +139,14 @@ export const StyleBoxTable = muiStyled(Box)(({ theme }) => ({
     },
     ".MuiDataGrid-virtualScrollerContent": {
         minHeight: '30vh !important'
+    },
+    ".MuiDataGrid-row, .MuiDataGrid-columnHeadersInner, .MuiDataGrid-columnHeader": {
+        background: mode ? bgDark : bgBright,
+    },
+    ".MuiDataGrid-footerContainer": {
+        display: 'none'
+    },
+    ".MuiDataGrid-row, .MuiDataGrid-root": {
+        border:  `1px solid ${mode ? '#2f2f2fcc' : "#E5E5E5"} !important`,
     }
 }));

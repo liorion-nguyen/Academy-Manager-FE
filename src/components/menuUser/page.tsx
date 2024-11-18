@@ -1,6 +1,6 @@
 import { verifyToken } from "@/api/decodeCookie";
 import { Request } from "@/api/request";
-import { StyleBoxAvatarUser, StyleBoxInBoxUser, StyleBoxNotification, StyleBoxUser, StyleBoxUserDisplay, StyleIconDown, StyleImgLeft, StyleNameUser } from "@/app/style-mui";
+import { StyleBoxAvatarUser, StyleBoxInBoxUser, StyleBoxNotification, StyleBoxUser, StyleBoxUserDisplay, StyleIconDown, StyleImgLeft, StyleMenu, StyleNameUser } from "@/app/style-mui";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button, Menu, MenuItem, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -24,6 +24,11 @@ export default function MenuUser() {
     useEffect(() => {
         const handleCheckCookie = async () => {
             const userInfo = await checkLogin();
+            if (!userInfo) {
+                handleLogout();
+                return ;
+            }
+            
             dispatch(UserActions.setUser(userInfo));
             setUser(userInfo);
         }
@@ -36,9 +41,6 @@ export default function MenuUser() {
         router.push("/Login")
         handleClose()
     }
-    useEffect(()=> {
-        console.log(user);
-    }, [user])
     
     return (
         <>
@@ -76,7 +78,7 @@ export default function MenuUser() {
                             }}
                         />
                     </Button>
-                    <Menu
+                    <StyleMenu
                         id="basic-menu"
                         anchorEl={anchorEl}
                         open={open}
@@ -88,7 +90,7 @@ export default function MenuUser() {
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
                         <MenuItem onClick={handleClose}>My account</MenuItem>
                         <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    </Menu>
+                    </StyleMenu>
                 </StyleBoxUserDisplay>
             </StyleBoxUser>
         </>

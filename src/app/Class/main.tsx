@@ -34,36 +34,42 @@ interface Props {
     classSend: any[];
 }
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
-export default function ClassMain(props: { classSend: any }) {
+export default function ClassMain() {
     const elementRef = useRef<HTMLDivElement | null>(null);
     const [elementWidth, setElementWidth] = useState<number | 1000>(1000);
     const [rows, setRows] = useState<ClassData[]>([]);
     const [modeDrawer, setModeDrawer] = useState(false);
-
-    const dispatch = useDispatch();
+    const [classData, setClassData] = useState<any>(null);
 
     useEffect(() => {
-        if (props.classSend && props.classSend.length > 0) {
-            const dataFake: ClassData[] = props.classSend.map((item: any) => ({
-                id: item.id,
-                name: item.name,
-                basis: item.basis,
-                course: item.course,
-                operate: item.operate,
-                countTime: item.countTime,
-                start: item.start,
-                state: item.state,
-                mostLesson: item.mostLesson,
-                countTeacher: item.teachers.length,
-                countStudent: item.students.length,
-                lecturer: item.teachers[0] || "",
-                createdAt: item.createdAt,
-                updatedAt: item.updatedAt
-            }));
-            setRows(dataFake);
-            dispatch(PeopleActions.setPeople(dataFake[0]));
+        const handleGetClass = async () => {
+            const classFake = await GetClass();
+            setClassData(classFake);
+            if (classFake && classFake.length > 0) {
+                const dataFake: ClassData[] = classFake.map((item: any) => ({
+                    id: item.id,
+                    name: item.name,
+                    basis: item.basis,
+                    course: item.course,
+                    operate: item.operate,
+                    countTime: item.countTime,
+                    start: item.start,
+                    state: item.state,
+                    mostLesson: item.mostLesson,
+                    countTeacher: item.teachers.length,
+                    countStudent: item.students.length,
+                    lecturer: item.teachers[0] || "",
+                    createdAt: item.createdAt,
+                    updatedAt: item.updatedAt
+                }));
+                setRows(dataFake);
+                dispatch(PeopleActions.setPeople(dataFake[0]));
+            }
         }
-    }, [props.classSend]);
+        handleGetClass();
+    }, []);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (elementRef.current) {
